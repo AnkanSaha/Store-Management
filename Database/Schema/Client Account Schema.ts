@@ -1,7 +1,7 @@
 import { Schema } from "mongoose"; // This is required to make the types available
 
 const ClientAccountManagementSchema:object = {
-  client_id: { type: String, required: true, unique: true, index: true },
+  User_id: { type: String, required: true, unique: true, index: true },
   Name: { type: String, required: true },
   Email: { type: String, required: true, unique: true, index: true },
   Password: { type: String, required: true },
@@ -13,6 +13,12 @@ const ClientAccountManagementSchema:object = {
   Country: { type: String, required: true },
   CreatedAt: { type: Date, required: true, default: Date.now },
   Status: { type: String, required: true, default: "Active" },
+  isTermsAccepted: { type: Boolean, required: true, default: true },
+  ShopName: { type: String, required: true },
+  ShopAddress: { type: String, required: true },
+  isGSTIN: { type: Boolean, required: true, default: false },
+  GSTIN: { type: String, required: false },
+  PAN: { type: String, required: true }
 };
 
 const ClientAccountSchema = new Schema(ClientAccountManagementSchema); // export the schema
