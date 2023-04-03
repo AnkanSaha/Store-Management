@@ -15,6 +15,9 @@ let numCPUs: number = os.cpus().length; // Get number of cpus
 // import all Middlewares
 import MongoDB_Connect from "./Middleware/Connect/MongoDB"; // Import MongoDB_Connect middleware
 
+// Import Routes Manager
+import Router_Manager from "./Router/Router Manager"; // Import Router_Manager
+
 // Create cluster
 if (cluster.isPrimary) {
   while (numCPUs > 0) {
@@ -27,11 +30,12 @@ if (cluster.isPrimary) {
     cluster.fork(); // Create new cluster if one dies
   }); // Listen for exit event
 } else {
-  // link all Middlewares
+  // link all Middlewares & Routes to the main app
+  Service.use(Router_Manager); // Link Router_Manager to the main app
 
   // Start server
   Service.listen(PORT, () => {
     MongoDB_Connect(); // Connect to MongoDB database when server starts
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`API Server is running on port ${PORT}`);
   });
 }

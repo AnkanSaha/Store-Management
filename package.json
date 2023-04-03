@@ -4,7 +4,7 @@
   "description": "Manage Your Inventory with this website",
   "main": "store.ts",
   "scripts": {
-    "dev": "tsc && cp package.json Build/ && cp package-lock.json Build/ && nodemon Build/store.js --watch",
+    "dev": "nodemon store.ts",
     "build": "tsc && cp package.json Build/ && cp package-lock.json Build/ && npm install --production",
     "start": "pm2 start store.js --name store-management-backend --watch"
   },
@@ -28,6 +28,7 @@
     "mongoose": "^7.0.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1"
   }
 }
