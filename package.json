@@ -10,14 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AnkanSaha"
+    "url": "https://github.com/AnkanSaha/Store-Management-Backend.git"
   },
   "keywords": [
-    "store-management"
+    "store-management",
+    "inventory-management",
+    "inventory",
+    "store",
+    "management"
   ],
   "author": "Ankan Saha",
   "license": "EPL-1.0",
   "dependencies": {
+    "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/node": "^18.15.11",
     "bcrypt": "^5.1.0",
