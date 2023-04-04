@@ -8,7 +8,7 @@ import { GenerateID } from "../../Middleware/Auth/Generate User ID"; // Import G
 // IMPORT Models for Database Operations
 import { ClientAccountModel } from "../../Database/Model/Client Account Model"; // Import Client Account Model
 
-// Function to Create Account
+// Function to Create Account{"$or"}
 export async function CreateAccount(
   Name: string,
   Email: String,
@@ -30,41 +30,55 @@ export async function CreateAccount(
   // Generate ID
   let ID = await GenerateID(); // Generate ID
 
-  // pripare Data to be saved in Database
-  let Data: Object = {
-    User_id: ID,
-    Name: Name,
-    Email: Email,
-    Password: Password,
-    Phone: Phone,
-    Address: Address,
-    City: City,
-    State: State,
-    Zip: Zip,
-    Country: Country,
-    isTermsAccepted: isTermsAccepted,
-    ShopName: ShopName,
-    ShopAddress: ShopAddress,
-    isGSTIN: isGSTIN,
-    GSTIN: GSTIN,
-    PAN: PAN,
-  };
+  // Find Account if exist with same Email or Phone in typescript
+  let Temporary_Find_Result: any = await ClientAccountModel.find({
+    $or: [{ Email: Email }, { Phone: Phone }],
+  }); // Find Account
 
-  let FinalData = new ClientAccountModel(Data); // Create New Document
-  let Result = await FinalData.save(); // Save Document
-  console.log(Result); // Log Result
-  if (Result != null) {
-    // Check if Result is not undefined
+  if (Temporary_Find_Result.length > 0) {
+    // Check if Account Exist
     res
-      .status(200)
+      .status(400)
       .json({
+        Status: "Failed",
+        Message: "Account Already Exist",
+        Application_ID: ID,
+      }); // Send Response
+    return; // Return
+  } else if (Temporary_Find_Result.length == 0) {
+    // pripare Data to be saved in Database
+    let Data: Object = {
+      User_id: ID,
+      Name: Name,
+      Email: Email,
+      Password: Password,
+      Phone: Phone,
+      Address: Address,
+      City: City,
+      State: State,
+      Zip: Zip,
+      Country: Country,
+      isTermsAccepted: isTermsAccepted,
+      ShopName: ShopName,
+      ShopAddress: ShopAddress,
+      isGSTIN: isGSTIN,
+      GSTIN: GSTIN,
+      PAN: PAN,
+    };
+
+    let FinalData = new ClientAccountModel(Data); // Create New Document
+    let Result = await FinalData.save(); // Save Document
+    if (Result != null) {
+      // Check if Result is not undefined
+      res.status(200).json({
         Status: "Success",
         Message: "Account Created Successfully",
         Data: Result,
       }); // Send Response
-  } else {
-    res
-      .status(400)
-      .json({ Status: "Failed", Message: "Account Creation Failed" }); // Send Response
+    } else {
+      res
+        .status(400)
+        .json({ Status: "Failed", Message: "Account Creation Failed" }); // Send Response
+    }
   }
 }
