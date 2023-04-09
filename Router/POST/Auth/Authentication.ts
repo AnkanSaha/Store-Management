@@ -31,20 +31,20 @@ Authenticate.post("/CreateAccount", json(), (req, res) => {
     PAN,
   }: {
     Name: string;
-    Email: String;
-    Password: String;
+    Email: string;
+    Password: string;
     Phone: Number;
-    Address: String;
-    City: String;
-    State: String;
+    Address: string;
+    City: string;
+    State: string;
     Zip: Number;
-    Country: String;
+    Country: string;
     isTermsAccepted: Boolean;
-    ShopName: String;
-    ShopAddress: String;
+    ShopName: string;
+    ShopAddress: string;
     isGSTIN: Boolean;
-    GSTIN: String;
-    PAN: String;
+    GSTIN: string;
+    PAN: string;
   } = req.body; // Get Name from Request Body
 
   // Passing Data to Create Account Function

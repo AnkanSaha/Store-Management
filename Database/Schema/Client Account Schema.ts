@@ -16,7 +16,7 @@ const ClientAccountManagementSchema:object = {
   isTermsAccepted: { type: Boolean, required: true, default: true },
   ShopName: { type: String, required: true },
   ShopAddress: { type: String, required: true },
-  isGSTIN: { type: Boolean, required: true, default: false },
+  isGSTIN: { type: String, required: true, default: "No" },
   GSTIN: { type: String, required: false },
   PAN: { type: String, required: true }
 };

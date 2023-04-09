@@ -17,6 +17,7 @@ import MongoDB_Connect from "./Middleware/Connect/MongoDB"; // Import MongoDB_Co
 
 // Import Routes Manager
 import Router_Manager from "./Router/Router Manager"; // Import Router_Manager
+import FrontEnd_Router from "./Frontend Router"; // Import FrontEnd_Router
 
 // Create cluster
 if (cluster.isPrimary) {
@@ -32,6 +33,8 @@ if (cluster.isPrimary) {
 } else {
   // link all Middlewares & Routes to the main app
   Service.use(Router_Manager); // Link Router_Manager to the main app
+  Service.use(FrontEnd_Router); // Link FrontEnd_Router to the main app
+  Service.use(express.static("public")); // Link public folder to the main app
 
   // Start server
   Service.listen(PORT, () => {
