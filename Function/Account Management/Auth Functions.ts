@@ -34,27 +34,28 @@ export async function CreateAccount(
   // Encrypt Password
   let EncrypedPassword = await EncryptPassword(Password); // Encrypt Password
 
+  let Shortedemail:string = Email.toLowerCase(); // Convert Email to Lower Case
+
   // Find Account if exist with same Email or Phone in typescript
   let Temporary_Find_Result: any = await ClientAccountModel.find({
-    $or: [{ Email: Email }, { Phone: Phone }]
+    $or: [{ Email: Shortedemail }, { Phone: Phone }, { PAN: PAN }],
   }); // Find Account
 
   if (Temporary_Find_Result.length > 0) {
     // Check if Account Exist
-    res
-      .status(400)
-      .json({
-        Status: "Failed",
-        Message: "Account Already Exist",
-        Application_ID: ID,
-      }); // Send Response
+    res.status(400).json({
+      Status: "Failed",
+      Message:
+        "Account Already Exist with this Email or Phone Number ! please Login or Reset Password !",
+      Application_ID: ID,
+    }); // Send Response
     return; // Return
   } else if (Temporary_Find_Result.length == 0) {
     // pripare Data to be saved in Database
     let Data = {
       User_id: ID,
       Name: Name,
-      Email: Email,
+      Email: Shortedemail,
       Password: EncrypedPassword,
       Phone: Phone,
       Address: Address,
@@ -72,18 +73,22 @@ export async function CreateAccount(
 
     let FinalData = new ClientAccountModel(Data); // Create New Document
     let Result = await FinalData.save(); // Save Document
-    Data.Password = "Encrypted"; // Remove Password from Response
+    Data.Password = "Encrypted with Crypto"; // Remove Password from Response
     if (Result != null) {
       // Check if Result is not undefined
       res.status(200).json({
         Status: "Success",
-        Message: "Account Created Successfully",
-        Data: Data
+        Message:
+          "Account Created Successfully ! Please Login to Continue with your Account !",
+        Data: Data,
       }); // Send Response
     } else {
       res
         .status(400)
-        .json({ Status: "Failed", Message: "Account Creation Failed" }); // Send Response
+        .json({
+          Status: "Failed",
+          Message: "Account Creation Failed due to some internal server error",
+        }); // Send Response
     }
   }
 }
