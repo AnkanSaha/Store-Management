@@ -11,13 +11,11 @@ const PORT: any = process.env.STOREMANAGEMENTBACKENDPORT; // Get port from .env 
 // get number of cpus
 let numCPUs: number = os.cpus().length; // Get number of cpus
 
-
 // import all Middlewares
 import MongoDB_Connect from "./Middleware/Connect/MongoDB"; // Import MongoDB_Connect middleware
 
 // Import Routes Manager
 import Router_Manager from "./Router/Router Manager"; // Import Router_Manager
-import FrontEnd_Router from "./Frontend Router"; // Import FrontEnd_Router
 
 // Create cluster
 if (cluster.isPrimary) {
@@ -33,8 +31,13 @@ if (cluster.isPrimary) {
 } else {
   // link all Middlewares & Routes to the main app
   Service.use(Router_Manager); // Link Router_Manager to the main app
-  Service.use(FrontEnd_Router); // Link FrontEnd_Router to the main app
   Service.use(express.static("public")); // Link public folder to the main app
+
+  // Serving static files made by React
+  Service.get("*", (req, res) => {
+    console.log(req.url);
+    res.sendFile("index.html", { root: "public" });
+  });
 
   // Start server
   Service.listen(PORT, () => {

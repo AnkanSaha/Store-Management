@@ -34,7 +34,7 @@ export async function CreateAccount(
   // Encrypt Password
   let EncrypedPassword = await EncryptPassword(Password); // Encrypt Password
 
-  let Shortedemail:string = Email.toLowerCase(); // Convert Email to Lower Case
+  let Shortedemail: string = Email.toLowerCase(); // Convert Email to Lower Case
 
   // Find Account if exist with same Email or Phone in typescript
   let Temporary_Find_Result: any = await ClientAccountModel.find({
@@ -44,7 +44,7 @@ export async function CreateAccount(
   if (Temporary_Find_Result.length > 0) {
     // Check if Account Exist
     res.status(400).json({
-      Status: "Failed",
+      Status: "Exist",
       Message:
         "Account Already Exist with this Email or Phone Number ! please Login or Reset Password !",
       Application_ID: ID,
@@ -83,12 +83,11 @@ export async function CreateAccount(
         Data: Data,
       }); // Send Response
     } else {
-      res
-        .status(400)
-        .json({
-          Status: "Failed",
-          Message: "Account Creation Failed due to some internal server error",
-        }); // Send Response
+      res.status(400).json({
+        Status: "Failed",
+        Message: "Account Creation Failed due to some internal server error !",
+        Application_ID: ID,
+      }); // Send Response
     }
   }
 }
