@@ -12,6 +12,7 @@
     "type": "git",
     "url": "https://github.com/AnkanSaha/Store-Management-Backend.git"
   },
+  "type":"module",
   "keywords": [
     "store-management",
     "inventory-management",
