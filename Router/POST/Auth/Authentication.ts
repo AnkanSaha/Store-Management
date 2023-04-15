@@ -23,6 +23,8 @@ Authenticate.post("/CreateAccount", json(), (req, res) => {
     State,
     Zip,
     Country,
+    SecurityQuestion,
+    SecurityAnswer,
     isTermsAccepted,
     ShopName,
     ShopAddress,
@@ -39,6 +41,8 @@ Authenticate.post("/CreateAccount", json(), (req, res) => {
     State: string;
     Zip: Number;
     Country: string;
+    SecurityQuestion: string;
+    SecurityAnswer: string;
     isTermsAccepted: Boolean;
     ShopName: string;
     ShopAddress: string;
@@ -58,6 +62,8 @@ Authenticate.post("/CreateAccount", json(), (req, res) => {
     State,
     Zip,
     Country,
+    SecurityQuestion,
+    SecurityAnswer,
     isTermsAccepted,
     ShopName,
     ShopAddress,

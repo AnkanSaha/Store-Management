@@ -11,6 +11,8 @@ const ClientAccountManagementSchema:object = {
   State: { type: String, required: true },
   Zip: { type: Number, required: true },
   Country: { type: String, required: true },
+  SecurityQuestion: { type: String, required: true },
+  SecurityAnswer: { type: String, required: true },
   CreatedAt: { type: Date, required: true, default: Date.now },
   Status: { type: String, required: true, default: "Active" },
   isTermsAccepted: { type: Boolean, required: true, default: true },

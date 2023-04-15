@@ -12,6 +12,6 @@ export async function EncryptPassword(Password: string) {
     let HashedPassword = await hash(Password, Salt); // Hash Password
     return HashedPassword;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 } // Encrypt Password

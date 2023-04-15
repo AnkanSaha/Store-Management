@@ -12,7 +12,7 @@ export default async function Connect_MongoDB() {
     await connect(MongoDB_URL); // Connect to MongoDB
     await ClientAccountModel.find({}); // Test connection with Client Account Model and log it
     console.log(
-      "MongoDB connected successfully with Server & Test connection with Client Account Model"
+      "MongoDB connected successfully with Server & connection with Client Account Model"
     );
 
     // Listen for connected event and log it

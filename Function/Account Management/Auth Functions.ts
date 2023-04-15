@@ -20,6 +20,8 @@ export async function CreateAccount(
   State: string,
   Zip: Number,
   Country: string,
+  SecurityQuestion: string,
+  SecurityAnswer: string,
   isTermsAccepted: Boolean,
   ShopName: string,
   ShopAddress: string,
@@ -34,6 +36,8 @@ export async function CreateAccount(
   // Encrypt Password
   let EncrypedPassword = await EncryptPassword(Password); // Encrypt Password
 
+  // Convert to Lower Case
+  let SecurityAnswerShorted: string = SecurityAnswer.toLowerCase(); // Convert Security Answer to Lower Case
   let Shortedemail: string = Email.toLowerCase(); // Convert Email to Lower Case
 
   // Find Account if exist with same Email or Phone in typescript
@@ -63,6 +67,8 @@ export async function CreateAccount(
       State: State,
       Zip: Zip,
       Country: Country,
+      SecurityQuestion: SecurityQuestion,
+      SecurityAnswer: SecurityAnswerShorted,
       isTermsAccepted: isTermsAccepted,
       ShopName: ShopName,
       ShopAddress: ShopAddress,
