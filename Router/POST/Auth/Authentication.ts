@@ -8,7 +8,7 @@ export const Authenticate = Router(); // Create Router Instance
 Authenticate.use(cors({ origin: "*" })); // Allow All Origin
 
 // Import Controllers
-import { CreateAccount } from "../../../Function/Account Management/Auth Functions"; // Import Create Account Function
+import { CreateAccount, LoginAccount } from "../../../Function/Account Management/Auth Functions"; // Import Create Account Function
 
 // All Routes that can handle requests
 Authenticate.post("/CreateAccount", json(), (req, res) => {
@@ -73,3 +73,24 @@ Authenticate.post("/CreateAccount", json(), (req, res) => {
     res
   ); // Create Account
 }); // Create Account Route
+
+
+// login account Route
+
+//interface for login
+interface Login{
+  Email: string;
+  Password: string;
+  RememberMe: boolean;
+}
+
+Authenticate.post('/login', json(), async (req, res)=>{
+  let {Email, Password, RememberMe}:Login = req.body; // get data from request body
+
+  try{
+    await LoginAccount({Email:Email, ClientPassword:Password, RememberMe:RememberMe, res:res}); // login account
+  }
+  catch (error){
+    throw error;
+  }
+})

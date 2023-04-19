@@ -18,7 +18,8 @@ export async function GenerateID() {
   }
 
   // Make the Final ID From Array to String
-  let FinalIDString: String = FinalID.join(""); // Join the Array to String
+  let FinalIDString: string = FinalID.join(""); // Join the Array to String
+  let FinalIDNumber: number = Number(FinalIDString); // Convert the String to Number
 
-  return FinalIDString; // Return the Final ID
+  return FinalIDNumber; // Return the Final ID
 }

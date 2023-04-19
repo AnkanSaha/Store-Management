@@ -2,7 +2,7 @@
   "name": "store-management-backend",
   "version": "1.0.2",
   "description": "Manage Your Inventory with this website",
-  "main": "store.ts",
+  "main": "store.js",
   "scripts": {
     "dev": "nodemon store.ts",
     "build": "tsc && cp package.json Build/ && cp package-lock.json Build/ && npm install --production",

@@ -8,9 +8,6 @@ const Service = express(); // Create express app
 dotenv.config(); // Load .env file
 const PORT: any = process.env.STOREMANAGEMENTBACKENDPORT; // Get port from .env file
 
-// get number of cpus
-let numCPUs: number = os.cpus().length; // Get number of cpus
-
 // import all Middlewares
 import MongoDB_Connect from "./Middleware/Connect/MongoDB"; // Import MongoDB_Connect middleware
 
@@ -18,6 +15,8 @@ import MongoDB_Connect from "./Middleware/Connect/MongoDB"; // Import MongoDB_Co
 import Router_Manager from "./Router/Router Manager"; // Import Router_Manager
 
 // Create cluster
+  // get number of cpus
+let numCPUs: number = os.cpus().length; // Get number of cpus
 if (cluster.isPrimary) {
   while (numCPUs > 0) {
     cluster.fork(); // Create cluster for each cpu

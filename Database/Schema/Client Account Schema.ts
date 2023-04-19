@@ -1,7 +1,7 @@
 import { Schema } from "mongoose"; // This is required to make the types available
 
 const ClientAccountManagementSchema:object = {
-  User_id: { type: String, required: true, unique: true, index: true },
+  User_id: { type: Number, required: true, unique: true, index: true },
   Name: { type: String, required: true },
   Email: { type: String, required: true, unique: true, index: true },
   Password: { type: String, required: true },

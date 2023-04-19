@@ -4,7 +4,7 @@
 
 // import All Sub Middlewares & Functions
 import { GenerateID } from "../../Middleware/Auth/Generate User ID"; // Import Generate ID Function
-import { EncryptPassword } from "../../Middleware/Security/Bcrypt"; // Import Encrypt Password Function
+import { EncryptPassword, ComparePassword } from "../../Middleware/Security/Bcrypt"; // Import Encrypt Password Function
 
 // IMPORT Models for Database Operations
 import { ClientAccountModel } from "../../Database/Model/Client Account Model"; // Import Client Account Model
@@ -31,7 +31,7 @@ export async function CreateAccount(
   res: any
 ) {
   // Generate ID
-  let ID = await GenerateID(); // Generate ID
+  let ID:number = await GenerateID(); // Generate ID
 
   // Encrypt Password
   let EncrypedPassword = await EncryptPassword(Password); // Encrypt Password
@@ -95,5 +95,45 @@ export async function CreateAccount(
         Application_ID: ID,
       }); // Send Response
     }
+  }
+}; // Create Account Function
+
+
+//interface for data props
+
+interface props {
+  Email: string;
+  ClientPassword: string;
+  RememberMe: boolean;
+  res: any;
+}
+
+// Login Account Function
+export async function LoginAccount({Email, ClientPassword, RememberMe, res}:props){
+  // converting all data to lower case
+  let Shortedemail: string = Email.toLowerCase(); // Convert Email to Lower Case
+
+  try{
+    console.log(Shortedemail, ClientPassword, RememberMe); // Log Data
+
+    let Find_Account_Result = await ClientAccountModel.find({Email:Shortedemail}); // Find Account
+    
+    if(Find_Account_Result.length === 0){
+      res.status(404).json({
+        Status: "Failed",
+        Message: "Account Not Found ! Please Create Account !"
+      }); // Send Not Found Response
+    }
+    else if(Find_Account_Result.length > 0){
+          // destructure data from Find_Account_Result
+    let {Password}:any = Find_Account_Result[0] // Destructure Password from Find_Account_Result
+
+    // Sending Client Password to ComparePassword Function
+    let Password_Verification_Result:any = await ComparePassword(ClientPassword, Password); // Compare Password
+    console.log(Password_Verification_Result); // Log Result
+    }
+  }
+  catch (error){
+    throw error;
   }
 }
