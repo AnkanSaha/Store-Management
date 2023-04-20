@@ -5,7 +5,7 @@
   "main": "store.js",
   "scripts": {
     "dev": "nodemon store.ts",
-    "build": "tsc && cp package.json Build/ && cp package-lock.json Build/ && npm install --production",
+    "build": "tsc && cp package.json Build/ && cp package-lock.json Build/ && npm install",
     "start": "pm2 start store.js --name store-management-backend --watch"
   },
   "repository": {

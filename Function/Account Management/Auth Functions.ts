@@ -4,7 +4,10 @@
 
 // import All Sub Middlewares & Functions
 import { GenerateID } from "../../Middleware/Auth/Generate User ID"; // Import Generate ID Function
-import { EncryptPassword, ComparePassword } from "../../Middleware/Security/Bcrypt"; // Import Encrypt Password Function
+import {
+  EncryptPassword,
+  ComparePassword,
+} from "../../Middleware/Security/Bcrypt"; // Import Encrypt Password Function
 
 // IMPORT Models for Database Operations
 import { ClientAccountModel } from "../../Database/Model/Client Account Model"; // Import Client Account Model
@@ -31,7 +34,7 @@ export async function CreateAccount(
   res: any
 ) {
   // Generate ID
-  let ID:number = await GenerateID(); // Generate ID
+  let ID: number = await GenerateID(); // Generate ID
 
   // Encrypt Password
   let EncrypedPassword = await EncryptPassword(Password); // Encrypt Password
@@ -96,8 +99,7 @@ export async function CreateAccount(
       }); // Send Response
     }
   }
-}; // Create Account Function
-
+} // Create Account Function
 
 //interface for data props
 
@@ -109,31 +111,58 @@ interface props {
 }
 
 // Login Account Function
-export async function LoginAccount({Email, ClientPassword, RememberMe, res}:props){
+export async function LoginAccount({
+  Email,
+  ClientPassword,
+  RememberMe,
+  res,
+}: props) {
   // converting all data to lower case
   let Shortedemail: string = Email.toLowerCase(); // Convert Email to Lower Case
 
-  try{
-    console.log(Shortedemail, ClientPassword, RememberMe); // Log Data
+  try {
+    // Find Account if exist with same Email or Phone in typescript
+    let Find_Account_Result: any = await ClientAccountModel.find({
+      Email: Shortedemail,
+    }); // Find Account
 
-    let Find_Account_Result = await ClientAccountModel.find({Email:Shortedemail}); // Find Account
-    
-    if(Find_Account_Result.length === 0){
+    if (Find_Account_Result.length === 0) {
       res.status(404).json({
         Status: "Failed",
-        Message: "Account Not Found ! Please Create Account !"
+        Message: "Account Not Found ! Please Create Account !",
       }); // Send Not Found Response
-    }
-    else if(Find_Account_Result.length > 0){
-          // destructure data from Find_Account_Result
-    let {Password}:any = Find_Account_Result[0] // Destructure Password from Find_Account_Result
+    } else if (Find_Account_Result.length > 0) {
+      // destructure data from Find_Account_Result
+      let { Password }: any = Find_Account_Result[0]; // Destructure Password from Find_Account_Result
 
-    // Sending Client Password to ComparePassword Function
-    let Password_Verification_Result:any = await ComparePassword(ClientPassword, Password); // Compare Password
-    console.log(Password_Verification_Result); // Log Result
+      // Sending Client Password to ComparePassword Function
+      let Password_Verification_Result: any = await ComparePassword(
+        ClientPassword,
+        Password
+      ); // Compare Password
+
+      // logic for sending response
+      if (Password_Verification_Result === true) {
+        if (RememberMe === true) {
+          res.status(200).json({
+            Status: "Success",
+            Message: "Login Successful !",
+            AccountDetails: Find_Account_Result[0], // Send Account Details
+          }); // Send Response
+        } else if (RememberMe === false) {
+          res.status(200).json({
+            Status: "Success",
+            Message: "Login Successfull !",
+          }); // Send Response
+        }
+      } else if (Password_Verification_Result === false) {
+        res.status(400).json({
+          Status: "Failed",
+          Message: "Password is Incorrect !",
+        }); // Send Response
+      }
     }
-  }
-  catch (error){
+  } catch (error) {
     throw error;
   }
 }
