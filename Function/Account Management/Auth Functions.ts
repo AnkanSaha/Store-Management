@@ -148,11 +148,14 @@ export async function LoginAccount({
             Status: "Success",
             Message: "Login Successful !",
             AccountDetails: Find_Account_Result[0], // Send Account Details
+            SaveLocally: true, // Send Save Locally
           }); // Send Response
         } else if (RememberMe === false) {
           res.status(200).json({
             Status: "Success",
             Message: "Login Successfull !",
+            AccountDetails: Find_Account_Result[0],
+            SaveLocally:false // Send Save Locally
           }); // Send Response
         }
       } else if (Password_Verification_Result === false) {
