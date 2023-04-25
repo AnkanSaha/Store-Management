@@ -11,6 +11,7 @@ import {
 
 // IMPORT Models for Database Operations
 import { ClientAccountModel } from "../../Database/Model/Client Account Model"; // Import Client Account Model
+import { StoreManagementModel } from "../../Database/Model/Store Management Model"; // Import Store Management Model
 
 // Function to Create Account{"$or"}
 export async function CreateAccount(
@@ -47,8 +48,12 @@ export async function CreateAccount(
   let Temporary_Find_Result: any = await ClientAccountModel.find({
     $or: [{ Email: Shortedemail }, { Phone: Phone }, { PAN: PAN }],
   }); // Find Account
+  // Check if Store Exist
+  let StoreExist: any = await StoreManagementModel.find({
+    $or: [{ User_id: ID }, { Email: Shortedemail }],
+  }); // Find Store
 
-  if (Temporary_Find_Result.length > 0) {
+  if (Temporary_Find_Result.length > 0 || StoreExist.length > 0) {
     // Check if Account Exist
     res.status(400).json({
       Status: "Exist",
@@ -57,9 +62,10 @@ export async function CreateAccount(
       Application_ID: ID,
     }); // Send Response
     return; // Return
-  } else if (Temporary_Find_Result.length == 0) {
+  } else if (Temporary_Find_Result.length == 0 || StoreExist.length == 0) {
+
     // pripare Data to be saved in Database
-    let Data = {
+    let AccountData = {
       User_id: ID,
       Name: Name,
       Email: Shortedemail,
@@ -80,16 +86,34 @@ export async function CreateAccount(
       PAN: PAN,
     };
 
-    let FinalData = new ClientAccountModel(Data); // Create New Document
+    // Create New Document for Store Management
+    let StoreData = {
+      User_id: ID,
+      Email: Shortedemail,
+      StoreName: ShopName,
+      Employees: [],
+      Products: [],
+      Customers: [],
+      Orders: [],
+      Suppliers: [],
+      Catagories: []
+    }
+
+    let FinalData = new ClientAccountModel(AccountData); // Create New Document
+    let StoreManagement = new StoreManagementModel(StoreData); // Create New Document
+
+    // Save Document
     let Result = await FinalData.save(); // Save Document
-    Data.Password = "Encrypted with Crypto"; // Remove Password from Response
-    if (Result != null) {
+    let StoreResult = await StoreManagement.save(); // Save Document
+
+    AccountData.Password = "Encrypted with Crypto"; // Remove Password from Response
+    if (Result != null && StoreResult != null) {
       // Check if Result is not undefined
       res.status(200).json({
         Status: "Success",
         Message:
           "Account Created Successfully ! Please Login to Continue with your Account !",
-        Data: Data,
+        Data: AccountData,
       }); // Send Response
     } else {
       res.status(400).json({
@@ -155,7 +179,7 @@ export async function LoginAccount({
             Status: "Success",
             Message: "Login Successfull !",
             AccountDetails: Find_Account_Result[0],
-            SaveLocally:false // Send Save Locally
+            SaveLocally: false, // Send Save Locally
           }); // Send Response
         }
       } else if (Password_Verification_Result === false) {

@@ -15,7 +15,7 @@ import MongoDB_Connect from "./Middleware/Connect/MongoDB"; // Import MongoDB_Co
 import Router_Manager from "./Router/Router Manager"; // Import Router_Manager
 
 // Create cluster
-  // get number of cpus
+// get number of cpus
 let numCPUs: number = os.cpus().length; // Get number of cpus
 if (cluster.isPrimary) {
   while (numCPUs > 0) {
@@ -39,8 +39,8 @@ if (cluster.isPrimary) {
   });
 
   // Start server
-  Service.listen(PORT, () => {
-    MongoDB_Connect(); // Connect to MongoDB database when server starts
+  Service.listen(PORT, async () => {
+    await MongoDB_Connect(); // Connect to MongoDB database when server starts
     console.log(`API Server is running on port ${PORT}`);
   });
 }
