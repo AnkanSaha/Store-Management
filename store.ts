@@ -1,7 +1,7 @@
-import express from "express"; // Import express module
-import dotenv from "dotenv"; // Import dotenv module
-import os from "os"; // Import os module
-import cluster from "cluster"; // Import cluster module
+import express from 'express'; // Import express module
+import dotenv from 'dotenv'; // Import dotenv module
+import os from 'os'; // Import os module
+import cluster from 'cluster'; // Import cluster module
 const Service = express(); // Create express app
 
 // Load .env file
@@ -9,38 +9,38 @@ dotenv.config(); // Load .env file
 const PORT: any = process.env.STOREMANAGEMENTBACKENDPORT; // Get port from .env file
 
 // import all Middlewares
-import MongoDB_Connect from "./Middleware/Connect/MongoDB"; // Import MongoDB_Connect middleware
+import MongoDB_Connect from './Middleware/Connect/MongoDB'; // Import MongoDB_Connect middleware
 
 // Import Routes Manager
-import Router_Manager from "./Router/Router Manager"; // Import Router_Manager
+import Router_Manager from './Router/Router Manager'; // Import Router_Manager
 
 // Create cluster
 // get number of cpus
 let numCPUs: number = os.cpus().length; // Get number of cpus
 if (cluster.isPrimary) {
-  while (numCPUs > 0) {
-    cluster.fork(); // Create cluster for each cpu
-    numCPUs--; // Decrement numCPUs
-  }
+    while (numCPUs > 0) {
+        cluster.fork(); // Create cluster for each cpu
+        numCPUs--; // Decrement numCPUs
+    }
 
-  cluster.on("exit", (worker) => {
-    console.log(`Worker ${worker.process.pid} died`);
-    cluster.fork(); // Create new cluster if one dies
-  }); // Listen for exit event
+    cluster.on('exit', (worker) => {
+        console.log(`Worker ${worker.process.pid} died`);
+        cluster.fork(); // Create new cluster if one dies
+    }); // Listen for exit event
 } else {
-  // link all Middlewares & Routes to the main app
-  Service.use(Router_Manager); // Link Router_Manager to the main app
-  Service.use(express.static("public")); // Link public folder to the main app
+    // link all Middleware & Routes to the main app
+    Service.use(Router_Manager); // Link Router_Manager to the main app
+    Service.use(express.static('public')); // Link public folder to the main app
 
-  // Serving static files made by React
-  Service.get("*", (req, res) => {
-    console.log(req.url);
-    res.sendFile("index.html", { root: "public" });
-  });
+    // Serving static files made by React
+    Service.get('*', (req, res) => {
+        console.log(req.url);
+        res.sendFile('index.html', { root: 'public' });
+    });
 
-  // Start server
-  Service.listen(PORT, async () => {
-    await MongoDB_Connect(); // Connect to MongoDB database when server starts
-    console.log(`API Server is running on port ${PORT}`);
-  });
+    // Start server
+    Service.listen(PORT, async () => {
+        await MongoDB_Connect(); // Connect to MongoDB database when server starts
+        console.log(`API Server is running on port ${PORT}`);
+    });
 }

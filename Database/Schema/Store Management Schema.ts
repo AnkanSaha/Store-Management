@@ -1,7 +1,7 @@
 // This file is a schema for the Store Management Database. It is used to create a schema for the Store Management Database.
-import { Schema } from "mongoose"; // This is required to make the types available
+import { Schema } from 'mongoose'; // This is required to make the types available
 
-const StoreManagementSchema:object = {
+const StoreManagementSchema: object = {
     User_id: { type: Number, required: true, unique: true, index: true },
     Email: { type: String, required: true, unique: true, index: true },
     StoreName: { type: String, required: true, index: true },

@@ -37,5 +37,13 @@
   "devDependencies": {
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1"
+  },
+  "engines": {
+    "node": ">=14.17.0"
+  },
+  "publisher": "Ankan Saha",
+  "capabilities": {
+    "autoInstall": true,
+    "autoStart": true
   }
 }
