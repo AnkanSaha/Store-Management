@@ -1,5 +1,4 @@
-import { StoreManagementModel } from '../../Database/Model/Store Management Model'; // Path: Database/Model/Store Management Model.ts
-import { ClientAccountModel } from '../../Database/Model/Client Account Model'; // Path: Database/Model/Client Account Model.ts
+import { StoreManagementModel, ClientAccountModel } from '../../Models/index'; // Path: Database/Model/Store Management Model.ts
 
 // interface for the employee
 interface NewEmployee {

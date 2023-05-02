@@ -10,7 +10,7 @@ const EmployeeRouterManagement = Router(); // Creating an instance of Router
 EmployeeRouterManagement.use(CORS({ origin: '*' })); // Using CORS
 
 //import controller function
-import { AddnewEmployee, GetEmployee } from '../../../Function/Store Management/Employee Management'; // Path: Function/Account Management/Employee Management.ts
+import { AddnewEmployee, GetEmployee } from '../../../Controller/Store Management/Employee Management'; // Path: Function/Account Management/Employee Management.ts
 
 //InterFace for Employee
 interface EmployeeAdd {

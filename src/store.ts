@@ -1,15 +1,11 @@
 import express from 'express'; // Import express module
-import dotenv from 'dotenv'; // Import dotenv module
+import { PORT, MongoDB_URL } from './config/App Config/General Config'; // Import PORT from General Config
 import os from 'os'; // Import os module
 import cluster from 'cluster'; // Import cluster module
 const Service = express(); // Create express app
 
-// Load .env file
-dotenv.config(); // Load .env file
-const PORT: any = process.env.STOREMANAGEMENTBACKENDPORT; // Get port from .env file
-
 // import all Middlewares
-import MongoDB_Connect from './Middleware/Connect/MongoDB'; // Import MongoDB_Connect middleware
+import MongoDB_Connect from './config/DB Config/MongoDB'; // Import MongoDB_Connect middleware
 
 // Import Routes Manager
 import Router_Manager from './Router/Router Manager'; // Import Router_Manager
@@ -40,7 +36,7 @@ if (cluster.isPrimary) {
 
     // Start server
     Service.listen(PORT, async () => {
-        await MongoDB_Connect(); // Connect to MongoDB database when server starts
+        await MongoDB_Connect({ MongoDB_URL }); // Connect to MongoDB database when server starts
         console.log(`API Server is running on port ${PORT}`);
     });
 }

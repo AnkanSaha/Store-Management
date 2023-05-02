@@ -15,5 +15,6 @@ export default Employee_Manage_Router;
 
 // Creating Employee Management Router
 Employee_Manage_Router.delete('/delete', json(), (req, res) => {
+    console.log(req.body, res.json);
     // Employee Management Controller Logic
 });

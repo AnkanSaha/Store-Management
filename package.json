@@ -4,7 +4,7 @@
   "description": "Manage Your Inventory with this website",
   "main": "store.js",
   "scripts": {
-    "dev": "nodemon store.ts",
+    "dev": "nodemon ./src/store.ts",
     "build": "tsc && cp package.json Build/ && cp package-lock.json Build/ && npm install",
     "start": "pm2 start store.js --name store-management-backend --watch"
   },
