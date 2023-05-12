@@ -280,3 +280,118 @@ index of that employee in the array is returned and stored in the `Index` variab
         Data: StoreDataFindAgain[0].Employees,
     }); // If the employee is not in the array, push the employee to the array
 } // Deleting the employee
+
+
+// Update Employee Function
+
+interface EmployeeUpdate {
+    OwnerEmail: string;
+    EmployeeName: string;
+    EmployeeEmail: string;
+    EmployeeMonthlySalary: number;
+    EmployeePhoneNumber: number;
+    EmployeeDateOfJoining: string;
+    EmployeeRole: string;
+    User_id: number;
+}
+/**
+ * The function updates employee details by finding the employee in the database and then finding their
+ * index in an array of employees based on their email and phone number.
+ * @param {any} req - The `req` parameter is an object that represents the HTTP request made to the
+ * server. It contains information such as the request method, headers, and body. In this code, it is
+ * being used to extract data from the request body using destructuring.
+ * @param {any} res - `res` is the response object that is used to send a response back to the client
+ * who made the request. It contains methods and properties that allow you to set the status code,
+ * headers, and body of the response.
+ */
+export async function UpdateEmployee(req:any, res:any) {
+/* The above code is written in TypeScript and it is destructuring the properties from the `req.body`
+object into separate variables. These variables are used to update the employee details. The
+`EmployeeUpdate` is a type/interface that defines the structure of the data being received in the
+request body. */
+    let {
+        OwnerEmail,
+        EmployeeName,
+        EmployeeEmail,
+        EmployeeMonthlySalary,
+        EmployeePhoneNumber,
+        EmployeeDateOfJoining,
+        EmployeeRole,
+        User_id,
+    }: EmployeeUpdate = req.body; // Getting the data from the request body
+
+/* The above code is written in TypeScript and it is creating two variables named "ShortedOwnerEmail"
+and "ShortedEmployeeEmail". These variables are assigned the lowercase version of the values stored
+in the variables "OwnerEmail" and "EmployeeEmail" respectively. The purpose of this code is to
+standardize the email addresses to lowercase for consistency and ease of comparison. */
+    let ShortedOwnerEmail = OwnerEmail.toLowerCase(); // Lowercase the email
+    let ShortedEmployeeEmail = EmployeeEmail.toLowerCase(); // Lowercase the email
+
+/* The above code is using the Mongoose library to perform a database query to find data in the
+"StoreManagementModel" collection that matches the specified conditions. The conditions are that the
+"User_id" field matches the value of the "User_id" variable and the "Email" field matches the value
+of the "ShortedOwnerEmail" variable. The result of the query is stored in the "StoreDataFind"
+variable. The "await" keyword is used to wait for the query to complete before continuing with the
+rest of the code. */
+    let StoreDataFind: any = await StoreManagementModel.find({
+        $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+    }); // Finding the employee in the database
+
+/* The above code is finding the index of an employee in an array of employees based on their email and
+phone number. It uses the `findIndex` method to iterate through the array and check if the email and
+phone number of each employee match the provided values. If a match is found, the index of that
+employee in the array is returned. */
+    let Index:number = StoreDataFind[0].Employees.findIndex((Employee: any) => {
+        return Employee.EmployeeEmail == ShortedEmployeeEmail && Employee.EmployeePhoneNumber == EmployeePhoneNumber;
+    }); // Finding the index of the employee in the array
+
+/* The above code is checking if the value of the variable "Index" is equal to -1. If it is, then it
+means that the employee is not found in the database. In that case, it calls a function named
+"Failed_Response" with an object containing details about the failure response, including the
+response object, status code, status message, error message, and an empty data object. Finally, it
+returns from the function. */
+
+    if (Index == -1) {
+        Failed_Response({
+            res: res,
+            StatusCode: 404,
+            Status: 'No Employee Found',
+            Message: 'No Employee Found in the database',
+            Data: {},
+        });
+        return;
+    } // If the employee is not in the array, do nothing
+
+/* The above code is removing an employee from the Employees array of the first element in the
+StoreDataFind array. The Index variable is used to specify the index of the employee to be removed,
+and the splice method is used to remove that employee from the array. Specifically, the second
+argument of the splice method (1) indicates that only one element should be removed from the array. */
+    StoreDataFind[0].Employees.splice(Index, 1); // Removing the employee from the array
+
+/* The above code is adding a new employee object to the Employees array of the first element in the
+StoreDataFind array. The employee object contains properties such as EmployeeName, EmployeeEmail,
+EmployeePhoneNumber, EmployeeDateOfJoining, EmployeeRole, and EmployeeMonthlySalary. The values for
+these properties are provided as arguments to the push method. */
+    StoreDataFind[0].Employees.push({
+        EmployeeName: EmployeeName,
+        EmployeeEmail: ShortedEmployeeEmail,
+        EmployeePhoneNumber: EmployeePhoneNumber,
+        EmployeeDateOfJoining: EmployeeDateOfJoining,
+        EmployeeRole: EmployeeRole,
+        EmployeeMonthlySalary: EmployeeMonthlySalary,
+    }); // Pushing the employee to the array
+
+    await StoreManagementModel.findOneAndUpdate({ User_id: User_id }, StoreDataFind[0]); // Re-Saving the data to the database
+
+      // Re-Finding the employee in the database
+      let StoreDataFindAgain: any = await StoreManagementModel.find({
+        $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+    }); // Finding the employee in the database again for sending the data to the client
+    Success_Response({
+        res: res,
+        StatusCode: 200,
+        Status: 'Employee Updated',
+        Message: 'Employee details updated in the database',
+        Data: StoreDataFindAgain[0].Employees,
+    }); // If the employee is not in the array, push the employee to the array
+}

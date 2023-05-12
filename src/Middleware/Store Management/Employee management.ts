@@ -136,3 +136,48 @@ export const CheckEmployeeDeleteMiddleware = async (req: any, res: any, next: an
         }
     }
 }
+
+
+// Middleware for checking if the employee can be updated
+interface Employeeupdate {
+    User_id: number;
+}
+export const CheckEmployeeUpdateMiddleware = async (req: any, res: any, next: any) => {
+       /* This line of code is using destructuring assignment to extract the `User_id` property from the
+   `req.body` object and assign it to a variable named `User_id`. The `EmployeeAdd` interface is
+   used to specify the expected structure of the `req.body` object, and the `: EmployeeAdd` part of
+   the code is specifying that the `req.body` object should conform to the `EmployeeAdd` interface.
+   This line of code is essentially extracting the `User_id` property from the request body and
+   assigning it to a variable for further use in the middleware function. */
+   let { User_id }: Employeeupdate = req.body; // Getting the data from the request body
+
+   /* `let AccountFindStatus = await ClientAccountModel.find({ User_id: User_id })` is finding an
+   employee account in the database by searching for a document in the `ClientAccountModel`
+   collection that has a `User_id` property matching the `User_id` value passed in the request body.
+   The `await` keyword is used to wait for the database query to complete before moving on to the
+   next line of code. The result of the query is stored in the `AccountFindStatus` variable, which
+   is an array of documents that match the search criteria. */
+    let AccountFindStatus = await ClientAccountModel.find({
+        User_id: User_id,
+    }); // Finding the employee in the database
+
+  /* This code block is checking if an employee account exists in the database by searching for a
+  document in the `ClientAccountModel` collection that has a `User_id` property matching the
+  `User_id` value passed in the request body. If the search returns an empty array, it means that
+  the employee account does not exist in the database, and the middleware function sends a failed
+  response to the client with a 404 status code and a message indicating that the account was not
+  found in the database. If the search returns an array with one or more documents, it means that
+  the employee account exists in the database, and the middleware function calls the `next()`
+  function to move to the next middleware function in the stack. */
+    if (AccountFindStatus.length == 0) {
+        Failed_Response({
+            res: res,
+            StatusCode: 404,
+            Status: 'Accont Not Found',
+            Message: 'The Account is not found in the database',
+            Data: {},
+        }); // If the employee is not in the array, push the employee to the array
+    } else if (AccountFindStatus.length > 0) {
+        next(); // Move to next middleware
+    }
+}

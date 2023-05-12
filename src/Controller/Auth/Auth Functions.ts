@@ -192,6 +192,7 @@ export async function CreateAccount(req: any, res: any) {
             }); // Send Response
         }
     } catch (err) {
+        console.log(err);
         Failed_Response({
             res: res,
             Status: 'Failed',
