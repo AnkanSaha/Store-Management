@@ -14,6 +14,12 @@ middleware is responsible for connecting to the MongoDB database when the server
 // import all Middlewares
 import MongoDB_Connect from './config/DB Config/MongoDB'; // Import MongoDB_Connect middleware
 
+/* `// Import Routes Manager` and `import Router_Manager from './Router/Router Manager';` are importing
+the `Router_Manager` middleware from the `./Router/Router Manager` file. This middleware is
+responsible for managing all the routes for the Express server. It defines all the routes and their
+corresponding handlers, and then links them to the main `Service` app using
+`Service.use(Router_Manager)`. This allows the server to handle incoming requests and respond with
+the appropriate data or actions based on the requested route. */
 // Import Routes Manager
 import Router_Manager from './Router/Router Manager'; // Import Router_Manager
 
