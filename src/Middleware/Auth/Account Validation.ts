@@ -43,24 +43,40 @@ export async function SignUpValidation(req: any, res: any, next: any) {
         $or: [{ Email: Shortedemail }, { Phone: Phone }, { PAN: PAN }],
     }); // Find Account
     // Check if Store Exist
-    let StoreExist: any = await StoreManagementModel.find({
-        $or: [{ User_id: Temporary_Find_Result[0].User_id }, { Email: Shortedemail }],
-    }); // Find Store
 
-    if (Temporary_Find_Result.length > 0 || StoreExist.length > 0) {
-        // Check if Account Exist
-        Failed_Response({
-            res: res,
-            StatusCode: 400,
-            Status: 'Exist',
-            Message: 'Account Already Exist with this Email or Phone Number ! please Login or Reset Password !',
-            Data: {
-                Application_ID: Temporary_Find_Result[0].User_id,
-            },
-        }); // Send Response
-
-        return; // Return
-    } else if (Temporary_Find_Result.length == 0 || StoreExist.length == 0) {
+    if (Temporary_Find_Result.length > 0) {
+        let StoreExist: any = await StoreManagementModel.find({
+            $or: [{ User_id: Temporary_Find_Result[0].User_id }, { Email: Shortedemail }],
+        }); // Find Store
+        if(StoreExist.length > 0){
+            // Check if Account Exist
+            Failed_Response({
+                res: res,
+                StatusCode: 400,
+                Status: 'Exist',
+                Message: 'Account Already Exist with this Email or Phone Number ! please Login or Reset Password !',
+                Data: {
+                    Application_ID: Temporary_Find_Result[0].User_id,
+                },
+            }); // Send Response
+    
+            return; // Return
+        }
+        else if(StoreExist.length === 0){
+            // Check if Account Exist
+            Failed_Response({
+                res: res,
+                StatusCode: 400,
+                Status: 'Exist',
+                Message: 'Account Already Exist with this Email or Phone Number ! please Login or Reset Password !',
+                Data: {
+                    Application_ID: Temporary_Find_Result[0].User_id,
+                },
+            }); // Send Response
+    
+            return; // Return
+        }
+    } else if (Temporary_Find_Result.length == 0) {
         next(); // Move to next middleware
     }; // Check if Account Exist
 }; // Sign Up Function Middleware
