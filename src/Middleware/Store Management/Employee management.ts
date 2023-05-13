@@ -59,7 +59,6 @@ export const CheckEmployeeAddMiddleware = async (req: any, res: any, next: any) 
     if (AccountFindStatus.length == 0) {
         Failed_Response({
             res: res,
-            StatusCode: 404,
             Status: 'Accont Not Found',
             Message: 'The Account is not found in the database',
             Data: {},
@@ -109,7 +108,6 @@ export const CheckEmployeeDeleteMiddleware = async (req: any, res: any, next: an
     if (AccountFindStatus.length == 0) {
         Failed_Response({
             res: res,
-            StatusCode: 404,
             Status: 'Accont Not Found',
             Message: 'The Account is not found in the database',
             Data: {},
@@ -130,7 +128,7 @@ export const CheckEmployeeDeleteMiddleware = async (req: any, res: any, next: an
        employee is associated with a store in the database, and the middleware function calls the
        `next()` function to move to the next middleware function in the stack. */
         if (StoreDataFind.length == 0) {
-            Failed_Response({res:res, StatusCode:404, Status:"No Store Found", Message:"No Store Found in the database", Data:{}}) // If the employee is not in the array, do nothing
+            Failed_Response({res:res, Status:"No Store Found", Message:"No Store Found in the database", Data:{}}) // If the employee is not in the array, do nothing
         } else if (StoreDataFind.length > 0) {
             next(); // Move to next middleware
         }
@@ -172,7 +170,6 @@ export const CheckEmployeeUpdateMiddleware = async (req: any, res: any, next: an
     if (AccountFindStatus.length == 0) {
         Failed_Response({
             res: res,
-            StatusCode: 404,
             Status: 'Accont Not Found',
             Message: 'The Account is not found in the database',
             Data: {},

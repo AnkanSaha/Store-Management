@@ -178,7 +178,6 @@ export async function CreateAccount(req: any, res: any) {
             Success_Response({
                 res: res,
                 Status: 'Success',
-                StatusCode: 200,
                 Message: 'Account Created Successfully ! Please Login to Continue with your Account !',
                 Data: AccountData,
             }); // Send Response
@@ -186,7 +185,6 @@ export async function CreateAccount(req: any, res: any) {
             Failed_Response({
                 res: res,
                 Status: 'Failed',
-                StatusCode: 400,
                 Message: 'Account Creation Failed due to some internal server error !',
                 Data: { Application_ID: ID },
             }); // Send Response
@@ -196,7 +194,6 @@ export async function CreateAccount(req: any, res: any) {
         Failed_Response({
             res: res,
             Status: 'Failed',
-            StatusCode: 400,
             Message: 'Account Creation Failed due to some internal server error !',
             Data: {},
         }); // Send Response
@@ -272,7 +269,6 @@ export async function LoginAccount(req: any, res: any) {
                 Success_Response({
                     res: res,
                     Status: 'Success',
-                    StatusCode: 200,
                     Message: 'Login Successful !',
                     Data: {
                         AccountDetails: Find_Account_Result[0], // Send Account Details
@@ -283,7 +279,6 @@ export async function LoginAccount(req: any, res: any) {
                 Success_Response({
                     res: res,
                     Status: 'Success',
-                    StatusCode: 200,
                     Message: 'Login Successful !',
                     Data: {
                         AccountDetails: Find_Account_Result[0], // Send Account Details
@@ -295,7 +290,6 @@ export async function LoginAccount(req: any, res: any) {
             Failed_Response({
                 res: res,
                 Status: 'Failed',
-                StatusCode: 400,
                 Message: 'Password is Incorrect !',
                 Data: {},
             }); // Send Response

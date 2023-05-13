@@ -11,7 +11,6 @@ to the function and can help with type checking and code
 readability. */
 interface Success_Response {
     res: any;
-    StatusCode: number;
     Status: string;
     Message: string;
     Data: any;
@@ -22,8 +21,8 @@ interface Success_Response {
  * @param {Success_Response}  - - `res`: The response object from the Express.js framework.
  */
 
-export const Success_Response = ({res, StatusCode, Status, Message, Data}:Success_Response) => {
-    res.status(StatusCode).json({
+export const Success_Response = ({res, Status, Message, Data}:Success_Response) => {
+    res.status(200).json({
         Status: Status,
         Message: Message,
         Data: Data,
@@ -38,7 +37,6 @@ passed to the function and can help with type checking and code readability. */
 // interface for Failed Response
 interface Failed_Response {
     res: any;
-    StatusCode: number;
     Status: string;
     Message: string;
     Data: any;
@@ -49,8 +47,8 @@ interface Failed_Response {
  * message, and data.
  * @param {Failed_Response}  - - `res`: The response object from the Express.js framework.
  */
-export const Failed_Response = ({res, StatusCode, Status, Message, Data}:Failed_Response) => {
-    res.status(StatusCode).json({
+export const Failed_Response = ({res, Status, Message, Data}:Failed_Response) => {
+    res.status(404).json({
         Status: Status,
         Message: Message,
         Data: Data,

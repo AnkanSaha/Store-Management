@@ -52,7 +52,6 @@ export async function SignUpValidation(req: any, res: any, next: any) {
             // Check if Account Exist
             Failed_Response({
                 res: res,
-                StatusCode: 400,
                 Status: 'Exist',
                 Message: 'Account Already Exist with this Email or Phone Number ! please Login or Reset Password !',
                 Data: {
@@ -66,7 +65,6 @@ export async function SignUpValidation(req: any, res: any, next: any) {
             // Check if Account Exist
             Failed_Response({
                 res: res,
-                StatusCode: 400,
                 Status: 'Exist',
                 Message: 'Account Already Exist with this Email or Phone Number ! please Login or Reset Password !',
                 Data: {
@@ -120,7 +118,6 @@ returns. If an account is found, it calls the next middleware function in the ch
         Failed_Response({
             res: res,
             Status: 'Failed',
-            StatusCode: 404,
             Message: 'Account Not Found ! Please Create Account !',
             Data: {},
         }); // Send Not Found Response
