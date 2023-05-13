@@ -40,7 +40,7 @@
     "@rollup/plugin-commonjs": "^24.1.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "nodemon": "^2.0.22",
-    "rollup": "^3.21.3",
+    "rollup": "^3.21.6",
     "rollup-plugin-typescript2": "^0.34.1",
     "ts-node": "^10.9.1"
   },
