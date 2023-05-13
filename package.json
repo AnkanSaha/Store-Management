@@ -37,7 +37,7 @@
     "mongoose": "^7.1.1"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "nodemon": "^2.0.22",
     "rollup": "^3.21.6",
