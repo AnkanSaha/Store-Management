@@ -92,7 +92,6 @@ export async function AddnewEmployee(req: any, res: any) {
         if (EmployeeAlreadyExist.length > 0) {
             Failed_Response({
                 res: res,
-                StatusCode: 404,
                 Status: 'Employee Already Exist',
                 Message: 'The Employee is already in the database',
                 Data: {},
@@ -118,7 +117,6 @@ export async function AddnewEmployee(req: any, res: any) {
             await StoreManagementModel.findOneAndUpdate({ User_id: User_id }, EmployeeFindStatus[0]);
             Success_Response({
                 res: res,
-                StatusCode: 200,
                 Status: 'Employee Added',
                 Message: 'The Employee is added to the database',
                 Data: {},
@@ -185,7 +183,6 @@ export async function GetEmployee(req: any, res: any) {
         if (StoreDataFind.length == 0) {
             Failed_Response({
                 res: res,
-                StatusCode: 404,
                 Status: 'No Employee Found',
                 Message: 'No Employee Found in the database',
                 Data: {},
@@ -193,7 +190,6 @@ export async function GetEmployee(req: any, res: any) {
         } else if (StoreDataFind.length > 0) {
             Success_Response({
                 res: res,
-                StatusCode: 200,
                 Status: 'Employee Found',
                 Message: 'Employee Found in the database',
                 Data: StoreDataFind[0].Employees,
@@ -250,7 +246,6 @@ index of that employee in the array is returned and stored in the `Index` variab
     if (Index == -1) {
         Failed_Response({
             res: res,
-            StatusCode: 404,
             Status: 'No Employee Found',
             Message: 'No Employee Found in the database',
             Data: {},
@@ -274,7 +269,6 @@ index of that employee in the array is returned and stored in the `Index` variab
 
     Success_Response({
         res: res,
-        StatusCode: 200,
         Status: 'Employee Deleted',
         Message: 'Employee Deleted from the database',
         Data: StoreDataFindAgain[0].Employees,
@@ -354,7 +348,6 @@ returns from the function. */
     if (Index == -1) {
         Failed_Response({
             res: res,
-            StatusCode: 404,
             Status: 'No Employee Found',
             Message: 'No Employee Found in the database',
             Data: {},
@@ -389,7 +382,6 @@ these properties are provided as arguments to the push method. */
     }); // Finding the employee in the database again for sending the data to the client
     Success_Response({
         res: res,
-        StatusCode: 200,
         Status: 'Employee Updated',
         Message: 'Employee details updated in the database',
         Data: StoreDataFindAgain[0].Employees,
