@@ -239,7 +239,6 @@ index of that employee in the array is returned and stored in the `Index` variab
     let Index = StoreDataFind[0].Employees.findIndex((Employee: any) => {
         return Employee.EmployeeEmail == ShortedEmployeeEmail && Employee.EmployeePhoneNumber == EmployeeMobileNumber;
     }); // Finding the index of the employee in the array
-
   /* The above code is checking if an employee exists in an array of employees. If the employee exists,
   it is removed from the array. If the employee does not exist, a failed response is returned with a
   404 status code and a message indicating that no employee was found in the database. */

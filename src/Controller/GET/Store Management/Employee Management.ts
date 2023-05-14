@@ -7,7 +7,7 @@ import CORS from "cors"; // import CORS
 in the `Controller/Store Management` directory. This function is used as the controller for the `GET
 /get` route in the `EmployeeRouter`. */
 // import controller
-import { GetEmployee } from "../../../Controller/Store Management/Employee Management"; // import GetEmployee controller
+import { GetEmployee } from "../../../Service/Store Management/Employee Management"; // import GetEmployee controller
 
 /* These lines of code are configuring the `EmployeeRouter` by creating a new instance of the `Router`
 class from the `express` module and enabling CORS (Cross-Origin Resource Sharing) for all origins.
