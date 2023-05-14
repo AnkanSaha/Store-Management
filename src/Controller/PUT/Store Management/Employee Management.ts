@@ -14,7 +14,7 @@ EmployeeRouterManagement.use(CORS()); // Using CORS middleware
 /* Importing the `UpdateEmployee` controller from the file located at `'../../../Controller/Store
 Management/Employee Management'`. This controller is likely responsible for handling requests
 related to updating employee information in the store management system. */
-import { UpdateEmployee } from '../../../Controller/Store Management/Employee Management'; // Importing UpdateEmployee controller
+import { UpdateEmployee } from '../../../Service/Store Management/Employee Management'; // Importing UpdateEmployee controller
 
 // Importing All Middlewares
 import { CheckEmployeeUpdateMiddleware } from '../../../Middleware/Store Management/Employee management'; // Importing CheckEmployeeUpdateMiddleware middleware

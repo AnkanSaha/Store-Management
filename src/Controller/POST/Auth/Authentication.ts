@@ -27,7 +27,7 @@ at `'../../../Controller/Auth/Auth Functions'`. These functions are used as cont
 requests related to creating and logging into an account in the authentication functionality of the
 Node.js application. */
 // Import Controllers
-import { CreateAccount, LoginAccount } from '../../../Controller/Auth/Auth Functions'; // Import Create Account Function
+import { CreateAccount, LoginAccount } from '../../../Service/Auth/Auth Functions'; // Import Create Account Function
 
 /* These lines of code are defining two routes for the `Authenticate` router. The first route is for
 creating a new account and the second route is for logging into an existing account. */

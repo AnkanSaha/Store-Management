@@ -35,7 +35,7 @@ controller function that handles the logic for adding a new employee to the stor
 It is used in the `EmployeeRouterManagement.post('/create', json(), CheckEmployeeAddMiddleware,
 AddnewEmployee)` route handler to handle the POST request for creating a new employee. */
 //import controller function
-import { AddnewEmployee } from '../../../Controller/Store Management/Employee Management'; // Path: Function/Account Management/Employee Management.ts
+import { AddnewEmployee } from '../../../Service/Store Management/Employee Management'; // Path: Function/Account Management/Employee Management.ts
 
 
 /* This line of code is creating a route handler for the `POST` request method at the endpoint
