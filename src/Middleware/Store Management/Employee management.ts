@@ -14,29 +14,45 @@ the request body for the employee add middleware. It specifies that the request 
 a `User_id` property of type `number`. This interface is used to ensure that the data received in
 the request body is of the correct format and can be properly processed by the middleware function. */
 // interface for the employee Add Middleware
-interface EmployeeAdd {
-    User_id: number;
+
+// global types
+type str = string; // Type for str
+type num = number; // Type for number
+type obj = object; // Type for object
+type globe = any; // Type for globe
+type blank = void; // Type for void
+
+// interface
+interface GlobalInterFaceForEmployee {
+  body : {
+    User_id: num;
+    OwnerEmail: str;
+  };
+  query : {
+    User_id: num;
+    OwnerEmail: str;
+  }
 }
 
 /**
  * This is a middleware function in TypeScript that checks if an employee exists in the database before
  * adding them.
- * @param {any} req - The request object that contains information about the HTTP request made by the
+ * @param {GlobalInterFaceForEmployee} req - The request object that contains information about the HTTP request made by the
  * client.
- * @param {any} res - The response object that will be sent back to the client.
- * @param {any} next - next is a function that is called to move to the next middleware function in the
+ * @param {globe} res - The response object that will be sent back to the client.
+ * @param {globe} next - next is a function that is called to move to the next middleware function in the
  * chain. It is used to pass control to the next middleware function in the stack. If there are no more
  * middleware functions left in the stack, it is used to pass control to the final handler function.
  */
 // Employee Add Middleware
-export const CheckEmployeeAddMiddleware = async (req: any, res: any, next: any) => {
+export const CheckEmployeeAddMiddleware = async (req: GlobalInterFaceForEmployee , res: obj|globe, next: any) : Promise<blank> => {
    /* This line of code is using destructuring assignment to extract the `User_id` property from the
    `req.body` object and assign it to a variable named `User_id`. The `EmployeeAdd` interface is
    used to specify the expected structure of the `req.body` object, and the `: EmployeeAdd` part of
    the code is specifying that the `req.body` object should conform to the `EmployeeAdd` interface.
    This line of code is essentially extracting the `User_id` property from the request body and
    assigning it to a variable for further use in the middleware function. */
-    let { User_id }: EmployeeAdd = req.body; // Getting the data from the request body
+    let { User_id } = req.body; // Getting the data from the request body
 
    /* `let AccountFindStatus = await ClientAccountModel.find({ User_id: User_id })` is finding an
    employee account in the database by searching for a document in the `ClientAccountModel`
@@ -44,7 +60,7 @@ export const CheckEmployeeAddMiddleware = async (req: any, res: any, next: any) 
    The `await` keyword is used to wait for the database query to complete before moving on to the
    next line of code. The result of the query is stored in the `AccountFindStatus` variable, which
    is an array of documents that match the search criteria. */
-    let AccountFindStatus = await ClientAccountModel.find({
+    let AccountFindStatus : obj[] = await ClientAccountModel.find({
         User_id: User_id,
     }); // Finding the employee in the database
 
@@ -71,14 +87,14 @@ export const CheckEmployeeAddMiddleware = async (req: any, res: any, next: any) 
 /**
  * This TypeScript function is a middleware that checks if an employee can be deleted by verifying
  * their existence in the database.
- * @param {any} req - The request object that contains information about the incoming HTTP request.
- * @param {any} res - The response object that will be sent back to the client.
- * @param {any} next - next is a function that is called to move to the next middleware function in the
+ * @param {GlobalInterFaceForEmployee} req - The request object that contains information about the incoming HTTP request.
+ * @param {globe} res - The response object that will be sent back to the client.
+ * @param {globe} next - next is a function that is called to move to the next middleware function in the
  * chain. It is typically used to pass control to the next middleware function after the current
  * middleware function has completed its task.
  */
 // Employee Delete Middleware
-export const CheckEmployeeDeleteMiddleware = async (req: any, res: any, next: any) => {
+export const CheckEmployeeDeleteMiddleware = async (req: GlobalInterFaceForEmployee, res: obj|globe, next: any): Promise<blank> => {
    /* This code is extracting the `User_id` and `OwnerEmail` properties from the `req.query` object and
    assigning them to variables named `User_id` and `OwnerEmail`, respectively, using destructuring
    assignment. The `req.query` object contains the query parameters that were sent in the HTTP
@@ -92,7 +108,7 @@ export const CheckEmployeeDeleteMiddleware = async (req: any, res: any, next: an
    passed in the request body. The `await` keyword is used to wait for the database query to
    complete before moving on to the next line of code. The result of the query is stored in the
    `AccountFindStatus` variable, which is an array of documents that match the search criteria. */
-    let AccountFindStatus = await ClientAccountModel.find({
+    let AccountFindStatus: obj[] = await ClientAccountModel.find({
         User_id: User_id,
     }); // Finding the employee in the database
 
@@ -113,7 +129,7 @@ export const CheckEmployeeDeleteMiddleware = async (req: any, res: any, next: an
             Data: {},
         }); // If the employee is not in the array, push the employee to the array
     } else if (AccountFindStatus.length > 0) {
-        let StoreDataFind: any = await StoreManagementModel.find({
+        let StoreDataFind: obj[] = await StoreManagementModel.find({
             $and: [{ User_id: User_id }, { Email: ShortedEmployeeEmail }],
         }); // Finding the employee in the database
 
@@ -137,17 +153,15 @@ export const CheckEmployeeDeleteMiddleware = async (req: any, res: any, next: an
 
 
 // Middleware for checking if the employee can be updated
-interface Employeeupdate {
-    User_id: number;
-}
-export const CheckEmployeeUpdateMiddleware = async (req: any, res: any, next: any) => {
+
+export const CheckEmployeeUpdateMiddleware = async (req: GlobalInterFaceForEmployee, res: obj|globe, next: any) :Promise<blank> => {
        /* This line of code is using destructuring assignment to extract the `User_id` property from the
    `req.body` object and assign it to a variable named `User_id`. The `EmployeeAdd` interface is
    used to specify the expected structure of the `req.body` object, and the `: EmployeeAdd` part of
    the code is specifying that the `req.body` object should conform to the `EmployeeAdd` interface.
    This line of code is essentially extracting the `User_id` property from the request body and
    assigning it to a variable for further use in the middleware function. */
-   let { User_id }: Employeeupdate = req.body; // Getting the data from the request body
+   let { User_id } = req.body; // Getting the data from the request body
 
    /* `let AccountFindStatus = await ClientAccountModel.find({ User_id: User_id })` is finding an
    employee account in the database by searching for a document in the `ClientAccountModel`
@@ -155,7 +169,7 @@ export const CheckEmployeeUpdateMiddleware = async (req: any, res: any, next: an
    The `await` keyword is used to wait for the database query to complete before moving on to the
    next line of code. The result of the query is stored in the `AccountFindStatus` variable, which
    is an array of documents that match the search criteria. */
-    let AccountFindStatus = await ClientAccountModel.find({
+    let AccountFindStatus : obj[] = await ClientAccountModel.find({
         User_id: User_id,
     }); // Finding the employee in the database
 

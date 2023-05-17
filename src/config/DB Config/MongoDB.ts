@@ -12,14 +12,19 @@ file. These models are likely defined using the Mongoose schema and are used to 
 corresponding collections in the MongoDB database. */
 import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; // Import Client Account Model
 
+// global type 
+type globe = any; // Define a type for any
+type str = string; // Define a type for object
+type blank = void; // Define a type for null
+
 /**
  * This function connects to a MongoDB database and tests the connection with two models, logging the
  * results and handling disconnections.
- * @param {any}  - The function `Connect_MongoDB` takes an object as a parameter with a single property
+ * @param {globe}  - The function `Connect_MongoDB` takes an object as a parameter with a single property
  * `MongoDB_URL`, which is a string representing the URL of the MongoDB database to connect to. The
  * function uses the `connect` method from the `mongoose` library to connect to the database, and then
  */
-export default async function Connect_MongoDB({ MongoDB_URL }: any) {
+export default async function Connect_MongoDB({ MongoDB_URL }: str|globe) {
     try {
         /* This code is connecting to a MongoDB database using the URL provided in the `MongoDB_URL`
         parameter. It then tests the connection by using the `find` method on two different Mongoose
@@ -40,7 +45,7 @@ export default async function Connect_MongoDB({ MongoDB_URL }: any) {
       database using the `connect` method from the `mongoose` library. Once the connection is
       re-established, the event listener logs a message indicating that the database has been
       reconnected successfully with the server. */
-        connection.on('disconnected', async () => {
+        connection.on('disconnected', async (): Promise<blank> => {
             console.log('MongoDB disconnected with Server and trying to reconnect');
             await connect(MongoDB_URL); // Connect to MongoDB
             console.log('MongoDB reconnected successfully with Server');

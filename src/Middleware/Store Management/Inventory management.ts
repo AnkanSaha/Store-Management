@@ -9,36 +9,45 @@ import { ClientAccountModel } from '../../Models/index'; // Path: Database/Model
 // import Custom Response
 import { Failed_Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
 
+// global types
+type str = string; // type for string
+type num = number; // type for number
+type obj = object; // type for object
+type globe = any; // type for any
+type blank = void; // type for void
+
 // interace for Add Inventory
-interface AddInventoryInterface{
-    OwnerEmail: string,
-    User_id: number,
-    ProductName: string,
-    ProductCategory: string,
-    ProductSKU: string,
-    ProductQuantity: number,
-    ProductPrice: number,
-    ProductExpiryDate: string,
-    ProductManufacturingDate: string,
-    ProductDescription: string
+interface InventoryInterface{
+   body : {
+    OwnerEmail: str,
+    User_id: num,
+    ProductName: str,
+    ProductCategory: str,
+    ProductSKU: str,
+    ProductQuantity: num,
+    ProductPrice: num,
+    ProductExpiryDate: str,
+    ProductManufacturingDate: str,
+    ProductDescription: str
+   }
 }
 
 /**
  * This TypeScript function is a middleware for inventory management that checks if a given account
  * exists in the database and passes control to the next middleware if it does.
- * @param {any} req - The request object that contains information about the HTTP request made by the
+ * @param {globe} req - The request object that contains information about the HTTP request made by the
  * client.
- * @param {any} res - The "res" parameter is the response object that is used to send the response back
+ * @param {globe} res - The "res" parameter is the response object that is used to send the response back
  * to the client.
- * @param {any} next - next is a function that is called to move to the next middleware function in the
+ * @param {globe} next - next is a function that is called to move to the next middleware function in the
  * chain. It is used to pass control to the next middleware function.
  */
-export async function AddInventoryMiddleware (req:any, res:any, next:any){
+export async function AddInventoryMiddleware (req:InventoryInterface, res:obj|globe, next:any) : Promise<blank>{
     try{
-        const {User_id, OwnerEmail} :AddInventoryInterface = req.body;
-        let ShortedOwnerEmail:string = OwnerEmail.toLowerCase(); // Lowercase the email
+        const {User_id, OwnerEmail} = req.body;
+        let ShortedOwnerEmail:str = OwnerEmail.toLowerCase(); // Lowercase the email
 
-        let AccountFindStatus = await ClientAccountModel.find({
+        let AccountFindStatus : obj[] = await ClientAccountModel.find({
            $and: [{User_id: User_id}, {Email: ShortedOwnerEmail}]
         }); // Finding the employee in the database
 

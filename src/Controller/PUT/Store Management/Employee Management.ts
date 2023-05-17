@@ -8,7 +8,9 @@ Express application. */
 
 // Config Router & CORS
 const EmployeeRouterManagement = Router(); // Creating a new Router instance
-EmployeeRouterManagement.use(CORS()); // Using CORS middleware  
+EmployeeRouterManagement.use(CORS({
+    origin:"*"
+})); // Using CORS middleware  
 
 // Importing All Controllers
 /* Importing the `UpdateEmployee` controller from the file located at `'../../../Controller/Store
