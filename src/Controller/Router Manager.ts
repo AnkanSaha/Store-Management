@@ -4,8 +4,6 @@ for a web application. By creating a new instance of `Router`, we can define rou
 specific to that instance, and then mount it as a middleware to the main Express application using
 `app.use()`. */
 import { Router } from 'express'; // Importing express types & Router class
-import { Failed_Response } from '../helper/API Response'; // Importing the Failed_Response function
-
 const Router_Manager = Router(); // Creating a new Router instance
 
 /* These lines of code are importing four different sub-routers that handle specific types of HTTP
@@ -30,12 +28,6 @@ Router_Manager.use('/post', POST_REQUEST_Manager); // Linking the Sub-POST-Route
 Router_Manager.use('/get', GET_REQUEST_Manager); // Linking the Sub-GET-Router to the main Router
 Router_Manager.use('/put', PUT_REQUEST_Manager); // Linking the Sub-PUT-Router to the main Router
 Router_Manager.use('/delete', DELETE_REQUEST_Manager); // Linking the Sub-DELETE-Router to the main Router
-
-
-// API Error Handling
-Router_Manager.all('*', (req, res) => {
-    Failed_Response({res:res, Status:"fail", Message:`Can't find ${req.originalUrl} on this server!`, Data:undefined}); // Sending a Failed Response to the client
-}); // Catching all requests to undefined routes
 
 /* These lines of code are exporting the `Router_Manager` instance as the default export of this
 module. This means that when this module is imported into another module using `import`, the

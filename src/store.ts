@@ -14,6 +14,11 @@ middleware is responsible for connecting to the MongoDB database when the server
 // import all Middlewares
 import MongoDB_Connect from './config/DB Config/MongoDB'; // Import MongoDB_Connect middleware
 
+
+// Global Types
+type num = number; // Define a type for numbers
+type blank = void; // Define a type for null
+
 /* `// Import Routes Manager` and `import Router_Manager from './Router/Router Manager';` are importing
 the `Router_Manager` middleware from the `./Router/Router Manager` file. This middleware is
 responsible for managing all the routes for the Express server. It defines all the routes and their
@@ -34,7 +39,7 @@ a new worker process if one dies. */
 /* `let numCPUs: number = os.cpus().length;` is getting the number of CPUs available on the system
 using the `os` module in Node.js and storing it in the `numCPUs` variable. This is used later in the
 code to create a cluster of worker processes, with each worker process running on a separate CPU. */
-let numCPUs: number = os.cpus().length; // Get number of cpus
+let numCPUs: num = os.cpus().length; // Get number of cpus
 if (cluster.isPrimary) {
     /* This code is creating a cluster of worker processes using the `os` and `cluster` modules in
     Node.js. It first gets the number of CPUs available on the system using `os.cpus().length`.
@@ -52,7 +57,7 @@ if (cluster.isPrimary) {
    (`Worker ${worker.process.pid} died`) and then creates a new worker process using
    `cluster.fork()`. This ensures that the server continues to run even if one of the worker
    processes crashes or stops working. */
-    cluster.on('exit', (worker) => {
+    cluster.on('exit', (worker): blank => {
         console.log(`Worker ${worker.process.pid} died`);
         cluster.fork(); // Create new cluster if one dies
     }); // Listen for exit event
@@ -74,7 +79,7 @@ if (cluster.isPrimary) {
     /* `Service.get('*', (req, res) => {...})` is a route handler that is used to serve the
     `index.html` file located in the `public` folder for any request that does not match any of the
     other routes defined in the `Router_Manager` or any static files in the `public` folder. */
-    Service.get('*', (req, res) => {
+    Service.get('*', (req, res):blank => {
         console.log(req.url);
         res.sendFile('index.html', { root: 'public' });
     });
@@ -85,7 +90,7 @@ if (cluster.isPrimary) {
    the MongoDB database when the server starts. Once the server is started and the database is
    connected, it logs a message to the console indicating that the server is running and listening
    on the specified `PORT`. */
-    Service.listen(PORT, async () => {
+    Service.listen(PORT, async ():Promise<blank> => {
         /* `await MongoDB_Connect({ MongoDB_URL });` is calling the `MongoDB_Connect` middleware
         function and passing in the `MongoDB_URL` configuration variable as an argument. This
         middleware function is responsible for connecting to the MongoDB database when the server
