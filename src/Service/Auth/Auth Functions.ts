@@ -1,6 +1,7 @@
 // This File used To Create Account, Login, and Update Account
 
 // Import Essential Modules
+import {randomNumber} from 'uniquegen'; // Import Unique ID Generator
 /* The `import { Failed_Response, Success_Response } from '../../helper/API Response';` statement is
 importing the `Failed_Response` and `Success_Response` functions from the `API Response` module
 located in the `../../helper/` directory. These functions are likely used to send standardized API
@@ -9,7 +10,6 @@ import { Failed_Response, Success_Response } from '../../helper/API Response'; /
 
 // import All Sub Middlewares & Functions
 /* These lines of code are importing functions from two different middleware modules. */
-import { GenerateID } from '../../Middleware/Auth/Generate User ID'; // Import Generate ID Function
 import { EncryptPassword, ComparePassword } from '../../Middleware/Security/Bcrypt'; // Import Encrypt Password Function
 
 // IMPORT Models for Database Operations
@@ -54,6 +54,7 @@ interface AccountInterface {
     isGSTIN: bool;
     GSTIN: str;
     PAN: str;
+    RememberMe?: bool;
 }
 
 interface RegisterAccountData extends AccountInterface {
@@ -62,26 +63,7 @@ interface RegisterAccountData extends AccountInterface {
 
 // interface for Request & Response
 interface RequestInterface {
-    body: {
-        Name: str;
-        Email: str;
-        Password: str;
-        Phone: num;
-        Address: str;
-        City: str;
-        State: str;
-        Zip: num;
-        Country: str;
-        SecurityQuestion: str;
-        SecurityAnswer: str;
-        isTermsAccepted: bool;
-        ShopName: str;
-        ShopAddress: str;
-        isGSTIN: bool;
-        GSTIN: str;
-        PAN: str;
-        RememberMe?: bool;
-    };
+    body:RegisterAccountData;
 }
 
 // Function to Create Account{"$or"}
@@ -117,7 +99,7 @@ export async function CreateAccount(req: RequestInterface, res: obj | globe): Pr
         isGSTIN,
         GSTIN,
         PAN,
-    }: AccountInterface = req.body; // Get Name from Request Body
+    } = req.body; // Get Name from Request Body
     try {
         // Generate ID
         /* `let ID: number = await GenerateID();` is calling the `GenerateID()` function from the `Auth`
@@ -125,7 +107,7 @@ export async function CreateAccount(req: RequestInterface, res: obj | globe): Pr
       keyword is used to wait for the function to complete before assigning the generated ID to the
       `ID` variable. The `ID` variable is then used to set the `User_id` field in the `AccountData`
       object, which is later saved to the database. */
-        let ID: num = await GenerateID(); // Generate ID
+        let ID: num = await randomNumber(10); // Generate ID
 
         // Encrypt Password
         /* `let EncrypedPassword = await EncryptPassword(Password);` is calling the `EncryptPassword`
@@ -324,7 +306,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                 res: res,
                 Status: 'Failed',
                 Message: 'Password is Incorrect !',
-                Data: {},
+                Data: undefined,
             }); // Send Response
         }
     } catch (error) {

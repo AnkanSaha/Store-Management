@@ -2,6 +2,9 @@
 import {Router, json} from 'express'; // Importing express types & Router class
 import CORS from 'cors'; // Importing CORS middleware
 
+// import all Controllers
+import { AddInventory } from '../../../Service/Store Management/Inventory Management'; // Importing AddInventory controller
+
 /* These lines of code are configuring a new router instance called `InventoryRouterManagement` and
 applying the CORS middleware to it. The `Router()` function is imported from the `express` package
 and is used to create a new router instance. The `CORS()` function is imported from the `cors`
@@ -14,7 +17,7 @@ InventoryRouterManagement.use(CORS({
 })); // Using CORS middleware
 
 
-// import all Controllers
+// import all Controllers Middleware
 import { AddInventoryMiddleware } from '../../../Middleware/Store Management/Inventory management'; // Importing AddInventoryMiddleware middleware
 
 /* These lines of code are exporting the `InventoryRouterManagement` router instance as the default
@@ -27,4 +30,4 @@ export default InventoryRouterManagement; // Exporting InventoryRouterManagement
 
 /* These lines of code are defining a route for handling HTTP POST requests to add inventory data. */
 // All Routes that can handle requests
-InventoryRouterManagement.post('/add', json(), AddInventoryMiddleware); // Add Inventory Route
+InventoryRouterManagement.post('/add', json(), AddInventoryMiddleware, AddInventory); // Add Inventory Route

@@ -16,6 +16,10 @@
       "alwaysStrict": true, // this is for set the always strict mode
       "noUnusedLocals": true, // this is for set the no unused locals
       "noUnusedParameters": true, // this is for set the no unused parameters
-      "skipLibCheck": true // this is for set the skip lib check
-  }
+      "skipLibCheck": true, // this is for set the skip lib check
+      "declaration": true // this is for set the declaration
+  },
+  "include": [
+      "./src/**/*"
+  ] // this is for set the include directory of typescript written code
 }

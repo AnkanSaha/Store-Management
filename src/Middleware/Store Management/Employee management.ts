@@ -101,7 +101,7 @@ export const CheckEmployeeDeleteMiddleware = async (req: GlobalInterFaceForEmplo
    request. */
     const {User_id, OwnerEmail} = req.query; // Getting the data from the request query
 
-    let ShortedEmployeeEmail = OwnerEmail.toLowerCase(); // Lowercase the email
+    let ShortedOwnerEmail:str = OwnerEmail.toLowerCase(); // Lowercase the email
 
    /* This line of code is finding an employee account in the database by searching for a document in
    the `ClientAccountModel` collection that has a `User_id` property matching the `User_id` value
@@ -130,8 +130,8 @@ export const CheckEmployeeDeleteMiddleware = async (req: GlobalInterFaceForEmplo
         }); // If the employee is not in the array, push the employee to the array
     } else if (AccountFindStatus.length > 0) {
         let StoreDataFind: obj[] = await StoreManagementModel.find({
-            $and: [{ User_id: User_id }, { Email: ShortedEmployeeEmail }],
-        }); // Finding the employee in the database
+            $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+        }); // Finding the owner store in the database
 
        /* This code block is checking if an employee is associated with a store in the
        `StoreManagementModel` collection. It does this by searching for a document in the
