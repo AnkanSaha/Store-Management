@@ -14,7 +14,6 @@ middleware is responsible for connecting to the MongoDB database when the server
 // import all Middlewares
 import MongoDB_Connect from './config/DB Config/MongoDB'; // Import MongoDB_Connect middleware
 
-
 // Global Types
 type num = number; // Define a type for numbers
 type blank = void; // Define a type for null
@@ -52,7 +51,7 @@ if (cluster.isPrimary) {
         numCPUs--; // Decrement numCPUs
     }
 
-   /* This code is listening for the `exit` event on the worker processes in the cluster. When a worker
+    /* This code is listening for the `exit` event on the worker processes in the cluster. When a worker
    process dies, the code logs a message to the console indicating which worker process died
    (`Worker ${worker.process.pid} died`) and then creates a new worker process using
    `cluster.fork()`. This ensures that the server continues to run even if one of the worker
@@ -62,14 +61,13 @@ if (cluster.isPrimary) {
         cluster.fork(); // Create new cluster if one dies
     }); // Listen for exit event
 } else {
-
     // link all Middleware & Routes to the main app
-   /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
+    /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
    app. This means that any routes defined in the `Router_Manager` will be accessible through the
    `Service` app. */
     Service.use(Router_Manager); // Link Router_Manager to the main app
-    
-   /* `Service.use(express.static('public'));` is linking the `public` folder to the main `Service`
+
+    /* `Service.use(express.static('public'));` is linking the `public` folder to the main `Service`
    app. This means that any static files (such as images, CSS, and JavaScript files) located in the
    `public` folder will be accessible through the `Service` app. When a client requests a static
    file, the server will look for it in the `public` folder and serve it to the client if it exists. */
@@ -79,25 +77,24 @@ if (cluster.isPrimary) {
     /* `Service.get('*', (req, res) => {...})` is a route handler that is used to serve the
     `index.html` file located in the `public` folder for any request that does not match any of the
     other routes defined in the `Router_Manager` or any static files in the `public` folder. */
-    Service.get('*', (req, res):blank => {
+    Service.get('*', (req, res): blank => {
         console.log(req.url);
         res.sendFile('index.html', { root: 'public' });
     });
 
     // Start server
-   /* `Service.listen(PORT, async () => {...})` is starting the server and listening for incoming
+    /* `Service.listen(PORT, async () => {...})` is starting the server and listening for incoming
    requests on the specified `PORT`. It also calls the `MongoDB_Connect` middleware to connect to
    the MongoDB database when the server starts. Once the server is started and the database is
    connected, it logs a message to the console indicating that the server is running and listening
    on the specified `PORT`. */
-    Service.listen(PORT, async ():Promise<blank> => {
-        /* `await MongoDB_Connect({ MongoDB_URL });` is calling the `MongoDB_Connect` middleware
-        function and passing in the `MongoDB_URL` configuration variable as an argument. This
-        middleware function is responsible for connecting to the MongoDB database when the server
-        starts. The `await` keyword is used to wait for the middleware function to complete before
-        moving on to the next line of code. This ensures that the server does not start listening
-        for incoming requests until the database is connected and ready to use. */
+    Service.listen(PORT, async (): Promise<blank> => {
+    /* This code is listening for the `listening` event on the `Service` app, which is emitted when the
+    server starts listening for incoming requests on the specified `PORT`. When the `listening` event
+    is emitted, the code calls the `MongoDB_Connect` middleware to connect to the MongoDB database
+    using the `MongoDB_URL` configuration. Once the database is connected, the code logs a message to
+    the console indicating that the server is running and listening on the specified `PORT`. */
         await MongoDB_Connect({ MongoDB_URL }); // Connect to MongoDB database when server starts
-        console.log(`API Server is running on port ${PORT}`);
+        console.log(`API Server is running on port ${PORT} and connected to MongoDB`);
     });
 }

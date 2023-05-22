@@ -1,7 +1,7 @@
 // This File used To Create Account, Login, and Update Account
 
 // Import Essential Modules
-import {randomNumber} from 'uniquegen'; // Import Unique ID Generator
+import { randomNumber } from 'uniquegen'; // Import Unique ID Generator
 /* The `import { Failed_Response, Success_Response } from '../../helper/API Response';` statement is
 importing the `Failed_Response` and `Success_Response` functions from the `API Response` module
 located in the `../../helper/` directory. These functions are likely used to send standardized API
@@ -63,7 +63,7 @@ interface RegisterAccountData extends AccountInterface {
 
 // interface for Request & Response
 interface RequestInterface {
-    body:RegisterAccountData;
+    body: RegisterAccountData;
 }
 
 // Function to Create Account{"$or"}
@@ -101,22 +101,17 @@ export async function CreateAccount(req: RequestInterface, res: obj | globe): Pr
         PAN,
     } = req.body; // Get Name from Request Body
     try {
-        // Generate ID
-        /* `let ID: number = await GenerateID();` is calling the `GenerateID()` function from the `Auth`
-      middleware module to generate a unique user ID for the new account being created. The `await`
-      keyword is used to wait for the function to complete before assigning the generated ID to the
-      `ID` variable. The `ID` variable is then used to set the `User_id` field in the `AccountData`
-      object, which is later saved to the database. */
-        let ID: num = await randomNumber(10); // Generate ID
+        // Generate ID and Encrypt Password
+        /* The above code is generating a random number to determine the length of the ID and the encryption
+        round number. It then generates a random ID with the determined length. */
+        let Encryption_Round_Number_and_Id_length_Generate: num = await randomNumber(1); // Length of ID and Encryption Round Number
+        let ID: num = await randomNumber(Encryption_Round_Number_and_Id_length_Generate); // Generate ID
 
-        // Encrypt Password
-        /* `let EncrypedPassword = await EncryptPassword(Password);` is calling the `EncryptPassword`
-        function from the `Bcrypt` middleware module to encrypt the user's password before it is
-        saved to the database. The `await` keyword is used to wait for the function to complete
-        before assigning the encrypted password to the `EncrypedPassword` variable. This helps to
-        ensure that the user's password is securely stored in the database and cannot be easily
-        accessed by unauthorized users. */
-        let EncrypedPassword: str = await EncryptPassword(Password); // Encrypt Password
+        /* The above code is written in TypeScript and it is declaring two variables `RoundNumber` and
+`EncryptedPassword`. 
+The `RoundNumber` variable is assigned the value returned by the `randomNumber` function, which
+is awaited. The `randomNumber` function is likely a custom function that generates a random number*/
+        let EncrypedPassword: str = await EncryptPassword(Password, Encryption_Round_Number_and_Id_length_Generate); // Encrypt Password
 
         // Convert to Lower Case
         /* These lines of code are converting the `SecurityAnswer` and `Email` strings to lowercase
@@ -215,7 +210,7 @@ export async function CreateAccount(req: RequestInterface, res: obj | globe): Pr
             res: res,
             Status: 'Failed',
             Message: 'Account Creation Failed due to some internal server error !',
-            Data: {},
+            Data: undefined,
         }); // Send Response
     }
 }

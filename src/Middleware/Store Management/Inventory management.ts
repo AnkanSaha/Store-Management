@@ -54,7 +54,7 @@ export async function AddInventoryMiddleware (req:InventoryInterface, res:obj|gl
         if (AccountFindStatus.length == 0) {
             Failed_Response({
                 res: res,
-                Status: 'Accont Not Found',
+                Status: 'Account Not Found',
                 Message: 'The Account is not found in the database',
                 Data: undefined,
             }); // If the employee is not in the array, push the employee to the array

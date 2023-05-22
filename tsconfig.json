@@ -17,7 +17,8 @@
       "noUnusedLocals": true, // this is for set the no unused locals
       "noUnusedParameters": true, // this is for set the no unused parameters
       "skipLibCheck": true, // this is for set the skip lib check
-      "declaration": true // this is for set the declaration
+      "declaration": true, // this is for set the declaration
+      "declarationDir": "./Build/Temp", // this is for set the declaration directory
   },
   "include": [
       "./src/**/*"

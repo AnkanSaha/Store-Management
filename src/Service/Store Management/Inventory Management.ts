@@ -62,6 +62,7 @@ interface Request {
 
         // Lowercase the email
         let ShortedOwnerEmail: str = OwnerEmail.toLowerCase();
+        let ShortedProductSKU : str = ProductSKU.toLowerCase();
 
         // Finding the employee in the database
         let StoreDataFind: globe[] = await StoreManagementModel.find({
@@ -71,7 +72,7 @@ interface Request {
             if (StoreDataFind.length > 0) {
             // check if the product is already in the store
             let ProductExist: globe[] = StoreDataFind[0].Products.filter(
-                (Product: globe) => Product.ProductSKU === ProductSKU,
+                (Product: globe) => Product.ProductSKU === ShortedProductSKU,
             );
 
             if (ProductExist.length > 0) {
@@ -85,7 +86,7 @@ interface Request {
                 StoreDataFind[0].Products.push({
                     ProductName: ProductName,
                     ProductCategory: ProductCategory,
-                    ProductSKU: ProductSKU,
+                    ProductSKU: ShortedProductSKU,
                     ProductQuantity: ProductQuantity,
                     ProductPrice: ProductPrice,
                     ProductExpiryDate: ProductExpiryDate,
@@ -93,14 +94,13 @@ interface Request {
                     ProductDescription: ProductDescription,
                 }); // Pushing the new product to the array
 
-                let Update_Result = await StoreManagementModel.findOneAndUpdate(
+                await StoreManagementModel.findOneAndUpdate(
                     { User_id: User_id },
                     { Products: StoreDataFind[0].Products },
                 ); // Updating the database
-                    console.log(Update_Result);
                 Success_Response({
                     res: res,
-                    Status: 'success',
+                    Status: 'Product Added',
                     Message: 'The Product is added to the store',
                     Data: undefined,
                 }); // Sending a Success Response to the client
