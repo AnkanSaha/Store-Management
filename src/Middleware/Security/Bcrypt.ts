@@ -18,8 +18,8 @@ type bool = boolean; // Type for boolean
 // Function to Encrypt Password
 export async function EncryptPassword(Password: str):Promise<str> {
     try {
-        let Salt:str = await genSalt(10); // Generate Salt
-        let HashedPassword:str = await hash(Password, Salt); // Hash Password
+        const Salt:str = await genSalt(10); // Generate Salt
+        const HashedPassword:str = await hash(Password, Salt); // Hash Password
         return HashedPassword;
     } catch (error) {
         throw error;
@@ -40,7 +40,7 @@ export async function EncryptPassword(Password: str):Promise<str> {
 export async function ComparePassword(Password: str, HashedPassword: str):Promise<bool> {
     // compare password
     try {
-        let Compare_Result:bool = await compare(Password, HashedPassword); // Compare Password
+        const Compare_Result:bool = await compare(Password, HashedPassword); // Compare Password
         return Compare_Result;
     } catch (error) {
         throw error;

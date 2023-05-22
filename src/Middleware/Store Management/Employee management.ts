@@ -52,7 +52,7 @@ export const CheckEmployeeAddMiddleware = async (req: GlobalInterFaceForEmployee
    the code is specifying that the `req.body` object should conform to the `EmployeeAdd` interface.
    This line of code is essentially extracting the `User_id` property from the request body and
    assigning it to a variable for further use in the middleware function. */
-    let { User_id } = req.body; // Getting the data from the request body
+    const { User_id } = req.body; // Getting the data from the request body
 
    /* `let AccountFindStatus = await ClientAccountModel.find({ User_id: User_id })` is finding an
    employee account in the database by searching for a document in the `ClientAccountModel`
@@ -60,7 +60,7 @@ export const CheckEmployeeAddMiddleware = async (req: GlobalInterFaceForEmployee
    The `await` keyword is used to wait for the database query to complete before moving on to the
    next line of code. The result of the query is stored in the `AccountFindStatus` variable, which
    is an array of documents that match the search criteria. */
-    let AccountFindStatus : obj[] = await ClientAccountModel.find({
+    const AccountFindStatus : obj[] = await ClientAccountModel.find({
         User_id: User_id,
     }); // Finding the employee in the database
 
@@ -101,14 +101,14 @@ export const CheckEmployeeDeleteMiddleware = async (req: GlobalInterFaceForEmplo
    request. */
     const {User_id, OwnerEmail} = req.query; // Getting the data from the request query
 
-    let ShortedEmployeeEmail = OwnerEmail.toLowerCase(); // Lowercase the email
+    const ShortedEmployeeEmail = OwnerEmail.toLowerCase(); // Lowercase the email
 
    /* This line of code is finding an employee account in the database by searching for a document in
    the `ClientAccountModel` collection that has a `User_id` property matching the `User_id` value
    passed in the request body. The `await` keyword is used to wait for the database query to
    complete before moving on to the next line of code. The result of the query is stored in the
    `AccountFindStatus` variable, which is an array of documents that match the search criteria. */
-    let AccountFindStatus: obj[] = await ClientAccountModel.find({
+    const AccountFindStatus: obj[] = await ClientAccountModel.find({
         User_id: User_id,
     }); // Finding the employee in the database
 
@@ -129,7 +129,7 @@ export const CheckEmployeeDeleteMiddleware = async (req: GlobalInterFaceForEmplo
             Data: {},
         }); // If the employee is not in the array, push the employee to the array
     } else if (AccountFindStatus.length > 0) {
-        let StoreDataFind: obj[] = await StoreManagementModel.find({
+        const StoreDataFind: obj[] = await StoreManagementModel.find({
             $and: [{ User_id: User_id }, { Email: ShortedEmployeeEmail }],
         }); // Finding the employee in the database
 
@@ -161,7 +161,7 @@ export const CheckEmployeeUpdateMiddleware = async (req: GlobalInterFaceForEmplo
    the code is specifying that the `req.body` object should conform to the `EmployeeAdd` interface.
    This line of code is essentially extracting the `User_id` property from the request body and
    assigning it to a variable for further use in the middleware function. */
-   let { User_id } = req.body; // Getting the data from the request body
+   const { User_id } = req.body; // Getting the data from the request body
 
    /* `let AccountFindStatus = await ClientAccountModel.find({ User_id: User_id })` is finding an
    employee account in the database by searching for a document in the `ClientAccountModel`
@@ -169,7 +169,7 @@ export const CheckEmployeeUpdateMiddleware = async (req: GlobalInterFaceForEmplo
    The `await` keyword is used to wait for the database query to complete before moving on to the
    next line of code. The result of the query is stored in the `AccountFindStatus` variable, which
    is an array of documents that match the search criteria. */
-    let AccountFindStatus : obj[] = await ClientAccountModel.find({
+    const AccountFindStatus : obj[] = await ClientAccountModel.find({
         User_id: User_id,
     }); // Finding the employee in the database
 

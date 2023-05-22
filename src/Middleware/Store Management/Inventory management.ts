@@ -45,9 +45,9 @@ interface InventoryInterface{
 export async function AddInventoryMiddleware (req:InventoryInterface, res:obj|globe, next:any) : Promise<blank>{
     try{
         const {User_id, OwnerEmail} = req.body;
-        let ShortedOwnerEmail:str = OwnerEmail.toLowerCase(); // Lowercase the email
+        const ShortedOwnerEmail:str = OwnerEmail.toLowerCase(); // Lowercase the email
 
-        let AccountFindStatus : obj[] = await ClientAccountModel.find({
+        const AccountFindStatus : obj[] = await ClientAccountModel.find({
            $and: [{User_id: User_id}, {Email: ShortedOwnerEmail}]
         }); // Finding the employee in the database
 
@@ -65,4 +65,4 @@ export async function AddInventoryMiddleware (req:InventoryInterface, res:obj|gl
     catch{
         Failed_Response({res:res, Status:"Internal Error", Message:"There is Some Internal Error Happened", Data:undefined}); // Response Path: src/helper/API Response.ts
     }
-}; // Path: src/Middleware/Store Management/Inventory management.ts
+} // Path: src/Middleware/Store Management/Inventory management.ts

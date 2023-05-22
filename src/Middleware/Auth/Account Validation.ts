@@ -46,7 +46,7 @@ export async function SignUpValidation(req: RequestinterfaceForDataValidation, r
     // Get Data from Request Body
     const { Email, Phone, PAN }  = req.body; // Get Email from Request Body
     // Shorting email
-    let Shortedemail: str = Email.toLowerCase(); // Convert Email to Lower Case
+    const Shortedemail: str = Email.toLowerCase(); // Convert Email to Lower Case
 
    /* This code is checking if an account or store already exists with the same email, phone, or PAN
    number. It first retrieves the email, phone, and PAN from the request body and converts the email
@@ -56,13 +56,13 @@ export async function SignUpValidation(req: RequestinterfaceForDataValidation, r
    response indicating that the account already exists and returns. If no account or store is found,
    it calls the next middleware function in the chain. */
     // Find Account if exist with same Email or Phone in typescript
-    let Temporary_Find_Result: obj | globe = await ClientAccountModel.find({
+    const Temporary_Find_Result: obj | globe = await ClientAccountModel.find({
         $or: [{ Email: Shortedemail }, { Phone: Phone }, { PAN: PAN }],
     }); // Find Account
     // Check if Store Exist
 
     if (Temporary_Find_Result.length > 0) {
-        let StoreExist: obj[] = await StoreManagementModel.find({
+        const StoreExist: obj[] = await StoreManagementModel.find({
             $or: [{ User_id: Temporary_Find_Result[0].User_id }, { Email: Shortedemail }],
         }); // Find Store
         if(StoreExist.length > 0){
@@ -93,8 +93,8 @@ export async function SignUpValidation(req: RequestinterfaceForDataValidation, r
         }
     } else if (Temporary_Find_Result.length == 0) {
         next(); // Move to next middleware
-    }; // Check if Account Exist
-}; // Sign Up Function Middleware
+    } // Check if Account Exist
+} // Sign Up Function Middleware
 
 
 
@@ -119,7 +119,7 @@ export async function LoginValidation(req: RequestinterfaceForDataValidation, re
     const {Email} = req.body; // Get Email from Request Body
 
     // converting all data to lower case
-    let Shortedemail: str = Email.toLowerCase(); // Convert Email to Lower Case
+    const Shortedemail: str = Email.toLowerCase(); // Convert Email to Lower Case
     
 /* This code is a TypeScript middleware function that validates a user's login credentials by checking
 if their email exists in the database. It first retrieves the `Email` field from the request body
@@ -127,7 +127,7 @@ and converts it to lowercase. It then uses the `ClientAccountModel` to find glob
 the email. If no account is found, it sends a response indicating that the account was not found and
 returns. If an account is found, it calls the next middleware function in the chain. */
 
-    let Find_Account_Result: obj[] = await ClientAccountModel.find({
+    const Find_Account_Result: obj[] = await ClientAccountModel.find({
         Email: Shortedemail,
     }); // Find Account
 
