@@ -3,7 +3,7 @@
 the `../../helper/API Response` file path. These imports are necessary for the code to use the
 models and custom response in the current file. */
 // import all models
-import { ClientAccountModel } from '../../Models/index'; // Path: Database/Model/Store Management Model.ts
+import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; // Path: Database/Model/Store Management Model.ts
 // EmployeeEmail
 
 // import Custom Response
@@ -54,13 +54,30 @@ export async function AddInventoryMiddleware (req:InventoryInterface, res:obj|gl
         if (AccountFindStatus.length == 0) {
             Failed_Response({
                 res: res,
-                Status: 'Accont Not Found',
+                Status: 'Account Not Found',
                 Message: 'The Account is not found in the database',
-                Data: {},
+                Data: undefined,
             }); // If the employee is not in the array, push the employee to the array
         } else if (AccountFindStatus.length > 0) {
-            next(); // Move to next middleware
-        }
+            // If the account is found, find the store of the account
+            let StoreDataFind: obj[] = await StoreManagementModel.find({
+                $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+            }); // Finding the owner store in the database
+
+            // If the store is not found, send a response to the client
+            if (StoreDataFind.length == 0) {
+                Failed_Response({
+                    res: res,
+                    Status: 'Store Not Found',
+                    Message: 'The Store is not found in the database',
+                    Data: undefined,
+                }); // If the employee is not in the array, push the employee to the array
+            }
+            // If the store is found, call the next middleware
+            else if (StoreDataFind.length > 0) {
+                next(); // Calling the next middleware
+            };
+        };
     }
     catch{
         Failed_Response({res:res, Status:"Internal Error", Message:"There is Some Internal Error Happened", Data:undefined}); // Response Path: src/helper/API Response.ts

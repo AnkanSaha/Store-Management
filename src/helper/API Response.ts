@@ -20,7 +20,7 @@ type blank = void; // type for void
 interface ResponseInterface {
     res: {
         status: (code: num) => {
-            json: (code: obj) => void;
+            json: (code: obj) => blank;
         }
     }
     Status: str;

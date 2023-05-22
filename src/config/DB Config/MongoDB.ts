@@ -32,9 +32,9 @@ export default async function Connect_MongoDB({ MongoDB_URL }: str|globe) {
         sets up an event listener for the `connected` event on the `connection` object, which logs a
         message when the connection is established successfully. */
         await connect(MongoDB_URL); // Connect to MongoDB
-        await ClientAccountModel.find({}); // Test connection with Client Account Model and log it
-        await StoreManagementModel.find({}); // Test connection with Store Management Model and log it
-        connection.on('connected', () => {
+        connection.on('connected', async () => {
+            await ClientAccountModel.find({}); // Test connection with Client Account Model and log it
+            await StoreManagementModel.find({}); // Test connection with Store Management Model and log it
             console.log('MongoDB connected successfully with Server & connection with Client Account Model');
         });
 

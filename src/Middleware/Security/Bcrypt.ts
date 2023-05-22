@@ -1,24 +1,31 @@
 // This File is used for encrypting the password and comparing the password
 
 // import required modules
-import { genSalt, hash, compare } from 'bcrypt'; // import Bcrypt
+import { genSalt, hash, compare} from 'bcrypt'; // import Bcrypt
 
 // import Variables
 
 // global typescript types
 type str = string; // Type for string
 type bool = boolean; // Type for boolean
+type num = number; // Type for number
+
 
 /**
- * This TypeScript function encrypts a password using a generated salt and hash.
- * @param {str} Password - The password that needs to be encrypted.
- * @returns the hashed password after generating a salt and hashing the original password using the
- * bcrypt library.
+ * This is a TypeScript function that encrypts a password using a salt and returns the hashed password
+ * as a string.
+ * @param {str} Password - This parameter is a string that represents the password that needs to be
+ * encrypted.
+ * @param {num} saltRounds - The number of rounds of salting and hashing to be performed on the
+ * password. Increasing the number of rounds makes it harder for attackers to crack the password using
+ * brute force methods.
+ * @returns a hashed password as a string.
  */
+
 // Function to Encrypt Password
-export async function EncryptPassword(Password: str):Promise<str> {
+export async function EncryptPassword(Password: str, saltRounds:num):Promise<str> {
     try {
-        let Salt:str = await genSalt(10); // Generate Salt
+        let Salt:str = await genSalt(saltRounds); // Generate Salt
         let HashedPassword:str = await hash(Password, Salt); // Hash Password
         return HashedPassword;
     } catch (error) {

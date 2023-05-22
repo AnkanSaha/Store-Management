@@ -17,7 +17,7 @@ type globe = any; // Type for globe
 type blank = void; // Type for void
 
     // interface
-    interface RequestinterfaceForDataValidation {
+    interface RequestinterfaceForValidation {
        body : {
         Email: str,
         Phone: num,
@@ -28,7 +28,7 @@ type blank = void; // Type for void
 /**
  * This is a TypeScript middleware function that validates user sign up data and checks if an account
  * or store already exists with the same email, phone, or PAN number.
- * @param {RequestinterfaceForDataValidation} req - The request object, which contains information about the incoming HTTP request.
+ * @param {RequestinterfaceForValidation} req - The request object, which contains information about the incoming HTTP request.
  * @param {globe} res - The "res" parameter is the response object that is used to send the response back
  * to the client after the middleware function has completed its execution.
  * @param {globe} next - next is a callback function that is used to move to the next middleware function
@@ -39,7 +39,7 @@ type blank = void; // Type for void
 */
 
 // Sign Up Function Middleware
-export async function SignUpValidation(req: RequestinterfaceForDataValidation, res:obj|globe, next: globe):Promise<blank> {
+export async function SignUpValidation(req: RequestinterfaceForValidation, res:obj|globe, next: globe):Promise<blank> {
     /* This code is getting the data from the request body, specifically the `Email`, `Phone`, and `PAN`
     fields. It then converts the `Email` to lowercase and assigns it to the `Shortedemail` variable.
     This is done to ensure that the email is in a consistent format for validation purposes. */
@@ -101,7 +101,7 @@ export async function SignUpValidation(req: RequestinterfaceForDataValidation, r
 /**
  * This is a TypeScript middleware function that validates a user's login credentials by checking if
  * their email exists in the database.
- * @param {RequestinterfaceForDataValidation} req - The request object represents the HTTP request that is sent by the client to the
+ * @param {RequestinterfaceForValidation} req - The request object represents the HTTP request that is sent by the client to the
  * server. It contains information about the request, such as the URL, headers, and body.
  * @param {globe} res - The "res" parameter is the response object that is used to send the response back
  * to the client. It contains information such as the status code, headers, and data that will be sent
@@ -110,7 +110,7 @@ export async function SignUpValidation(req: RequestinterfaceForDataValidation, r
  * in the chain. If there are no more middleware functions, it will move to the route handler function.
  */
 // Login Function Middleware
-export async function LoginValidation(req: RequestinterfaceForDataValidation, res: obj|globe, next: globe):Promise<blank> {
+export async function LoginValidation(req: RequestinterfaceForValidation, res: obj|globe, next: globe):Promise<blank> {
     // Get Data from Request Body
    /* This code is getting the `Email` field from the request body using destructuring assignment and
    assigning it to a constant variable `Email`. It then converts the `Email` to lowercase and
