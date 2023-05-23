@@ -6,7 +6,7 @@
 These modules are then used in the middleware functions `SignUpValidation` and `LoginValidation` to
 perform account validation and send API responses. */
 import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; // Import Client Account Model
-import { Failed_Response } from '../../helper/API Response'; // Import API Response Function
+import { Failed_Response, NotAllowed_Response } from '../../helper/API Response'; // Import API Response Function
 
 
 // Global Types
@@ -67,7 +67,7 @@ export async function SignUpValidation(req: RequestinterfaceForValidation, res:o
         }); // Find Store
         if(StoreExist.length > 0){
             // Check if Account Exist
-            Failed_Response({
+            NotAllowed_Response({
                 res: res,
                 Status: 'Exist',
                 Message: 'Account Already Exist with this Email or Phone Number ! please Login or Reset Password !',
@@ -80,7 +80,7 @@ export async function SignUpValidation(req: RequestinterfaceForValidation, res:o
         }
         else if(StoreExist.length === 0){
             // Check if Account Exist
-            Failed_Response({
+            NotAllowed_Response({
                 res: res,
                 Status: 'Exist',
                 Message: 'Account Already Exist with this Email or Phone Number ! please Login or Reset Password !',

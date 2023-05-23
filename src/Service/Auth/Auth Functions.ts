@@ -6,7 +6,7 @@ import { randomNumber } from 'uniquegen'; // Import Unique ID Generator
 importing the `Failed_Response` and `Success_Response` functions from the `API Response` module
 located in the `../../helper/` directory. These functions are likely used to send standardized API
 responses with a specific format and status code. */
-import { Failed_Response, Success_Response } from '../../helper/API Response'; // Import API Response Function
+import { Failed_Response, Success_Response, NotAllowed_Response } from '../../helper/API Response'; // Import API Response Function
 
 // import All Sub Middlewares & Functions
 /* These lines of code are importing functions from two different middleware modules. */
@@ -104,14 +104,13 @@ export async function CreateAccount(req: RequestInterface, res: obj | globe): Pr
         // Generate ID and Encrypt Password
         /* The above code is generating a random number to determine the length of the ID and the encryption
         round number. It then generates a random ID with the determined length. */
-        let Encryption_Round_Number_and_Id_length_Generate: num = await randomNumber(1); // Length of ID and Encryption Round Number
-        let ID: num = await randomNumber(Encryption_Round_Number_and_Id_length_Generate); // Generate ID
+        let ID: num = await randomNumber(15); // Generate ID
 
         /* The above code is written in TypeScript and it is declaring two variables `RoundNumber` and
 `EncryptedPassword`. 
 The `RoundNumber` variable is assigned the value returned by the `randomNumber` function, which
 is awaited. The `randomNumber` function is likely a custom function that generates a random number*/
-        let EncrypedPassword: str = await EncryptPassword(Password, Encryption_Round_Number_and_Id_length_Generate); // Encrypt Password
+        let EncrypedPassword: str = await EncryptPassword(Password, 10); // Encrypt Password
 
         // Convert to Lower Case
         /* These lines of code are converting the `SecurityAnswer` and `Email` strings to lowercase
@@ -197,7 +196,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
                 Data: AccountData,
             }); // Send Response
         } else {
-            Failed_Response({
+            NotAllowed_Response({
                 res: res,
                 Status: 'Failed',
                 Message: 'Account Creation Failed due to some internal server error !',
@@ -297,7 +296,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                 }); // Send Response
             }
         } else if (Password_Verification_Result === false) {
-            Failed_Response({
+            NotAllowed_Response({
                 res: res,
                 Status: 'Failed',
                 Message: 'Password is Incorrect !',

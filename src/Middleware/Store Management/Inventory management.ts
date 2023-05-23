@@ -7,7 +7,7 @@ import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; /
 // EmployeeEmail
 
 // import Custom Response
-import { Failed_Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
+import { Failed_Response, NotAllowed_Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
 
 // global types
 type str = string; // type for string
@@ -80,6 +80,6 @@ export async function AddInventoryMiddleware (req:InventoryInterface, res:obj|gl
         };
     }
     catch{
-        Failed_Response({res:res, Status:"Internal Error", Message:"There is Some Internal Error Happened", Data:undefined}); // Response Path: src/helper/API Response.ts
+        NotAllowed_Response({res:res, Status:"Internal Error", Message:"There is Some Internal Error Happened", Data:undefined}); // Response Path: src/helper/API Response.ts
     }
 }; // Path: src/Middleware/Store Management/Inventory management.ts

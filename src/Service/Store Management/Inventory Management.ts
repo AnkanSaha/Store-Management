@@ -1,7 +1,7 @@
 // This File is used to CRUD the data from the database and send the response to the user for Inventory
 
 // import all modules
-import { Failed_Response, Success_Response } from '../../helper/API Response'; // Importing the Failed_Response function
+import { Failed_Response, Success_Response, NotAllowed_Response } from '../../helper/API Response'; // Importing the Failed_Response function
 
 import { StoreManagementModel } from '../../Models/index'; // Importing the StoreManagementModel
 
@@ -33,7 +33,11 @@ interface Request {
         ProductExpiryDate: str;
         ProductManufacturingDate: str;
         ProductDescription: str;
-    };
+    },
+    params : {
+        User_id : num
+        OwnerEmail : str
+    }
 }
 
 // Function for Add Inventory
@@ -76,7 +80,7 @@ interface Request {
             );
 
             if (ProductExist.length > 0) {
-                Failed_Response({
+                NotAllowed_Response({
                     res: res,
                     Status: 'Product Already Exist',
                     Message: 'The Product is already exist in the store',
@@ -110,3 +114,44 @@ interface Request {
         Failed_Response({ res: res, Status: 'fail', Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
     }
 }; // Add Inventory Function
+
+
+// Get All Inventory Function
+
+/**
+ * This function retrieves inventory data from a store based on the user ID and owner email provided in
+ * the request parameters.
+ * @param {Request} req - The request object containing information about the incoming HTTP request.
+ * @param {obj | globe} res - The response object that will be sent back to the client.
+ */
+export async function GetAllInventory(req: Request, res: obj | globe): Promise<blank> {
+    const { User_id, OwnerEmail } = req.params; // Get Data from Request params
+    // Shorting email
+    let ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Convert Email to Lower Case
+
+    try {
+        // Finding the employee in the database
+        let StoreDataFind: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+        }); // Finding the owner store in the database
+
+        if (StoreDataFind.length > 0) {
+            Success_Response({
+                res: res,
+                Status: 'Success',
+                Message: 'The Inventory is found',
+                Data: StoreDataFind[0].Products,
+            }); // Sending a Success Response to the client
+        } else if (StoreDataFind.length === 0) {
+            Failed_Response({
+                res: res,
+                Status: 'Inventory Not Found',
+                Message: 'The Inventory is not found in the store',
+                Data: undefined,
+            }); // Sending a Failed Response to the client
+        }
+    }
+    catch {
+        Failed_Response({ res: res, Status: 'fail', Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
+    }
+};
