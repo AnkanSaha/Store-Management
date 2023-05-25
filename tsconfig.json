@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
       "target": "ES6", // this is for set the target version of typescript written code
-      "module": "CommonJS", // this is for set the module type of javascript code compiled
+      "module": "UMD", // this is for set the module type of javascript code compiled
       "rootDir": "./src", // this is for set the root directory of typescript written code
       "moduleResolution": "node", // this is for set the module resolution strategy
-      "resolveJsonModule": true, // this is for set the module resolution strategy
       "allowJs": false, // this is set of allow javascript file to be compiled
       "inlineSourceMap": true, // this is for set the inline source map
       "outDir": "./Build", // this is for set the output directory of compiled javascript code
@@ -18,7 +17,6 @@
       "noUnusedParameters": true, // this is for set the no unused parameters
       "skipLibCheck": true, // this is for set the skip lib check
       "declaration": true, // this is for set the declaration
-      "declarationDir": "./Build/Temp", // this is for set the declaration directory
   },
   "include": [
       "./src/**/*"

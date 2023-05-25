@@ -104,13 +104,14 @@ export async function CreateAccount(req: RequestInterface, res: obj | globe): Pr
         // Generate ID and Encrypt Password
         /* The above code is generating a random number to determine the length of the ID and the encryption
         round number. It then generates a random ID with the determined length. */
-        let ID: num = await randomNumber(15); // Generate ID
+        let RoundNumber: num = await randomNumber(1, false); // Generate Round Number for Encryption Password and ID
+        let ID: num = await randomNumber(RoundNumber, true); // Generate ID
 
         /* The above code is written in TypeScript and it is declaring two variables `RoundNumber` and
 `EncryptedPassword`. 
 The `RoundNumber` variable is assigned the value returned by the `randomNumber` function, which
 is awaited. The `randomNumber` function is likely a custom function that generates a random number*/
-        let EncrypedPassword: str = await EncryptPassword(Password, 10); // Encrypt Password
+        let EncrypedPassword: str = await EncryptPassword(Password, RoundNumber); // Encrypt Password
 
         // Convert to Lower Case
         /* These lines of code are converting the `SecurityAnswer` and `Email` strings to lowercase
