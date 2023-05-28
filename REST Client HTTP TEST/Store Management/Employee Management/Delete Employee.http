@@ -1,0 +1,1 @@
+DELETE http://localhost:3201/delete/employee/delete?User_id=435063052938472&OwnerEmail=ankansahaofficial@gmail.com&EmployeeMobileNumber=7063355213&EmployeeEmail=ankansahaofficial@gmail.com HTTP/1.1

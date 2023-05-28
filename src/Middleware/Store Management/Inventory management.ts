@@ -7,7 +7,7 @@ import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; /
 // EmployeeEmail
 
 // import Custom Response
-import { Failed_Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
+import { Failed_Response, NotAllowed_Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
 
 // global types
 type str = string; // type for string
@@ -42,7 +42,7 @@ interface InventoryInterface{
  * @param {globe} next - next is a function that is called to move to the next middleware function in the
  * chain. It is used to pass control to the next middleware function.
  */
-export async function AddInventoryMiddleware (req:InventoryInterface, res:obj|globe, next:any) : Promise<blank>{
+export async function InventoryMiddleware (req:InventoryInterface, res:obj|globe, next:any) : Promise<blank>{
     try{
         const {User_id, OwnerEmail} = req.body;
         let ShortedOwnerEmail:str = OwnerEmail.toLowerCase(); // Lowercase the email
@@ -80,6 +80,6 @@ export async function AddInventoryMiddleware (req:InventoryInterface, res:obj|gl
         };
     }
     catch{
-        Failed_Response({res:res, Status:"Internal Error", Message:"There is Some Internal Error Happened", Data:undefined}); // Response Path: src/helper/API Response.ts
+        NotAllowed_Response({res:res, Status:"Internal Error", Message:"There is Some Internal Error Happened", Data:undefined}); // Response Path: src/helper/API Response.ts
     }
 }; // Path: src/Middleware/Store Management/Inventory management.ts

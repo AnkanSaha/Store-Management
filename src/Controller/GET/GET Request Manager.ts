@@ -10,6 +10,7 @@ Management/Employee Management'`. The sub-router is likely responsible for handl
 to employee management within a larger web application. */
 // import all Sub-Routers
 import EmployeeRouter from './Store Management/Employee Management'; // Import EmployeeRouter
+import InventoryRouter from './Store Management/Inventory Management'; // Import InventoryRouter
 
 /* This code is linking the `EmployeeRouter` sub-router to the `GET_REQUEST_Manager` main router. It is
 specifying that any requests that start with the `/employee` path should be handled by the
@@ -17,6 +18,8 @@ specifying that any requests that start with the `/employee` path should be hand
 employee management within a larger web application. */
 // linking all Sub-Routers to the main Router
 GET_REQUEST_Manager.use('/employee', EmployeeRouter); // Link EmployeeRouter to the main Router
+GET_REQUEST_Manager.use('/inventory', InventoryRouter); // Link InventoryRouter to the main Router
+
 
 /* This line of code is exporting the `GET_REQUEST_Manager` router instance as the default export of
 the module. This means that when this module is imported into another module, the default export

@@ -13,7 +13,7 @@ corresponding collections in the MongoDB database. */
 import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; // Import Client Account Model
 
 // global type 
-type globe = any; // Define a type for any
+
 type str = string; // Define a type for object
 type blank = void; // Define a type for null
 
@@ -24,7 +24,7 @@ type blank = void; // Define a type for null
  * `MongoDB_URL`, which is a string representing the URL of the MongoDB database to connect to. The
  * function uses the `connect` method from the `mongoose` library to connect to the database, and then
  */
-export default async function Connect_MongoDB({ MongoDB_URL }: str|globe) {
+export default async function Connect_MongoDB(MongoDB_URL: str) {
     try {
         /* This code is connecting to a MongoDB database using the URL provided in the `MongoDB_URL`
         parameter. It then tests the connection by using the `find` method on two different Mongoose

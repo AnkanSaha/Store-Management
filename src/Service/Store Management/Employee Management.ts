@@ -4,7 +4,7 @@ These imported modules are then used in the functions defined in the code. */
 import { StoreManagementModel } from '../../Models/index'; // Path: Database/Model/Store Management Model.ts
 
 // import Custom Response
-import { Success_Response, Failed_Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
+import { Success_Response, Failed_Response, NotAllowed_Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
 
 /* Defining an interface named `EmployeeAdd` which specifies the properties and their types that are
 expected to be present in the request body when adding a new employee. These properties include
@@ -108,7 +108,7 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
        object to the `Employees` array of the retrieved data and then saving the updated data to the
        database. */
         if (EmployeeAlreadyExist.length > 0) {
-            Failed_Response({
+            NotAllowed_Response({
                 res: res,
                 Status: 'Employee Already Exist',
                 Message: 'The Employee is already in the database',

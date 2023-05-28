@@ -1,0 +1,15 @@
+PUT http://localhost:3201/put/inventory/update HTTP/1.1
+Content-Type: application/json
+
+{
+  "OwnerEmail": "ankansahaofficial@gmail.com",
+    "User_id": 435063052938472,
+    "ProductName": "Nakeless Chain",
+    "ProductCategory": "Chain",
+    "ProductSKU": "SDK158",
+    "ProductQuantity": 1,
+    "ProductPrice": 100,
+    "ProductExpiryDate": "2023-05-26",
+    "ProductManufacturingDate": "2023-05-17",
+    "ProductDescription": "This is Nice Product"
+}

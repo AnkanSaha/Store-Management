@@ -1,0 +1,13 @@
+PUT http://localhost:3201/put/employee/update HTTP/1.1
+Content-Type: application/json
+
+{
+  "OwnerEmail":"ankansahaofficial@gmail.com",
+  "EmployeeName":"Ankan Saha",
+  "EmployeeEmail":"ankansahaofficial@gmail.com",
+  "User_id":435063052938472,
+  "EmployeeMonthlySalary":100000,
+  "EmployeePhoneNumber":7063355213,
+  "EmployeeDateOfJoining":"2023-04-25",
+  "EmployeeRole":"Owner"
+}

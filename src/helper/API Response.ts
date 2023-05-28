@@ -36,9 +36,14 @@ interface ResponseInterface {
 // global Response code
 enum ResponseCode {
     Success = 200,
-    Fail = 404
+    Fail = 404,
+    NotAllowed = 405
 }
 
+/**
+ * This is a TypeScript function that sends a success response with a status code, message, and data.
+ * @param {ResponseInterface}  - - `res`: The response object from the Express.js framework.
+ */
 export const Success_Response = ({res, Status, Message, Data}:ResponseInterface) : blank => {
     res.status(ResponseCode.Success).json({
         Status: Status,
@@ -59,6 +64,19 @@ passed to the function and can help with type checking and code readability. */
  */
 export const Failed_Response = ({res, Status, Message, Data}:ResponseInterface) : blank => {
     res.status(ResponseCode.Fail).json({
+        Status: Status,
+        Message: Message,
+        Data: Data,
+    }); // Send Response
+}; // Failed Response Function
+
+/**
+ * This is a TypeScript function that sends a "not allowed" response with a specified status code,
+ * message, and data.
+ * @param {ResponseInterface}  - - `res`: The response object from the Express.js framework.
+ */
+export const NotAllowed_Response = ({res, Status, Message, Data}:ResponseInterface) : blank => {
+    res.status(ResponseCode.NotAllowed).json({
         Status: Status,
         Message: Message,
         Data: Data,

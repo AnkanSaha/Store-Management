@@ -18,7 +18,7 @@ InventoryRouterManagement.use(CORS({
 
 
 // import all Controllers Middleware
-import { AddInventoryMiddleware } from '../../../Middleware/Store Management/Inventory management'; // Importing AddInventoryMiddleware middleware
+import { InventoryMiddleware } from '../../../Middleware/Store Management/Inventory management'; // Importing AddInventoryMiddleware middleware
 
 /* These lines of code are exporting the `InventoryRouterManagement` router instance as the default
 export of the module. This allows other modules to import and use the router instance by simply
@@ -30,4 +30,4 @@ export default InventoryRouterManagement; // Exporting InventoryRouterManagement
 
 /* These lines of code are defining a route for handling HTTP POST requests to add inventory data. */
 // All Routes that can handle requests
-InventoryRouterManagement.post('/add', json(), AddInventoryMiddleware, AddInventory); // Add Inventory Route
+InventoryRouterManagement.post('/add', json(), InventoryMiddleware, AddInventory); // Add Inventory Route
