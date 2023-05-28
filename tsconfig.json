@@ -16,7 +16,7 @@
       "noUnusedLocals": true, // this is for set the no unused locals
       "noUnusedParameters": true, // this is for set the no unused parameters
       "skipLibCheck": true, // this is for set the skip lib check
-      "declaration": true, // this is for set the declaration
+      "declaration": false, // this is for set the declaration
   },
   "include": [
       "./src/**/*"

@@ -5,18 +5,21 @@ creates an instance of the Express app using `express()`. */
 
 import express from 'express'; // Import express module
 import { PORT, MongoDB_URL } from './config/App Config/General Config'; // PORT from General Config
-import os from 'os'; // Import os module
+import { cpus } from 'os'; // Import os module
 import cluster from 'cluster'; // Import cluster module
+import { Failed_Response } from './helper/API Response'; // Import Failed_Response function
 const Service = express(); // Create express app
 
 /* Importing the `MongoDB_Connect` middleware from the `./config/DB Config/MongoDB` file. This
 middleware is responsible for connecting to the MongoDB database when the server starts. */
-// import all Middlewares
+// import all Middlers
 import MongoDB_Connect from './config/DB Config/MongoDB'; // Import MongoDB_Connect middleware
 
 // Global Types
 type num = number; // Define a type for numbers
 type blank = void; // Define a type for null
+type obj = object; // Creating a type alias for an object or undefined
+type globe = any; // Creating a type alias for a string, number, boolean, object, or undefined
 
 /* `// Import Routes Manager` and `import Router_Manager from './Router/Router Manager';` are importing
 the `Router_Manager` middleware from the `./Router/Router Manager` file. This middleware is
@@ -38,7 +41,7 @@ a new worker process if one dies. */
 /* `let numCPUs: number = os.cpus().length;` is getting the number of CPUs available on the system
 using the `os` module in Node.js and storing it in the `numCPUs` variable. This is used later in the
 code to create a cluster of worker processes, with each worker process running on a separate CPU. */
-let numCPUs: num = os.cpus().length; // Get number of cpus
+let numCPUs: num = cpus().length; // Get number of cpus
 if (cluster.isPrimary) {
     /* This code is creating a cluster of worker processes using the `os` and `cluster` modules in
     Node.js. It first gets the number of CPUs available on the system using `os.cpus().length`.
@@ -61,17 +64,17 @@ if (cluster.isPrimary) {
         cluster.fork(); // Create new cluster if one dies
     }); // Listen for exit event
 } else {
-    // link all Middleware & Routes to the main app
-    /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
-   app. This means that any routes defined in the `Router_Manager` will be accessible through the
-   `Service` app. */
-    Service.use(Router_Manager); // Link Router_Manager to the main app
-
     /* `Service.use(express.static('public'));` is linking the `public` folder to the main `Service`
    app. This means that any static files (such as images, CSS, and JavaScript files) located in the
    `public` folder will be accessible through the `Service` app. When a client requests a static
    file, the server will look for it in the `public` folder and serve it to the client if it exists. */
     Service.use(express.static('public')); // Link public folder to the main app
+
+    // link all Middleware & Routes to the main app
+    /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
+   app. This means that any routes defined in the `Router_Manager` will be accessible through the
+   `Service` app. */
+    Service.use(Router_Manager); // Link Router_Manager to the main app
 
     // Serving static files made by React
     /* `Service.get('*', (req, res) => {...})` is a route handler that is used to serve the
@@ -82,6 +85,19 @@ if (cluster.isPrimary) {
         res.sendFile('index.html', { root: 'public' });
     });
 
+    // API Error Handling
+    interface Error_request_InterFace{
+        originalUrl: string;
+    }
+    Service.all('*', (req: Error_request_InterFace, res: obj | globe): blank => {
+        Failed_Response({
+            res: res,
+            Status: 'fail',
+            Message: `Can't find ${req.originalUrl} on this server!`,
+            Data: undefined,
+        }); // Sending a Failed Response to the client
+    }); // Catching all requests to undefined routes
+
     // Start server
     /* `Service.listen(PORT, async () => {...})` is starting the server and listening for incoming
    requests on the specified `PORT`. It also calls the `MongoDB_Connect` middleware to connect to
@@ -89,12 +105,12 @@ if (cluster.isPrimary) {
    connected, it logs a message to the console indicating that the server is running and listening
    on the specified `PORT`. */
     Service.listen(PORT, async (): Promise<blank> => {
-    /* This code is listening for the `listening` event on the `Service` app, which is emitted when the
+        /* This code is listening for the `listening` event on the `Service` app, which is emitted when the
     server starts listening for incoming requests on the specified `PORT`. When the `listening` event
     is emitted, the code calls the `MongoDB_Connect` middleware to connect to the MongoDB database
     using the `MongoDB_URL` configuration. Once the database is connected, the code logs a message to
     the console indicating that the server is running and listening on the specified `PORT`. */
-        await MongoDB_Connect({ MongoDB_URL }); // Connect to MongoDB database when server starts
+        await MongoDB_Connect(MongoDB_URL); // Connect to MongoDB database when server starts
         console.log(`API Server is running on port ${PORT} and connected to MongoDB`);
     });
 }

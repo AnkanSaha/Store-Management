@@ -42,7 +42,7 @@ interface InventoryInterface{
  * @param {globe} next - next is a function that is called to move to the next middleware function in the
  * chain. It is used to pass control to the next middleware function.
  */
-export async function AddInventoryMiddleware (req:InventoryInterface, res:obj|globe, next:any) : Promise<blank>{
+export async function InventoryMiddleware (req:InventoryInterface, res:obj|globe, next:any) : Promise<blank>{
     try{
         const {User_id, OwnerEmail} = req.body;
         let ShortedOwnerEmail:str = OwnerEmail.toLowerCase(); // Lowercase the email
