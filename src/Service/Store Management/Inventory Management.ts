@@ -35,8 +35,9 @@ interface Request {
         ProductDescription: str;
     },
     params : {
-        User_id : num
-        OwnerEmail : str
+        User_id : num;
+        OwnerEmail : str;
+        ProductSKU: str;
     }
 }
 
@@ -72,8 +73,7 @@ interface Request {
         let StoreDataFind: globe[] = await StoreManagementModel.find({
             $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
         }); // Finding the owner store in the database
-
-            if (StoreDataFind.length > 0) {
+        
             // check if the product is already in the store
             let ProductExist: globe[] = StoreDataFind[0].Products.filter(
                 (Product: globe) => Product.ProductSKU === ShortedProductSKU,
@@ -109,15 +109,6 @@ interface Request {
                     Data: undefined,
                 }); // Sending a Success Response to the client
             }
-        }
-        else if (StoreDataFind.length === 0) {
-            Failed_Response({
-                res: res,
-                Status: 'Store Not Found',
-                Message: 'The Store is not found in the database',
-                Data: undefined,
-            }); // Sending a Failed Response to the client
-        }
     } catch {
         Failed_Response({ res: res, Status: 'fail', Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
     }
@@ -196,10 +187,9 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
 
         // Finding the product in the database
         let StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+            $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }]
         }); // Finding the owner store in the database
 
-            if (StoreDataFind.length > 0) { // Check if the store is in the database
             // check if the product is already in the store
             let ProductExist: globe[] = StoreDataFind[0].Products.filter(
                 (Product: globe) => Product.ProductSKU === ShortedProductSKU,
@@ -230,14 +220,6 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
                     Data: undefined
                  }); // Sending a Success Response to the client
                 }
-                else if(ProductIndex < 0){
-                    Failed_Response({
-                        res: res,
-                        Status: 'Product Not Found',
-                        Message: 'The Product is not found in the store',
-                        Data: undefined
-                    });
-                }
             }
             else if (ProductExist.length === 0) {
                 Failed_Response({
@@ -247,16 +229,35 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
                     Data: undefined
                 });
             }
-        }
-        else if (StoreDataFind.length === 0) {
-            Failed_Response({
-                res: res,
-                Status: 'Store Not Found',
-                Message: 'The Store is not found in the database',
-                Data: undefined,
-            }); // Sending a Failed Response to the client
-        }
-    }catch(err){
-        Failed_Response({ res: res, Status: 'fail', Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
+    }catch(err:globe){
+        Failed_Response({ res: res, Status: 'fail', Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
     }
 }; // Update Inventory Function
+
+export async function DeleteInventory(req: Request, res: obj | globe): Promise<blank> {
+    try{
+                 // Get Data from Request Body
+                 const {
+                    OwnerEmail,
+                    ProductSKU,
+                    User_id,
+                } = req.params;
+        
+                // Lowercase the email and SKU
+                let ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Convert Email to Lower Case
+                let ShortedProductSKU : str = ProductSKU.toLowerCase(); // Convert Email to Lower Case
+        
+                // Finding the product in the database
+                let StoreDataFind: globe[] = await StoreManagementModel.find({
+                    $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }]
+                }); // Finding the owner store in the database
+        
+                    // check if the product is already in the store
+                    let ProductExist: globe[] = StoreDataFind[0].Products.filter(
+                        (Product: globe) => Product.ProductSKU === ShortedProductSKU,
+                    ); // Finding the product in the array
+                    console.log(ProductExist)
+    }catch (err:globe){
+        Failed_Response({ res: res, Status: 'fail', Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
+    }
+}; // Delete Inventory Function
