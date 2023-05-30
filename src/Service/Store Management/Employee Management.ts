@@ -346,7 +346,7 @@ means that the employee is not found in the database. In that case, it calls a f
 response object, status code, status message, error message, and an empty data object. Finally, it
 returns from the function. */
 
-    if (Index == -1) {
+    if (Index < 0) {
         Failed_Response({
             res: res,
             Status: 'No Employee Found',
