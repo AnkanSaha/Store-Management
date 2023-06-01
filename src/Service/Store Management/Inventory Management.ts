@@ -252,11 +252,42 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                     $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }]
                 }); // Finding the owner store in the database
         
+                if(StoreDataFind.length > 0){
                     // check if the product is already in the store
                     let ProductExist: globe[] = StoreDataFind[0].Products.filter(
                         (Product: globe) => Product.ProductSKU === ShortedProductSKU,
                     ); // Finding the product in the array
-                    console.log(ProductExist)
+                    
+                    if (ProductExist.length > 0) {
+                        const ProductIndex: num = StoreDataFind[0].Products.indexOf(ProductExist[0]); // Finding the index of the product in the array
+                        if(ProductIndex >= 0){ // Check if the product is in the array
+                            StoreDataFind[0].Products.splice(ProductIndex, 1); // Removing the product from the array
+                            await StoreManagementModel.findOneAndUpdate({$and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
+                            Success_Response({
+                               res: res,
+                               Status: 'Product Deleted',
+                               Message: 'The Product is Deleted in the store',
+                               Data: undefined
+                            }); // Sending a Success Response to the client
+                        }
+                    }
+                    else if (ProductExist.length === 0) {
+                        Failed_Response({
+                            res: res,
+                            Status: 'Product Not Found',
+                            Message: 'The Product is not found in the store',
+                            Data: undefined
+                        });
+                    }
+                }
+                else {
+                    Failed_Response({
+                        res: res,
+                        Status: 'Store Not Found',
+                        Message: 'The Store is not found',
+                        Data: undefined
+                    });
+                }
     }catch (err:globe){
         Failed_Response({ res: res, Status: 'fail', Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
     }
