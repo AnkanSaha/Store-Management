@@ -20,6 +20,7 @@ type num = number; // Define a type for numbers
 type blank = void; // Define a type for null
 type obj = object; // Creating a type alias for an object or undefined
 type globe = any; // Creating a type alias for a string, number, boolean, object, or undefined
+type str = string; // Define a type for strings
 
 /* `// Import Routes Manager` and `import Router_Manager from './Router/Router Manager';` are importing
 the `Router_Manager` middleware from the `./Router/Router Manager` file. This middleware is
@@ -87,7 +88,7 @@ if (cluster.isPrimary) {
 
     // API Error Handling
     interface Error_request_InterFace{
-        originalUrl: string;
+        originalUrl: str;
     }
     Service.all('*', (req: Error_request_InterFace, res: obj | globe): blank => {
         Failed_Response({
