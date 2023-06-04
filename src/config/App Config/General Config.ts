@@ -27,3 +27,6 @@ the type of the variable can be any type. This allows the variable to be assigne
 type checking. The exported `PORT` variable can be used in other modules or files that import this
 module. */
 export const PORT: num  = Number(process.env.STOREMANAGEMENTBACKENDPORT); // Get port from .env file
+
+// Main URL for this APP
+export const APP_URL :str = `https://store.theankan.live`
