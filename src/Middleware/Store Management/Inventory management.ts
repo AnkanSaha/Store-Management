@@ -7,8 +7,8 @@ import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; /
 // EmployeeEmail
 
 // import Custom Response
-import { Failed_Response, NotAllowed_Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
-
+import { Response } from '../../helper/API Response'; // Import API Response Function
+import { ResponseCode } from '../../store'; // Import Response Code
 // global types
 type str = string; // type for string
 type num = number; // type for number
@@ -52,9 +52,10 @@ export async function InventoryMiddleware (req:InventoryInterface, res:obj|globe
         }); // Finding the employee in the database
 
         if (AccountFindStatus.length == 0) {
-            Failed_Response({
+            Response({
                 res: res,
                 Status: 'Account Not Found',
+                StatusCode: ResponseCode.Fail,
                 Message: 'The Account is not found in the database',
                 Data: undefined,
             }); // If the employee is not in the array, push the employee to the array
@@ -66,9 +67,10 @@ export async function InventoryMiddleware (req:InventoryInterface, res:obj|globe
 
             // If the store is not found, send a response to the client
             if (StoreDataFind.length == 0) {
-                Failed_Response({
+                Response({
                     res: res,
                     Status: 'Store Not Found',
+                    StatusCode: ResponseCode.Fail,
                     Message: 'The Store is not found in the database',
                     Data: undefined,
                 }); // If the employee is not in the array, push the employee to the array
@@ -80,6 +82,6 @@ export async function InventoryMiddleware (req:InventoryInterface, res:obj|globe
         };
     }
     catch{
-        NotAllowed_Response({res:res, Status:"Internal Error", Message:"There is Some Internal Error Happened", Data:undefined}); // Response Path: src/helper/API Response.ts
+        Response({res:res, Status:"Internal Error", StatusCode: ResponseCode.Fail, Message:"There is Some Internal Error Happened", Data:undefined}); // Response Path: src/helper/API Response.ts
     }
 }; // Path: src/Middleware/Store Management/Inventory management.ts

@@ -1,7 +1,8 @@
 // This File is used to CRUD the data from the database and send the response to the user for Inventory
 
 // import all modules
-import { Failed_Response, Success_Response, NotAllowed_Response } from '../../helper/API Response'; // Importing the Failed_Response function
+import { Response } from '../../helper/API Response'; // Import API Response Function
+import { ResponseCode } from '../../store'; // Import Response Code
 
 import { StoreManagementModel } from '../../Models/index'; // Importing the StoreManagementModel
 
@@ -80,9 +81,10 @@ interface Request {
             );
 
             if (ProductExist.length > 0) {
-                NotAllowed_Response({
+                Response({
                     res: res,
                     Status: 'Product Already Exist',
+                    StatusCode: ResponseCode.NotAllowed,
                     Message: 'The Product is already exist in the store',
                     Data: undefined,
                 }); // If the employee is not in the array, send a response to the client
@@ -102,15 +104,16 @@ interface Request {
                     { User_id: User_id },
                     { Products: StoreDataFind[0].Products },
                 ); // Updating the database
-                Success_Response({
+                Response({
                     res: res,
                     Status: 'Product Added',
+                    StatusCode: ResponseCode.Success,
                     Message: 'The Product is added to the store',
                     Data: undefined,
                 }); // Sending a Success Response to the client
             }
     } catch {
-        Failed_Response({ res: res, Status: 'fail', Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
+        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.NotAllowed, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
     }
 }; // Add Inventory Function
 
@@ -135,23 +138,25 @@ export async function GetAllInventory(req: Request, res: obj | globe): Promise<b
         }); // Finding the owner store in the database
 
         if (StoreDataFind.length > 0) {
-            Success_Response({
+            Response({
                 res: res,
                 Status: 'Success',
+                StatusCode: ResponseCode.Success,
                 Message: 'The Inventory is found',
                 Data: StoreDataFind[0].Products,
             }); // Sending a Success Response to the client
         } else if (StoreDataFind.length === 0) {
-            Failed_Response({
+            Response({
                 res: res,
                 Status: 'Inventory Not Found',
+                StatusCode: ResponseCode.NotAllowed,
                 Message: 'The Inventory is not found in the store',
                 Data: undefined,
             }); // Sending a Failed Response to the client
         }
     }
     catch {
-        Failed_Response({ res: res, Status: 'fail', Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
+        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.NotAllowed, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
     }
 };
 
@@ -213,24 +218,26 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
 
                 StoreDataFind[0].Products.push(NewData); // Pushing the new product to the array
                  await StoreManagementModel.findOneAndUpdate({$and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
-                 Success_Response({
+                 Response({
                     res: res,
                     Status: 'Product Updated',
+                    StatusCode: ResponseCode.Success,
                     Message: 'The Product is updated in the store',
                     Data: undefined
                  }); // Sending a Success Response to the client
                 }
             }
             else if (ProductExist.length === 0) {
-                Failed_Response({
+                Response({
                     res: res,
                     Status: 'Product Not Found',
+                    StatusCode: ResponseCode.Fail,
                     Message: 'The Product is not found in the store',
                     Data: undefined
                 });
             }
     }catch(err:globe){
-        Failed_Response({ res: res, Status: 'fail', Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
+        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.NotAllowed, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
     }
 }; // Update Inventory Function
 
@@ -272,32 +279,35 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                         if(ProductIndex >= 0){ // Check if the product is in the array
                             StoreDataFind[0].Products.splice(ProductIndex, 1); // Removing the product from the array
                             await StoreManagementModel.findOneAndUpdate({$and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
-                            Success_Response({
+                            Response({
                                res: res,
                                Status: 'Product Deleted',
+                               StatusCode: ResponseCode.Success,
                                Message: 'The Product is Deleted in the store',
                                Data: undefined
                             }); // Sending a Success Response to the client
                         }
                     }
                     else if (ProductExist.length === 0) {
-                        Failed_Response({
+                        Response({
                             res: res,
                             Status: 'Product Not Found',
+                            StatusCode: ResponseCode.Fail,
                             Message: 'The Product is not found in the store',
                             Data: undefined
                         });
                     }
                 }
                 else {
-                    Failed_Response({
+                    Response({
                         res: res,
                         Status: 'Store Not Found',
+                        StatusCode: ResponseCode.Fail,
                         Message: 'The Store is not found',
                         Data: undefined
                     });
                 }
     }catch (err:globe){
-        Failed_Response({ res: res, Status: 'fail', Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
+        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.NotAllowed, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
     }
 }; // Delete Inventory Function

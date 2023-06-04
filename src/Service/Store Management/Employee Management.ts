@@ -4,8 +4,8 @@ These imported modules are then used in the functions defined in the code. */
 import { StoreManagementModel } from '../../Models/index'; // Path: Database/Model/Store Management Model.ts
 
 // import Custom Response
-import { Success_Response, Failed_Response, NotAllowed_Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
-
+import { Response } from '../../helper/API Response'; // Import API Response Function
+import { ResponseCode } from '../../store'; // Import Response Code
 /* Defining an interface named `EmployeeAdd` which specifies the properties and their types that are
 expected to be present in the request body when adding a new employee. These properties include
 `User_id`, `EmployeeName`, `EmployeeEmail`, `EmployeePhoneNumber`, `EmployeeMonthlySalary`,
@@ -108,11 +108,12 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
        object to the `Employees` array of the retrieved data and then saving the updated data to the
        database. */
         if (EmployeeAlreadyExist.length > 0) {
-            NotAllowed_Response({
+            Response({
                 res: res,
                 Status: 'Employee Already Exist',
+                StatusCode: ResponseCode.NotAllowed,
                 Message: 'The Employee is already in the database',
-                Data: {},
+                Data: undefined,
             }); // If the employee is already in the array, do nothing
         } // If the employee is already in the array, do nothing
         else if (EmployeeAlreadyExist.length == 0) {
@@ -133,11 +134,12 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
            Once the update is complete, it sends a success response to the client with a status code
            of 200, a status message of 'Employee Added', and an empty data object. */
             await StoreManagementModel.findOneAndUpdate({ User_id: User_id }, EmployeeFindStatus[0]);
-            Success_Response({
+            Response({
                 res: res,
                 Status: 'Employee Added',
+                StatusCode: ResponseCode.Success,
                 Message: 'The Employee is added to the database',
-                Data: {},
+                Data: undefined,
             }); // If the employee is not in the array, push the employee to the array
         } // If the employee is not in the array, push the employee to the array
         /* This code block is catching any errors that may occur during the execution of the `try` block and
@@ -194,16 +196,18 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
        200 status code and a message saying "Employee Found in the database", along with the data of
        the first element in the array. */
         if (StoreDataFind.length == 0) {
-            Failed_Response({
+            Response({
                 res: res,
                 Status: 'No Employee Found',
+                StatusCode: ResponseCode.Fail,
                 Message: 'No Employee Found in the database',
-                Data: {},
+                Data: undefined,
             }); // If the employee is not in the array, do nothing
         } else if (StoreDataFind.length > 0) {
-            Success_Response({
+            Response({
                 res: res,
                 Status: 'Employee Found',
+                StatusCode: ResponseCode.Success,
                 Message: 'Employee Found in the database',
                 Data: StoreDataFind[0].Employees,
             });
@@ -256,11 +260,12 @@ index of that employee in the array is returned and stored in the `Index` variab
   it is removed from the array. If the employee does not exist, a failed response is returned with a
   404 status code and a message indicating that no employee was found in the database. */
     if (Index == -1) {
-        Failed_Response({
+        Response({
             res: res,
             Status: 'No Employee Found',
+            StatusCode: ResponseCode.Fail,
             Message: 'No Employee Found in the database',
-            Data: {},
+            Data: undefined,
         });
         return;
     } // If the employee is not in the array, do nothing
@@ -279,9 +284,10 @@ index of that employee in the array is returned and stored in the `Index` variab
         $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database again for sending the data to the client
 
-    Success_Response({
+    Response({
         res: res,
         Status: 'Employee Deleted',
+        StatusCode: ResponseCode.Success,
         Message: 'Employee Deleted from the database',
         Data: StoreDataFindAgain[0].Employees,
     }); // If the employee is not in the array, push the employee to the array
@@ -347,11 +353,12 @@ response object, status code, status message, error message, and an empty data o
 returns from the function. */
 
     if (Index < 0) {
-        Failed_Response({
+        Response({
             res: res,
             Status: 'No Employee Found',
+            StatusCode: ResponseCode.Fail,
             Message: 'No Employee Found in the database',
-            Data: {},
+            Data: undefined,
         });
         return;
     } // If the employee is not in the array, do nothing
@@ -381,9 +388,10 @@ these properties are provided as arguments to the push method. */
     let StoreDataFindAgain: any = await StoreManagementModel.find({
         $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database again for sending the data to the client
-    Success_Response({
+    Response({
         res: res,
         Status: 'Employee Updated',
+        StatusCode: ResponseCode.Success,
         Message: 'Employee details updated in the database',
         Data: StoreDataFindAgain[0].Employees,
     }); // If the employee is not in the array, push the employee to the array

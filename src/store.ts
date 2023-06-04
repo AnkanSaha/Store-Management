@@ -4,16 +4,24 @@ configuration file, `os` and `cluster` modules for creating a cluster of worker 
 creates an instance of the Express app using `express()`. */
 
 import express from 'express'; // Import express module
-import { PORT, MongoDB_URL } from './config/App Config/General Config'; // PORT from General Config
+import { GeneralGlobalNumberData, GeneralGlobalStringData } from './config/App Config/General Config'; // PORT from General Config
 import { cpus } from 'os'; // Import os module
 import cluster from 'cluster'; // Import cluster module
-import { Failed_Response } from './helper/API Response'; // Import Failed_Response function
+import { Response } from './helper/API Response'; // Import Failed_Response function
 const Service = express(); // Create express app
 
 /* Importing the `MongoDB_Connect` middleware from the `./config/DB Config/MongoDB` file. This
 middleware is responsible for connecting to the MongoDB database when the server starts. */
 // import all Middlers
 import MongoDB_Connect from './config/DB Config/MongoDB'; // Import MongoDB_Connect middleware
+
+
+// global Response code
+export enum ResponseCode {
+    Success = 200,
+    Fail = 404,
+    NotAllowed = 405
+}
 
 // Global Types
 type num = number; // Define a type for numbers
@@ -90,9 +98,10 @@ if (cluster.isPrimary) {
         originalUrl: str;
     }
     Service.all('*', (req: Error_request_InterFace, res: obj | globe): void => {
-        Failed_Response({
+        Response({
             res: res,
             Status: 'fail',
+            StatusCode: ResponseCode.Fail,
             Message: `Can't find ${req.originalUrl} on this server!`,
             Data: undefined,
         }); // Sending a Failed Response to the client
@@ -104,13 +113,13 @@ if (cluster.isPrimary) {
    the MongoDB database when the server starts. Once the server is started and the database is
    connected, it logs a message to the console indicating that the server is running and listening
    on the specified `PORT`. */
-    Service.listen(PORT, async (): Promise<void> => {
+    Service.listen(GeneralGlobalNumberData.PORT, async (): Promise<void> => {
         /* This code is listening for the `listening` event on the `Service` app, which is emitted when the
     server starts listening for incoming requests on the specified `PORT`. When the `listening` event
     is emitted, the code calls the `MongoDB_Connect` middleware to connect to the MongoDB database
     using the `MongoDB_URL` configuration. Once the database is connected, the code logs a message to
     the console indicating that the server is running and listening on the specified `PORT`. */
-        await MongoDB_Connect(MongoDB_URL); // Connect to MongoDB database when server starts
-        console.log(`API Server is running on port ${PORT} and connected to MongoDB`);
+        await MongoDB_Connect(GeneralGlobalStringData.MongoDB_URL); // Connect to MongoDB database when server starts
+        console.log(`API Server is running on port ${GeneralGlobalNumberData.PORT} and connected to MongoDB`);
     });
 }

@@ -2,6 +2,7 @@
 in an Express application. */
 import { Router, json } from 'express'; // Importing express types & Router class
 import CORS from 'cors'; // Importing CORS middleware
+import { GeneralGlobalStringData } from '../../../config/App Config/General Config'; // Importing GeneralGlobalStringData constant
 
 /* This code is configuring a router and enabling CORS (Cross-Origin Resource Sharing) middleware in an
 Express application. */
@@ -9,7 +10,7 @@ Express application. */
 // Config Router & CORS
 const EmployeeRouterManagement = Router(); // Creating a new Router instance
 EmployeeRouterManagement.use(CORS({
-    origin:"*"
+    origin:GeneralGlobalStringData.API_Allowed_URL
 })); // Using CORS middleware  
 
 // Importing All Controllers

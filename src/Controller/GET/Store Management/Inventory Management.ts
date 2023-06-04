@@ -2,10 +2,11 @@
 // import required dependency
 import {Router, json} from "express"; // import Router from express
 import CORS from "cors"; // import CORS
+import { GeneralGlobalStringData } from "../../../config/App Config/General Config"; // import GeneralGlobalStringData
 
 // Config Router & CORS
 const InventoryRouter = Router(); // Create EmployeeRouter
-InventoryRouter.use(CORS({origin: '*'})); // Enable CORS
+InventoryRouter.use(CORS({origin: GeneralGlobalStringData.API_Allowed_URL})); // Enable CORS
 
 // export router
 export default InventoryRouter; // Export EmployeeRouter
