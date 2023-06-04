@@ -3,12 +3,13 @@
 CORS (Cross-Origin Resource Sharing) functionality. */
 import { Router, json } from 'express'; // Importing Express Router
 import CORS from 'cors'; // Importing CORS
+import { GeneralGlobalStringData } from '../../../config/App Config/General Config'; // Importing Global String Data
 
 const InventoryManagementRouter = Router(); // Creating a new Express Router
 
 
 // configure Express Router to use CORS
-InventoryManagementRouter.use(CORS({ origin: '*' })); // Using CORS
+InventoryManagementRouter.use(CORS({ origin: GeneralGlobalStringData.API_Allowed_URL })); // Using CORS
 
 
 

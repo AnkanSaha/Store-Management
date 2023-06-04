@@ -14,19 +14,26 @@ dotenv.config(); // Load .env file
 
 // global types
 type str = string; // Define a type for strings
-type num = number; // Define a type for numbers
 
-/* This line of code is exporting a constant variable named `MongoDB_URL` with the value of the
-environment variable `STOREMANAGEMENTBACKENDMONGOURL` from the `.env` file. The `any` type is used
-to indicate that the type of the variable can be any type. This allows the variable to be assigned
-any value without type checking. */
-export const MongoDB_URL: str = String(process.env.STOREMANAGEMENTBACKENDMONGOURL); // Get MongoDB URL from .env file
-/* This line of code is exporting a constant variable named `PORT` with the value of the environment
-variable `STOREMANAGEMENTBACKENDPORT` from the `.env` file. The `any` type is used to indicate that
-the type of the variable can be any type. This allows the variable to be assigned any value without
-type checking. The exported `PORT` variable can be used in other modules or files that import this
-module. */
-export const PORT: num  = Number(process.env.STOREMANAGEMENTBACKENDPORT); // Get port from .env file
+/* The `interface GeneralGlobalStringDataInterface` is defining a type for an object that has two
+properties: `MongoDB_URL` and `APP_URL`. Both properties are of type `str`, which is a type alias
+for `string`. This interface is used to ensure that any object that is expected to have these two
+properties will have the correct types for those properties. */
+interface GeneralGlobalStringDataInterface {
+    MongoDB_URL: str; // Define a type for MongoDB URL
+    API_Allowed_URL: str; // Define a type for APP URL
+}
 
-// Main URL for this APP
-export const APP_URL :str = `https://store.theankan.live`
+/* This code is exporting a constant named `GeneralGlobalStringData` that is of type
+`GeneralGlobalStringDataInterface`. It contains two properties: `MongoDB_URL` and `APP_URL`. */
+export const GeneralGlobalStringData : GeneralGlobalStringDataInterface = {
+    MongoDB_URL: String(process.env.STOREMANAGEMENTBACKENDMONGOURL), // Get MongoDB URL from .env file
+    API_Allowed_URL : String('http://localhost:5173') // Main URL for this APP
+}
+
+/* This code is defining an enum named `GeneralGlobalNumberData`. By using an enum, the code is creating a set of
+named constants that can be used throughout the application. This allows for easier maintenance and
+readability of the code. */
+export enum GeneralGlobalNumberData {
+    PORT = Number(process.env.STOREMANAGEMENTBACKENDPORT) // Get PORT from .env file
+}

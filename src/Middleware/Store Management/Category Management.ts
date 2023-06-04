@@ -28,7 +28,8 @@ import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; /
 // EmployeeEmail
 
 // import Custom Response
-import { Failed_Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
+import { Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
+import { ResponseCode } from '../../store'; // Import Response Code
 
 // export default CategoryMiddleware; // Exporting Middleware
 export default CategoryMiddleware; // Exporting Middleware
@@ -53,9 +54,10 @@ export async function CategoryMiddleware(req:Request, res: obj | globe, next:glo
          }); // Finding the employee in the database
 
          if (AccountFindStatus.length == 0) {
-            Failed_Response({
+            Response({
                 res: res,
                 Status: 'Account Not Found',
+                StatusCode: ResponseCode.Fail,
                 Message: 'The Account is not found in the database',
                 Data: undefined,
             }); // If the employee is not in the array, push the employee to the array
@@ -67,9 +69,10 @@ export async function CategoryMiddleware(req:Request, res: obj | globe, next:glo
 
             // If the store is not found, send a response to the client
             if (StoreDataFind.length == 0) {
-                Failed_Response({
+                Response({
                     res: res,
                     Status: 'Store Not Found',
+                    StatusCode: ResponseCode.Fail,
                     Message: 'The Store is not found in the database',
                     Data: undefined,
                 }); // If the employee is not in the array, push the employee to the array
@@ -81,6 +84,6 @@ export async function CategoryMiddleware(req:Request, res: obj | globe, next:glo
         };
     }
     catch(error: globe){
-        Failed_Response({res: res, Status:'Internal Server Error', Message: error, Data: undefined});
+        Response({res: res, Status:'Internal Server Error', StatusCode: ResponseCode.Fail, Message: error, Data: undefined});
     }
 }; // Middleware for Category Management

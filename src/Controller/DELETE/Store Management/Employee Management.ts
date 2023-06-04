@@ -3,7 +3,7 @@
 CORS (Cross-Origin Resource Sharing) functionality. */
 import { Router, json } from 'express'; // Importing Express Router
 import CORS from 'cors'; // Importing CORS
-
+import { GeneralGlobalStringData } from '../../../config/App Config/General Config'; // Importing Global String Data
 /* These lines of code are configuring an Express router by creating a new router object named
 `Employee_Manage_Router` using the `Router()` method provided by the Express module. This router
 object will be used to define the routes and middleware for handling HTTP requests and responses
@@ -18,7 +18,7 @@ the `Employee_Manage_Router` object. The `CORS()` function is passed an options 
 handle requests from different domains or ports, which is necessary for web applications that need
 to access resources from different sources. */
 // Configuring Express Router to use CORS
-Employee_Manage_Router.use(CORS({ origin: '*' })); // Using CORS
+Employee_Manage_Router.use(CORS({ origin: GeneralGlobalStringData.API_Allowed_URL })); // Using CORS
 
 /* This line of code is importing a middleware function named `CheckEmployeeDeleteMiddleware` from a
 file located at the path `'../../../Middleware/Store Management/Employee Management.ts'`. This

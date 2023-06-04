@@ -6,7 +6,8 @@ import { randomNumber } from 'uniquegen'; // Import Unique ID Generator
 importing the `Failed_Response` and `Success_Response` functions from the `API Response` module
 located in the `../../helper/` directory. These functions are likely used to send standardized API
 responses with a specific format and status code. */
-import { Failed_Response, Success_Response, NotAllowed_Response } from '../../helper/API Response'; // Import API Response Function
+import { Response } from '../../helper/API Response'; // Import API Response Function
+import { ResponseCode } from '../../store'; // Import Response Code
 
 // import All Sub Middlewares & Functions
 /* These lines of code are importing functions from two different middleware modules. */
@@ -190,25 +191,28 @@ is awaited. The `randomNumber` function is likely a custom function that generat
         AccountData.Password = 'Encrypted with Crypto'; // Remove Password from Response
         if (Result != null && StoreResult != null) {
             // Check if Result is not undefined
-            Success_Response({
+            Response({
                 res: res,
                 Status: 'Success',
+                StatusCode: ResponseCode.Success,
                 Message: 'Account Created Successfully ! Please Login to Continue with your Account !',
                 Data: AccountData,
             }); // Send Response
         } else {
-            NotAllowed_Response({
+            Response({
                 res: res,
                 Status: 'Failed',
+                StatusCode: ResponseCode.NotAllowed,
                 Message: 'Account Creation Failed due to some internal server error !',
                 Data: { Application_ID: ID },
             }); // Send Response
         }
     } catch (err) {
         console.log(err);
-        Failed_Response({
+        Response({
             res: res,
             Status: 'Failed',
+            StatusCode: ResponseCode.NotAllowed,
             Message: 'Account Creation Failed due to some internal server error !',
             Data: undefined,
         }); // Send Response
@@ -276,9 +280,10 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
         // logic for sending response
         if (Password_Verification_Result === true) {
             if (RememberMe === true) {
-                Success_Response({
+                Response({
                     res: res,
                     Status: 'Success',
+                    StatusCode: ResponseCode.Success,
                     Message: 'Login Successful !',
                     Data: {
                         AccountDetails: Find_Account_Result[0], // Send Account Details
@@ -286,9 +291,10 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                     },
                 }); // Send Response
             } else if (RememberMe === false) {
-                Success_Response({
+                Response({
                     res: res,
                     Status: 'Success',
+                    StatusCode: ResponseCode.Success,
                     Message: 'Login Successful !',
                     Data: {
                         AccountDetails: Find_Account_Result[0], // Send Account Details
@@ -297,9 +303,10 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                 }); // Send Response
             }
         } else if (Password_Verification_Result === false) {
-            NotAllowed_Response({
+            Response({
                 res: res,
                 Status: 'Failed',
+                StatusCode: ResponseCode.NotAllowed,
                 Message: 'Password is Incorrect !',
                 Data: undefined,
             }); // Send Response

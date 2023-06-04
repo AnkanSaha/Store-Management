@@ -6,8 +6,8 @@
 These modules are then used in the middleware functions `SignUpValidation` and `LoginValidation` to
 perform account validation and send API responses. */
 import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; // Import Client Account Model
-import { Failed_Response, NotAllowed_Response } from '../../helper/API Response'; // Import API Response Function
-
+import { Response } from '../../helper/API Response'; // Import API Response Function
+import { ResponseCode } from '../../store'; // Import Response Code
 
 // Global Types
 type str = string; // Type for str
@@ -67,8 +67,9 @@ export async function SignUpValidation(req: RequestinterfaceForValidation, res:o
         }); // Find Store
         if(StoreExist.length > 0){
             // Check if Account Exist
-            NotAllowed_Response({
+            Response({
                 res: res,
+                StatusCode: 400,
                 Status: 'Exist',
                 Message: 'Account Already Exist with this Email or Phone Number ! please Login or Reset Password !',
                 Data: {
@@ -80,9 +81,10 @@ export async function SignUpValidation(req: RequestinterfaceForValidation, res:o
         }
         else if(StoreExist.length === 0){
             // Check if Account Exist
-            NotAllowed_Response({
+            Response({
                 res: res,
                 Status: 'Exist',
+                StatusCode: ResponseCode.NotAllowed,
                 Message: 'Account Already Exist with this Email or Phone Number ! please Login or Reset Password !',
                 Data: {
                     Application_ID: Temporary_Find_Result[0].User_id,
@@ -132,11 +134,12 @@ returns. If an account is found, it calls the next middleware function in the ch
     }); // Find Account
 
     if (Find_Account_Result.length === 0) {
-        Failed_Response({
+        Response({
             res: res,
             Status: 'Failed',
+            StatusCode: ResponseCode.Fail,
             Message: 'Account Not Found ! Please Create Account !',
-            Data: {},
+            Data: undefined,
         }); // Send Not Found Response
     } else if (Find_Account_Result.length > 0) {
         next(); // Move to next middleware

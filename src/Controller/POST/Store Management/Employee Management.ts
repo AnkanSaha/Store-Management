@@ -5,6 +5,7 @@ route handlers, while the `json` module is used to parse incoming request bodies
 to be requested from another domain outside the domain from which the resource originated. */
 import { Router, json } from 'express'; // Importing Router from express
 import CORS from 'cors'; // Importing CORS from cors
+import { GeneralGlobalStringData } from '../../../config/App Config/General Config'; // Path: config/App Config/General Config.ts
 
 /* Importing the `CheckEmployeeAddMiddleware` function from the `Employee Management.ts` file located
 in the `Middleware/Store Management/Employee management` directory. This middleware function is used
@@ -27,7 +28,7 @@ Resource Sharing (CORS) for the `EmployeeRouterManagement` instance of the `Rout
 the server. This is necessary when the client-side code is hosted on a different domain than the
 server-side code and needs to access resources from the server. */
 // Using CORS
-EmployeeRouterManagement.use(CORS({ origin: '*' })); // Using CORS
+EmployeeRouterManagement.use(CORS({ origin: GeneralGlobalStringData.API_Allowed_URL })); // Using CORS
 
 /* This line of code is importing the `AddnewEmployee` function from the `Employee Management.ts` file
 located in the `Controller/Store Management/Employee Management` directory. This function is a

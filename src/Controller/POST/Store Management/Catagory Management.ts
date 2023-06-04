@@ -1,11 +1,12 @@
 import { Router, json } from "express"; // Import Router from express
 import CORS from "cors"; // Import CORS from cors
+import { GeneralGlobalStringData } from "../../../config/App Config/General Config"; // Importing MongoDB URL from src/config/App Config/General Config.ts
 
 // Config Router & CORS
 const CategoryRouterManagement = Router(); // Creating a new Router instance
 
 CategoryRouterManagement.use(CORS({
-    origin: '*',
+    origin: GeneralGlobalStringData.API_Allowed_URL,
 })); // Using CORS middleware
 
 // Importing Controllers
