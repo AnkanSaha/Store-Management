@@ -1,1 +1,1 @@
-DELETE  http://localhost:3201/delete/inventory/delete/435063052938472/ankansahaofficial@gmail.com/SDK158 HTTP/1.1
+DELETE  http://localhost:3201/api/delete/inventory/delete/435063052938472/ankansahaofficial@gmail.com/SDK158 HTTP/1.1

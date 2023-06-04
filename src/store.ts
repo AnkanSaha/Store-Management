@@ -17,7 +17,6 @@ import MongoDB_Connect from './config/DB Config/MongoDB'; // Import MongoDB_Conn
 
 // Global Types
 type num = number; // Define a type for numbers
-type blank = void; // Define a type for null
 type obj = object; // Creating a type alias for an object or undefined
 type globe = any; // Creating a type alias for a string, number, boolean, object, or undefined
 type str = string; // Define a type for strings
@@ -60,7 +59,7 @@ if (cluster.isPrimary) {
    (`Worker ${worker.process.pid} died`) and then creates a new worker process using
    `cluster.fork()`. This ensures that the server continues to run even if one of the worker
    processes crashes or stops working. */
-    cluster.on('exit', (worker): blank => {
+    cluster.on('exit', (worker): void => {
         console.log(`Worker ${worker.process.pid} died`);
         cluster.fork(); // Create new cluster if one dies
     }); // Listen for exit event
@@ -75,13 +74,13 @@ if (cluster.isPrimary) {
     /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
    app. This means that any routes defined in the `Router_Manager` will be accessible through the
    `Service` app. */
-    Service.use(Router_Manager); // Link Router_Manager to the main app
+    Service.use('/api',Router_Manager); // Link Router_Manager to the main app
 
     // Serving static files made by React
     /* `Service.get('*', (req, res) => {...})` is a route handler that is used to serve the
     `index.html` file located in the `public` folder for any request that does not match any of the
     other routes defined in the `Router_Manager` or any static files in the `public` folder. */
-    Service.get('*', (req, res): blank => {
+    Service.get('*', (req, res): void => {
         console.log(req.url);
         res.sendFile('index.html', { root: 'public' });
     });
@@ -90,7 +89,7 @@ if (cluster.isPrimary) {
     interface Error_request_InterFace{
         originalUrl: str;
     }
-    Service.all('*', (req: Error_request_InterFace, res: obj | globe): blank => {
+    Service.all('*', (req: Error_request_InterFace, res: obj | globe): void => {
         Failed_Response({
             res: res,
             Status: 'fail',
@@ -105,7 +104,7 @@ if (cluster.isPrimary) {
    the MongoDB database when the server starts. Once the server is started and the database is
    connected, it logs a message to the console indicating that the server is running and listening
    on the specified `PORT`. */
-    Service.listen(PORT, async (): Promise<blank> => {
+    Service.listen(PORT, async (): Promise<void> => {
         /* This code is listening for the `listening` event on the `Service` app, which is emitted when the
     server starts listening for incoming requests on the specified `PORT`. When the `listening` event
     is emitted, the code calls the `MongoDB_Connect` middleware to connect to the MongoDB database

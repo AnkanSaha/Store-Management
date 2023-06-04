@@ -234,6 +234,15 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
     }
 }; // Update Inventory Function
 
+/**
+ * This function deletes a product from a store in the database based on the provided owner email,
+ * product SKU, and user ID.
+ * @param {Request} req - The request object containing information about the HTTP request made by the
+ * client.
+ * @param {obj | globe} res - The "res" parameter is an object or a global variable that represents the
+ * response object in an HTTP request. It is used to send the response back to the client after
+ * processing the request.
+ */
 export async function DeleteInventory(req: Request, res: obj | globe): Promise<blank> {
     try{
                  // Get Data from Request Body
