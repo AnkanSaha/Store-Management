@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
       "target": "ES6", // this is for set the target version of typescript written code
-      "module": "UMD", // this is for set the module type of javascript code compiled
+      "module": "CommonJS", // this is for set the module type of javascript code compiled
       "rootDir": "./src", // this is for set the root directory of typescript written code
       "moduleResolution": "node", // this is for set the module resolution strategy
       "allowJs": false, // this is set of allow javascript file to be compiled
