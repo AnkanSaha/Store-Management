@@ -4,7 +4,7 @@ configuration file, `os` and `cluster` modules for creating a cluster of worker 
 creates an instance of the Express app using `express()`. */
 
 import express from 'express'; // Import express module
-import { GeneralGlobalNumberData, GeneralGlobalStringData } from './config/App Config/General Config'; // PORT from General Config
+import { GeneralGlobalNumberData, GeneralGlobalStringData, ResponseCode } from './config/App Config/General Config'; // PORT from General Config
 import { cpus } from 'os'; // Import os module
 import cluster from 'cluster'; // Import cluster module
 import { Response } from './helper/API Response'; // Import Failed_Response function
@@ -15,13 +15,6 @@ middleware is responsible for connecting to the MongoDB database when the server
 // import all Middlers
 import MongoDB_Connect from './config/DB Config/MongoDB'; // Import MongoDB_Connect middleware
 
-
-// global Response code
-export enum ResponseCode {
-    Success = 200,
-    Fail = 404,
-    NotAllowed = 405
-}
 
 // Global Types
 type num = number; // Define a type for numbers
@@ -101,7 +94,7 @@ if (cluster.isPrimary) {
         Response({
             res: res,
             Status: 'fail',
-            StatusCode: ResponseCode.Fail,
+            StatusCode: ResponseCode.Internal_Server_Error,
             Message: `Can't find ${req.originalUrl} on this server!`,
             Data: undefined,
         }); // Sending a Failed Response to the client

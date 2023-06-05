@@ -7,7 +7,7 @@ importing the `Failed_Response` and `Success_Response` functions from the `API R
 located in the `../../helper/` directory. These functions are likely used to send standardized API
 responses with a specific format and status code. */
 import { Response } from '../../helper/API Response'; // Import API Response Function
-import { ResponseCode } from '../../store'; // Import Response Code
+import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
 
 // import All Sub Middlewares & Functions
 /* These lines of code are importing functions from two different middleware modules. */
@@ -194,7 +194,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
             Response({
                 res: res,
                 Status: 'Success',
-                StatusCode: ResponseCode.Success,
+                StatusCode: ResponseCode.OK,
                 Message: 'Account Created Successfully ! Please Login to Continue with your Account !',
                 Data: AccountData,
             }); // Send Response
@@ -202,7 +202,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
             Response({
                 res: res,
                 Status: 'Failed',
-                StatusCode: ResponseCode.NotAllowed,
+                StatusCode: ResponseCode.Forbidden,
                 Message: 'Account Creation Failed due to some internal server error !',
                 Data: { Application_ID: ID },
             }); // Send Response
@@ -212,7 +212,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
         Response({
             res: res,
             Status: 'Failed',
-            StatusCode: ResponseCode.NotAllowed,
+            StatusCode: ResponseCode.Internal_Server_Error,
             Message: 'Account Creation Failed due to some internal server error !',
             Data: undefined,
         }); // Send Response
@@ -283,7 +283,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                 Response({
                     res: res,
                     Status: 'Success',
-                    StatusCode: ResponseCode.Success,
+                    StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
                         AccountDetails: Find_Account_Result[0], // Send Account Details
@@ -294,7 +294,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                 Response({
                     res: res,
                     Status: 'Success',
-                    StatusCode: ResponseCode.Success,
+                    StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
                         AccountDetails: Find_Account_Result[0], // Send Account Details
@@ -306,7 +306,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
             Response({
                 res: res,
                 Status: 'Failed',
-                StatusCode: ResponseCode.NotAllowed,
+                StatusCode: ResponseCode.Unauthorized,
                 Message: 'Password is Incorrect !',
                 Data: undefined,
             }); // Send Response

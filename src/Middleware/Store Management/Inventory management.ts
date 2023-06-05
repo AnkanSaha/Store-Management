@@ -8,7 +8,7 @@ import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; /
 
 // import Custom Response
 import { Response } from '../../helper/API Response'; // Import API Response Function
-import { ResponseCode } from '../../store'; // Import Response Code
+import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
 // global types
 type str = string; // type for string
 type num = number; // type for number
@@ -55,7 +55,7 @@ export async function InventoryMiddleware (req:InventoryInterface, res:obj|globe
             Response({
                 res: res,
                 Status: 'Account Not Found',
-                StatusCode: ResponseCode.Fail,
+                StatusCode: ResponseCode.Not_Found,
                 Message: 'The Account is not found in the database',
                 Data: undefined,
             }); // If the employee is not in the array, push the employee to the array
@@ -70,7 +70,7 @@ export async function InventoryMiddleware (req:InventoryInterface, res:obj|globe
                 Response({
                     res: res,
                     Status: 'Store Not Found',
-                    StatusCode: ResponseCode.Fail,
+                    StatusCode: ResponseCode.Not_Found,
                     Message: 'The Store is not found in the database',
                     Data: undefined,
                 }); // If the employee is not in the array, push the employee to the array
@@ -82,6 +82,6 @@ export async function InventoryMiddleware (req:InventoryInterface, res:obj|globe
         };
     }
     catch{
-        Response({res:res, Status:"Internal Error", StatusCode: ResponseCode.Fail, Message:"There is Some Internal Error Happened", Data:undefined}); // Response Path: src/helper/API Response.ts
+        Response({res:res, Status:"Internal Error", StatusCode: ResponseCode.Internal_Server_Error, Message:"There is Some Internal Error Happened", Data:undefined}); // Response Path: src/helper/API Response.ts
     }
 }; // Path: src/Middleware/Store Management/Inventory management.ts

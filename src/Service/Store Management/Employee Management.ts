@@ -5,7 +5,7 @@ import { StoreManagementModel } from '../../Models/index'; // Path: Database/Mod
 
 // import Custom Response
 import { Response } from '../../helper/API Response'; // Import API Response Function
-import { ResponseCode } from '../../store'; // Import Response Code
+import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
 /* Defining an interface named `EmployeeAdd` which specifies the properties and their types that are
 expected to be present in the request body when adding a new employee. These properties include
 `User_id`, `EmployeeName`, `EmployeeEmail`, `EmployeePhoneNumber`, `EmployeeMonthlySalary`,
@@ -111,7 +111,7 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
             Response({
                 res: res,
                 Status: 'Employee Already Exist',
-                StatusCode: ResponseCode.NotAllowed,
+                StatusCode: ResponseCode.Conflict,
                 Message: 'The Employee is already in the database',
                 Data: undefined,
             }); // If the employee is already in the array, do nothing
@@ -137,7 +137,7 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
             Response({
                 res: res,
                 Status: 'Employee Added',
-                StatusCode: ResponseCode.Success,
+                StatusCode: ResponseCode.OK,
                 Message: 'The Employee is added to the database',
                 Data: undefined,
             }); // If the employee is not in the array, push the employee to the array
@@ -199,7 +199,7 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
             Response({
                 res: res,
                 Status: 'No Employee Found',
-                StatusCode: ResponseCode.Fail,
+                StatusCode: ResponseCode.Not_Found,
                 Message: 'No Employee Found in the database',
                 Data: undefined,
             }); // If the employee is not in the array, do nothing
@@ -207,7 +207,7 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
             Response({
                 res: res,
                 Status: 'Employee Found',
-                StatusCode: ResponseCode.Success,
+                StatusCode: ResponseCode.Found,
                 Message: 'Employee Found in the database',
                 Data: StoreDataFind[0].Employees,
             });
@@ -263,7 +263,7 @@ index of that employee in the array is returned and stored in the `Index` variab
         Response({
             res: res,
             Status: 'No Employee Found',
-            StatusCode: ResponseCode.Fail,
+            StatusCode: ResponseCode.Not_Found,
             Message: 'No Employee Found in the database',
             Data: undefined,
         });
@@ -287,7 +287,7 @@ index of that employee in the array is returned and stored in the `Index` variab
     Response({
         res: res,
         Status: 'Employee Deleted',
-        StatusCode: ResponseCode.Success,
+        StatusCode: ResponseCode.Accepted,
         Message: 'Employee Deleted from the database',
         Data: StoreDataFindAgain[0].Employees,
     }); // If the employee is not in the array, push the employee to the array
@@ -356,7 +356,7 @@ returns from the function. */
         Response({
             res: res,
             Status: 'No Employee Found',
-            StatusCode: ResponseCode.Fail,
+            StatusCode: ResponseCode.Not_Found,
             Message: 'No Employee Found in the database',
             Data: undefined,
         });
@@ -391,7 +391,7 @@ these properties are provided as arguments to the push method. */
     Response({
         res: res,
         Status: 'Employee Updated',
-        StatusCode: ResponseCode.Success,
+        StatusCode: ResponseCode.Accepted,
         Message: 'Employee details updated in the database',
         Data: StoreDataFindAgain[0].Employees,
     }); // If the employee is not in the array, push the employee to the array
