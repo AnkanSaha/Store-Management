@@ -61,6 +61,7 @@ interface AccountInterface {
 
 interface RegisterAccountData extends AccountInterface {
     User_id: num;
+    JWT_Token?: str;
 }
 
 // interface for Request & Response
@@ -190,7 +191,8 @@ is awaited. The `randomNumber` function is likely a custom function that generat
      of 400 and a message indicating that the account creation failed due to an internal server
      error. The application ID is included in the response */
         AccountData.Password = 'Encrypted with Crypto'; // Remove Password from Response
-        const JWT_Signed_Data_For_Account_Create = await GenerateJWTtoken(AccountData); // Generate JWT Token
+        const JWT_Signed_Data_For_Account_Create: str = await GenerateJWTtoken(AccountData); // Generate JWT Token
+        AccountData.JWT_Token = JWT_Signed_Data_For_Account_Create; // Add JWT Token to Response
         if (Result != null && StoreResult != null) {
             // Check if Result is not undefined
             Response({
@@ -198,10 +200,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
                 Status: 'Success',
                 StatusCode: ResponseCode.OK,
                 Message: 'Account Created Successfully ! Please Login to Continue with your Account !',
-                Data: {
-                    AccountData: AccountData,
-                    JWT_Token: JWT_Signed_Data_For_Account_Create
-                }
+                Data:AccountData
             }); // Send Response
         } else {
             Response({
@@ -292,7 +291,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                     StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
-                        JWT_Token: JWT_Signed_Data_For_Login,
+                        JWT : JWT_Signed_Data_For_Login,
                         AccountDetails:Find_Account_Result[0], // Send Account Details
                         SaveLocally: true, // Send Save Locally
                     },
@@ -304,7 +303,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                     StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
-                        JWT_Token: JWT_Signed_Data_For_Login,
+                        JWT : JWT_Signed_Data_For_Login,
                         AccountDetails: Find_Account_Result[0], // Send Account Details
                         SaveLocally: false, // Send Save Locally
                     },

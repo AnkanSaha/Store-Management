@@ -7,7 +7,7 @@ import { GeneralGlobalStringData } from '../../config/App Config/General Config'
 type str = string; // Define a type for strings
 type globe = any; // Define a type for global variables
 
-export async function GenerateJWTtoken(payload: globe): Promise<str | globe> {
+export async function GenerateJWTtoken(payload: globe): Promise<str> {
     const Temp_Payload = JSON.stringify(payload); // Define a variable for payload
     const Signed_Token: str = sign(Temp_Payload, GeneralGlobalStringData.JWT_Secret); // Generate JWT Token
     return Signed_Token; // Return JWT Token
