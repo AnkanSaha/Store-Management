@@ -12,6 +12,7 @@ import { ResponseCode } from '../../config/App Config/General Config'; // Import
 // import All Sub Middlewares & Functions
 /* These lines of code are importing functions from two different middleware modules. */
 import { EncryptPassword, ComparePassword } from '../../Middleware/Security/Bcrypt'; // Import Encrypt Password Function
+import {GenerateJWTtoken} from '../../Middleware/Security/JWT Token Generator'; // Import JWT Token Generator Function
 
 // IMPORT Models for Database Operations
 /* The `import { ClientAccountModel, StoreManagementModel } from '../../Models/index';` statement is
@@ -189,6 +190,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
      of 400 and a message indicating that the account creation failed due to an internal server
      error. The application ID is included in the response */
         AccountData.Password = 'Encrypted with Crypto'; // Remove Password from Response
+        const JWT_Signed_Data_For_Account_Create = await GenerateJWTtoken(AccountData); // Generate JWT Token
         if (Result != null && StoreResult != null) {
             // Check if Result is not undefined
             Response({
@@ -196,7 +198,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
                 Status: 'Success',
                 StatusCode: ResponseCode.OK,
                 Message: 'Account Created Successfully ! Please Login to Continue with your Account !',
-                Data: AccountData,
+                Data: JWT_Signed_Data_For_Account_Create
             }); // Send Response
         } else {
             Response({
@@ -278,6 +280,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
        response with an error message. The response is sent using two helper functions,
        Success_Response and Failed_Response. */
         // logic for sending response
+        const JWT_Signed_Data_For_Login = await GenerateJWTtoken(Find_Account_Result[0])
         if (Password_Verification_Result === true) {
             if (RememberMe === true) {
                 Response({
@@ -286,7 +289,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                     StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
-                        AccountDetails: Find_Account_Result[0], // Send Account Details
+                        AccountDetails:JWT_Signed_Data_For_Login, // Send Account Details
                         SaveLocally: true, // Send Save Locally
                     },
                 }); // Send Response
@@ -297,7 +300,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                     StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
-                        AccountDetails: Find_Account_Result[0], // Send Account Details
+                        AccountDetails: JWT_Signed_Data_For_Login, // Send Account Details
                         SaveLocally: false, // Send Save Locally
                     },
                 }); // Send Response
