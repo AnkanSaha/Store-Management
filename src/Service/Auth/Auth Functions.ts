@@ -198,7 +198,10 @@ is awaited. The `randomNumber` function is likely a custom function that generat
                 Status: 'Success',
                 StatusCode: ResponseCode.OK,
                 Message: 'Account Created Successfully ! Please Login to Continue with your Account !',
-                Data: JWT_Signed_Data_For_Account_Create
+                Data: {
+                    AccountData: AccountData,
+                    JWT_Token: JWT_Signed_Data_For_Account_Create
+                }
             }); // Send Response
         } else {
             Response({
@@ -289,7 +292,8 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                     StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
-                        AccountDetails:JWT_Signed_Data_For_Login, // Send Account Details
+                        JWT_Token: JWT_Signed_Data_For_Login,
+                        AccountDetails:Find_Account_Result[0], // Send Account Details
                         SaveLocally: true, // Send Save Locally
                     },
                 }); // Send Response
@@ -300,7 +304,8 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                     StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
-                        AccountDetails: JWT_Signed_Data_For_Login, // Send Account Details
+                        JWT_Token: JWT_Signed_Data_For_Login,
+                        AccountDetails: Find_Account_Result[0], // Send Account Details
                         SaveLocally: false, // Send Save Locally
                     },
                 }); // Send Response
