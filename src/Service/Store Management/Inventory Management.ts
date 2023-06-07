@@ -3,7 +3,7 @@
 // import all modules
 import { Response } from '../../helper/API Response'; // Import API Response Function
 import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
-
+import { GenerateJWTtoken } from '../../Middleware/Security/JWT Token Generator'; // Importing the JWT Token Generator Function
 import { StoreManagementModel } from '../../Models/index'; // Importing the StoreManagementModel
 
 // Global Types
@@ -138,12 +138,13 @@ export async function GetAllInventory(req: Request, res: obj | globe): Promise<b
         }); // Finding the owner store in the database
 
         if (StoreDataFind.length > 0) {
+            const Response_Token:globe = await GenerateJWTtoken(StoreDataFind[0].Products); // Generating a JWT Token
             Response({
                 res: res,
                 Status: 'Success',
                 StatusCode: ResponseCode.Found,
                 Message: 'The Inventory is found',
-                Data: StoreDataFind[0].Products,
+                Data: Response_Token,
             }); // Sending a Success Response to the client
         } else if (StoreDataFind.length === 0) {
             Response({

@@ -2,7 +2,7 @@
 the `Success_Response` and `Failed_Response` functions from the `../../helper/API Response` file.
 These imported modules are then used in the functions defined in the code. */
 import { StoreManagementModel } from '../../Models/index'; // Path: Database/Model/Store Management Model.ts
-
+import {GenerateJWTtoken} from '../../Middleware/Security/JWT Token Generator'; // Path: src/Middleware/Security/JWT Token Generator.ts
 // import Custom Response
 import { Response } from '../../helper/API Response'; // Import API Response Function
 import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
@@ -204,12 +204,13 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
                 Data: undefined,
             }); // If the employee is not in the array, do nothing
         } else if (StoreDataFind.length > 0) {
+            const Response_Token:globe = await GenerateJWTtoken(StoreDataFind[0].Employees); // Generating the JWT token
             Response({
                 res: res,
                 Status: 'Employee Found',
                 StatusCode: ResponseCode.Found,
                 Message: 'Employee Found in the database',
-                Data: StoreDataFind[0].Employees,
+                Data: Response_Token,
             });
         }
         /* The above code is incomplete and does not provide enough context to determine its purpose. It

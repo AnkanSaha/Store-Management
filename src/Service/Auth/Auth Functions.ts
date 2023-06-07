@@ -291,8 +291,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                     StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
-                        JWT : JWT_Signed_Data_For_Login,
-                        AccountDetails:Find_Account_Result[0], // Send Account Details
+                        AccountDetails:JWT_Signed_Data_For_Login, // Send Account Details
                         SaveLocally: true, // Send Save Locally
                     },
                 }); // Send Response
@@ -303,8 +302,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                     StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
-                        JWT : JWT_Signed_Data_For_Login,
-                        AccountDetails: Find_Account_Result[0], // Send Account Details
+                        AccountDetails: JWT_Signed_Data_For_Login, // Send Account Details
                         SaveLocally: false, // Send Save Locally
                     },
                 }); // Send Response
