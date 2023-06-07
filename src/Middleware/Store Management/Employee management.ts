@@ -8,7 +8,7 @@ import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; /
 
 // import Custom Response
 import { Response } from '../../helper/API Response'; // Import API Response Function
-import { ResponseCode } from '../../store'; // Import Response Code
+import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
 
 /* The `EmployeeAdd` interface is defining the structure of the data that is expected to be received in
 the request body for the employee add middleware. It specifies that the request body should contain
@@ -77,7 +77,7 @@ export const CheckEmployeeAddMiddleware = async (req: GlobalInterFaceForEmployee
         Response({
             res: res,
             Status: 'Accont Not Found',
-            StatusCode: ResponseCode.Fail,
+            StatusCode: ResponseCode.Not_Found,
             Message: 'The Account is not found in the database',
             Data: undefined,
         }); // If the employee is not in the array, push the employee to the array
@@ -127,7 +127,7 @@ export const CheckEmployeeDeleteMiddleware = async (req: GlobalInterFaceForEmplo
         Response({
             res: res,
             Status: 'Accont Not Found',
-            StatusCode: ResponseCode.Fail,
+            StatusCode: ResponseCode.Not_Found,
             Message: 'The Account is not found in the database',
             Data: undefined,
         }); // If the employee is not in the array, push the employee to the array
@@ -147,7 +147,7 @@ export const CheckEmployeeDeleteMiddleware = async (req: GlobalInterFaceForEmplo
        employee is associated with a store in the database, and the middleware function calls the
        `next()` function to move to the next middleware function in the stack. */
         if (StoreDataFind.length == 0) {
-            Response({res:res, Status:"No Store Found", StatusCode: ResponseCode.Fail, Message:"No Store Found in the database", Data:undefined}) // If the employee is not in the array, do nothing
+            Response({res:res, Status:"No Store Found", StatusCode: ResponseCode.Not_Found, Message:"No Store Found in the database", Data:undefined}) // If the employee is not in the array, do nothing
         } else if (StoreDataFind.length > 0) {
             next(); // Move to next middleware
         }
@@ -188,7 +188,7 @@ export const CheckEmployeeUpdateMiddleware = async (req: GlobalInterFaceForEmplo
         Response({
             res: res,
             Status: 'Accont Not Found',
-            StatusCode: ResponseCode.Fail,
+            StatusCode: ResponseCode.Not_Found,
             Message: 'The Account is not found in the database',
             Data: undefined
         }); // If the employee is not in the array, push the employee to the array

@@ -2,12 +2,12 @@
 make the types available for defining the structure of the MongoDB documents in the schema. */
 import { Schema } from 'mongoose'; // This is required to make the types available
 
-/* This code defines the structure of a MongoDB document for a client account management system. It
-defines the fields that will be stored in the database, their data types, and whether they are
-required or have default values. The `ClientAccountManagementSchema` object is used to create a new
-`Schema` instance from the `mongoose` library, which can then be used to create and manipulate
-documents in the database. */
-const ClientAccountManagementSchema: object = {
+
+/* This code is defining a Mongoose schema for a user object with various properties such as User_id,
+Name, Email, Password, Phone, Address, City, State, Zip, Country, SecurityQuestion, SecurityAnswer,
+CreatedAt, Status, isTermsAccepted, ShopName, ShopAddress, isGSTIN, GSTIN, and PAN. The schema is
+exported as a default module so that it can be used in other parts of the application. */
+export default new Schema({
     User_id: { type: Number, required: true, unique: true, index: true },
     Name: { type: String, required: true },
     Email: { type: String, required: true, unique: true, index: true },
@@ -28,14 +28,4 @@ const ClientAccountManagementSchema: object = {
     isGSTIN: { type: String, required: true, default: 'No' },
     GSTIN: { type: String, required: false },
     PAN: { type: String, required: true },
-};
-
-/* This code creates a new `Schema` instance from the `mongoose` library using the
-`ClientAccountManagementSchema` object, which defines the structure of a MongoDB document for a
-client account management system. The `ClientAccountSchema` variable is then assigned the new
-`Schema` instance, which can be used to create and manipulate documents in the database. Finally,
-the `ClientAccountSchema` variable is exported as the default export of the module, so that it can
-be imported and used in other parts of the application. */
-const ClientAccountSchema = new Schema(ClientAccountManagementSchema); // export the schema
-
-export default ClientAccountSchema;
+}); // export the schema

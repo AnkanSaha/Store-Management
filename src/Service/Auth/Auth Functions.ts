@@ -7,11 +7,12 @@ importing the `Failed_Response` and `Success_Response` functions from the `API R
 located in the `../../helper/` directory. These functions are likely used to send standardized API
 responses with a specific format and status code. */
 import { Response } from '../../helper/API Response'; // Import API Response Function
-import { ResponseCode } from '../../store'; // Import Response Code
+import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
 
 // import All Sub Middlewares & Functions
 /* These lines of code are importing functions from two different middleware modules. */
 import { EncryptPassword, ComparePassword } from '../../Middleware/Security/Bcrypt'; // Import Encrypt Password Function
+import {GenerateJWTtoken} from '../../Middleware/Security/JWT Token Generator'; // Import JWT Token Generator Function
 
 // IMPORT Models for Database Operations
 /* The `import { ClientAccountModel, StoreManagementModel } from '../../Models/index';` statement is
@@ -60,6 +61,7 @@ interface AccountInterface {
 
 interface RegisterAccountData extends AccountInterface {
     User_id: num;
+    JWT_Token?: str;
 }
 
 // interface for Request & Response
@@ -189,20 +191,22 @@ is awaited. The `randomNumber` function is likely a custom function that generat
      of 400 and a message indicating that the account creation failed due to an internal server
      error. The application ID is included in the response */
         AccountData.Password = 'Encrypted with Crypto'; // Remove Password from Response
+        const JWT_Signed_Data_For_Account_Create: str = await GenerateJWTtoken(AccountData); // Generate JWT Token
+        AccountData.JWT_Token = JWT_Signed_Data_For_Account_Create; // Add JWT Token to Response
         if (Result != null && StoreResult != null) {
             // Check if Result is not undefined
             Response({
                 res: res,
                 Status: 'Success',
-                StatusCode: ResponseCode.Success,
+                StatusCode: ResponseCode.OK,
                 Message: 'Account Created Successfully ! Please Login to Continue with your Account !',
-                Data: AccountData,
+                Data:AccountData
             }); // Send Response
         } else {
             Response({
                 res: res,
                 Status: 'Failed',
-                StatusCode: ResponseCode.NotAllowed,
+                StatusCode: ResponseCode.Forbidden,
                 Message: 'Account Creation Failed due to some internal server error !',
                 Data: { Application_ID: ID },
             }); // Send Response
@@ -212,7 +216,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
         Response({
             res: res,
             Status: 'Failed',
-            StatusCode: ResponseCode.NotAllowed,
+            StatusCode: ResponseCode.Internal_Server_Error,
             Message: 'Account Creation Failed due to some internal server error !',
             Data: undefined,
         }); // Send Response
@@ -278,15 +282,16 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
        response with an error message. The response is sent using two helper functions,
        Success_Response and Failed_Response. */
         // logic for sending response
+        const JWT_Signed_Data_For_Login = await GenerateJWTtoken(Find_Account_Result[0])
         if (Password_Verification_Result === true) {
             if (RememberMe === true) {
                 Response({
                     res: res,
                     Status: 'Success',
-                    StatusCode: ResponseCode.Success,
+                    StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
-                        AccountDetails: Find_Account_Result[0], // Send Account Details
+                        AccountDetails:JWT_Signed_Data_For_Login, // Send Account Details
                         SaveLocally: true, // Send Save Locally
                     },
                 }); // Send Response
@@ -294,10 +299,10 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                 Response({
                     res: res,
                     Status: 'Success',
-                    StatusCode: ResponseCode.Success,
+                    StatusCode: ResponseCode.OK,
                     Message: 'Login Successful !',
                     Data: {
-                        AccountDetails: Find_Account_Result[0], // Send Account Details
+                        AccountDetails: JWT_Signed_Data_For_Login, // Send Account Details
                         SaveLocally: false, // Send Save Locally
                     },
                 }); // Send Response
@@ -306,7 +311,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
             Response({
                 res: res,
                 Status: 'Failed',
-                StatusCode: ResponseCode.NotAllowed,
+                StatusCode: ResponseCode.Unauthorized,
                 Message: 'Password is Incorrect !',
                 Data: undefined,
             }); // Send Response

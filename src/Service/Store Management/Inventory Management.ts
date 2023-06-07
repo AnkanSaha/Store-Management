@@ -2,8 +2,8 @@
 
 // import all modules
 import { Response } from '../../helper/API Response'; // Import API Response Function
-import { ResponseCode } from '../../store'; // Import Response Code
-
+import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
+import { GenerateJWTtoken } from '../../Middleware/Security/JWT Token Generator'; // Importing the JWT Token Generator Function
 import { StoreManagementModel } from '../../Models/index'; // Importing the StoreManagementModel
 
 // Global Types
@@ -84,7 +84,7 @@ interface Request {
                 Response({
                     res: res,
                     Status: 'Product Already Exist',
-                    StatusCode: ResponseCode.NotAllowed,
+                    StatusCode: ResponseCode.Conflict,
                     Message: 'The Product is already exist in the store',
                     Data: undefined,
                 }); // If the employee is not in the array, send a response to the client
@@ -107,13 +107,13 @@ interface Request {
                 Response({
                     res: res,
                     Status: 'Product Added',
-                    StatusCode: ResponseCode.Success,
+                    StatusCode: ResponseCode.Accepted,
                     Message: 'The Product is added to the store',
                     Data: undefined,
                 }); // Sending a Success Response to the client
             }
     } catch {
-        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.NotAllowed, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
+        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
     }
 }; // Add Inventory Function
 
@@ -138,25 +138,26 @@ export async function GetAllInventory(req: Request, res: obj | globe): Promise<b
         }); // Finding the owner store in the database
 
         if (StoreDataFind.length > 0) {
+            const Response_Token:globe = await GenerateJWTtoken(StoreDataFind[0].Products); // Generating a JWT Token
             Response({
                 res: res,
                 Status: 'Success',
-                StatusCode: ResponseCode.Success,
+                StatusCode: ResponseCode.Found,
                 Message: 'The Inventory is found',
-                Data: StoreDataFind[0].Products,
+                Data: Response_Token,
             }); // Sending a Success Response to the client
         } else if (StoreDataFind.length === 0) {
             Response({
                 res: res,
                 Status: 'Inventory Not Found',
-                StatusCode: ResponseCode.NotAllowed,
+                StatusCode: ResponseCode.Not_Found,
                 Message: 'The Inventory is not found in the store',
                 Data: undefined,
             }); // Sending a Failed Response to the client
         }
     }
     catch {
-        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.NotAllowed, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
+        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
     }
 };
 
@@ -221,7 +222,7 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
                  Response({
                     res: res,
                     Status: 'Product Updated',
-                    StatusCode: ResponseCode.Success,
+                    StatusCode: ResponseCode.Accepted,
                     Message: 'The Product is updated in the store',
                     Data: undefined
                  }); // Sending a Success Response to the client
@@ -231,13 +232,13 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
                 Response({
                     res: res,
                     Status: 'Product Not Found',
-                    StatusCode: ResponseCode.Fail,
+                    StatusCode: ResponseCode.Not_Found,
                     Message: 'The Product is not found in the store',
                     Data: undefined
                 });
             }
     }catch(err:globe){
-        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.NotAllowed, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
+        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
     }
 }; // Update Inventory Function
 
@@ -282,7 +283,7 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                             Response({
                                res: res,
                                Status: 'Product Deleted',
-                               StatusCode: ResponseCode.Success,
+                               StatusCode: ResponseCode.Accepted,
                                Message: 'The Product is Deleted in the store',
                                Data: undefined
                             }); // Sending a Success Response to the client
@@ -292,7 +293,7 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                         Response({
                             res: res,
                             Status: 'Product Not Found',
-                            StatusCode: ResponseCode.Fail,
+                            StatusCode: ResponseCode.Not_Found,
                             Message: 'The Product is not found in the store',
                             Data: undefined
                         });
@@ -302,12 +303,12 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                     Response({
                         res: res,
                         Status: 'Store Not Found',
-                        StatusCode: ResponseCode.Fail,
+                        StatusCode: ResponseCode.Not_Found,
                         Message: 'The Store is not found',
                         Data: undefined
                     });
                 }
     }catch (err:globe){
-        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.NotAllowed, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
+        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
     }
 }; // Delete Inventory Function

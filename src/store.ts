@@ -4,7 +4,8 @@ configuration file, `os` and `cluster` modules for creating a cluster of worker 
 creates an instance of the Express app using `express()`. */
 
 import express from 'express'; // Import express module
-import { GeneralGlobalNumberData, GeneralGlobalStringData } from './config/App Config/General Config'; // PORT from General Config
+
+import { GeneralGlobalNumberData, ResponseCode } from './config/App Config/General Config'; // PORT from General Config
 import { cpus } from 'os'; // Import os module
 import cluster from 'cluster'; // Import cluster module
 import { Response } from './helper/API Response'; // Import Failed_Response function
@@ -13,15 +14,7 @@ const Service = express(); // Create express app
 /* Importing the `MongoDB_Connect` middleware from the `./config/DB Config/MongoDB` file. This
 middleware is responsible for connecting to the MongoDB database when the server starts. */
 // import all Middlers
-import MongoDB_Connect from './config/DB Config/MongoDB'; // Import MongoDB_Connect middleware
 
-
-// global Response code
-export enum ResponseCode {
-    Success = 200,
-    Fail = 404,
-    NotAllowed = 405
-}
 
 // Global Types
 type num = number; // Define a type for numbers
@@ -37,7 +30,7 @@ corresponding handlers, and then links them to the main `Service` app using
 the appropriate data or actions based on the requested route. */
 // Import Routes Manager
 import Router_Manager from './Controller/Router Manager'; // Import Router_Manager
-
+import DB from './config/DB/MongoDB'; // Import MongoDB_Connect middleware
 // Create cluster
 /* This code is creating a cluster of worker processes using the `os` and `cluster` modules in Node.js.
 It first gets the number of CPUs available on the system using `os.cpus().length`. Then, if the
@@ -101,7 +94,7 @@ if (cluster.isPrimary) {
         Response({
             res: res,
             Status: 'fail',
-            StatusCode: ResponseCode.Fail,
+            StatusCode: ResponseCode.Internal_Server_Error,
             Message: `Can't find ${req.originalUrl} on this server!`,
             Data: undefined,
         }); // Sending a Failed Response to the client
@@ -119,7 +112,7 @@ if (cluster.isPrimary) {
     is emitted, the code calls the `MongoDB_Connect` middleware to connect to the MongoDB database
     using the `MongoDB_URL` configuration. Once the database is connected, the code logs a message to
     the console indicating that the server is running and listening on the specified `PORT`. */
-        await MongoDB_Connect(GeneralGlobalStringData.MongoDB_URL); // Connect to MongoDB database when server starts
-        console.log(`API Server is running on port ${GeneralGlobalNumberData.PORT} and connected to MongoDB`);
+    DB(); // Connect to MongoDB database
+        console.log(`API Server is running on port ${GeneralGlobalNumberData.PORT}`);
     });
 }

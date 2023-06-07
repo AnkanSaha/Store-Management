@@ -29,7 +29,7 @@ import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; /
 
 // import Custom Response
 import { Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
-import { ResponseCode } from '../../store'; // Import Response Code
+import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
 
 // export default CategoryMiddleware; // Exporting Middleware
 export default CategoryMiddleware; // Exporting Middleware
@@ -57,7 +57,7 @@ export async function CategoryMiddleware(req:Request, res: obj | globe, next:glo
             Response({
                 res: res,
                 Status: 'Account Not Found',
-                StatusCode: ResponseCode.Fail,
+                StatusCode: ResponseCode.Not_Found,
                 Message: 'The Account is not found in the database',
                 Data: undefined,
             }); // If the employee is not in the array, push the employee to the array
@@ -72,7 +72,7 @@ export async function CategoryMiddleware(req:Request, res: obj | globe, next:glo
                 Response({
                     res: res,
                     Status: 'Store Not Found',
-                    StatusCode: ResponseCode.Fail,
+                    StatusCode: ResponseCode.Not_Found,
                     Message: 'The Store is not found in the database',
                     Data: undefined,
                 }); // If the employee is not in the array, push the employee to the array
@@ -84,6 +84,6 @@ export async function CategoryMiddleware(req:Request, res: obj | globe, next:glo
         };
     }
     catch(error: globe){
-        Response({res: res, Status:'Internal Server Error', StatusCode: ResponseCode.Fail, Message: error, Data: undefined});
+        Response({res: res, Status:'Internal Server Error', StatusCode: ResponseCode.Internal_Server_Error, Message: error, Data: undefined});
     }
 }; // Middleware for Category Management

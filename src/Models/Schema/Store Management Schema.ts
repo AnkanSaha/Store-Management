@@ -5,13 +5,13 @@ the Store Management Database and is used to create a schema for the database. *
 // This file is a schema for the Store Management Database. It is used to create a schema for the Store Management Database.
 import { Schema } from 'mongoose'; // This is required to make the types available
 
-/* The `StoreManagementSchema` constant is defining the structure of the MongoDB document for the Store
-Management Database. It is an object that contains properties for each field in the document, with
-each property specifying the data type, whether it is required or not, and any additional
-constraints such as uniqueness or indexing. This schema will be used to create a schema for the
-Store Management Database. */
+/* This code is defining a schema for the Store Management Database using the `Schema` class from the
+`mongoose` library. The schema defines the structure of a MongoDB document and includes fields for
+`User_id`, `Email`, `StoreName`, `Employees`, `Products`, `Customers`, `Orders`, `Suppliers`, and
+`Catagories`. Each field has a specified data type and required property. The `export default`
+statement exports the schema so that it can be used in other files. */
 
-const StoreManagementSchema: object = {
+export default new Schema({
     User_id: { type: Number, required: true, unique: true, index: true },
     Email: { type: String, required: true, unique: true, index: true },
     StoreName: { type: String, required: true, index: true },
@@ -21,13 +21,4 @@ const StoreManagementSchema: object = {
     Orders: { type: Array, required: true },
     Suppliers: { type: Array, required: true },
     Catagories: { type: Array, required: true },
-}; // This is the schema for the Store Management Database
-
-/* This code is converting the `StoreManagementSchema` object into a Mongoose schema using the `Schema`
-class from the `mongoose` library. The resulting schema is then exported as the default export of
-the module. This allows other modules to import and use the schema to interact with the Store
-Management Database. */
-// Convert the object into a schema
-const Schemas = new Schema(StoreManagementSchema); // export the schema
-
-export default Schemas; // export the schema
+}); // export the schema
