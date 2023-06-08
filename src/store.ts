@@ -29,7 +29,7 @@ corresponding handlers, and then links them to the main `Service` app using
 `Service.use(Router_Manager)`. This allows the server to handle incoming requests and respond with
 the appropriate data or actions based on the requested route. */
 // Import Routes Manager
-import Router_Manager from './Controller/Router Manager'; // Import Router_Manager
+import Router_Manager from './Router/Router Manager'; // Import Router_Manager
 import DB from './config/DB/MongoDB'; // Import MongoDB_Connect middleware
 // Create cluster
 /* This code is creating a cluster of worker processes using the `os` and `cluster` modules in Node.js.
@@ -90,6 +90,7 @@ if (cluster.isPrimary) {
     interface Error_request_InterFace{
         originalUrl: str;
     }
+
     Service.all('*', (req: Error_request_InterFace, res: obj | globe): void => {
         Response({
             res: res,
@@ -112,6 +113,13 @@ if (cluster.isPrimary) {
     is emitted, the code calls the `MongoDB_Connect` middleware to connect to the MongoDB database
     using the `MongoDB_URL` configuration. Once the database is connected, the code logs a message to
     the console indicating that the server is running and listening on the specified `PORT`. */
+    
+/* `DB(); // Connect to MongoDB database` is calling the `MongoDB_Connect` middleware function to
+connect to the MongoDB database when the server starts. This function is responsible for
+establishing a connection to the MongoDB database using the `MongoDB_URL` configuration specified in
+the `./config/DB Config/MongoDB` file. Once the connection is established, the server can interact
+with the database to perform CRUD (Create, Read, Update, Delete) operations on the data stored in
+the database. */
     DB(); // Connect to MongoDB database
         console.log(`API Server is running on port ${GeneralGlobalNumberData.PORT}`);
     });
