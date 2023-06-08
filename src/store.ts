@@ -15,10 +15,9 @@ const Service = express(); // Create express app
 middleware is responsible for connecting to the MongoDB database when the server starts. */
 // import all Middlers
 
-
 // Global Types
 type num = number; // Define a type for numbers
-type obj = object; // Creating a type alias for an object or undefined
+type obj = Object; // Creating a type alias for an object or undefined
 type globe = any; // Creating a type alias for a string, number, boolean, object, or undefined
 type str = string; // Define a type for strings
 
@@ -75,7 +74,7 @@ if (cluster.isPrimary) {
     /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
    app. This means that any routes defined in the `Router_Manager` will be accessible through the
    `Service` app. */
-    Service.use('/api',Router_Manager); // Link Router_Manager to the main app
+    Service.use('/api', Router_Manager); // Link Router_Manager to the main app
 
     // Serving static files made by React
     /* `Service.get('*', (req, res) => {...})` is a route handler that is used to serve the
@@ -87,7 +86,7 @@ if (cluster.isPrimary) {
     });
 
     // API Error Handling
-    interface Error_request_InterFace{
+    interface Error_request_InterFace {
         originalUrl: str;
     }
 
@@ -113,14 +112,14 @@ if (cluster.isPrimary) {
     is emitted, the code calls the `MongoDB_Connect` middleware to connect to the MongoDB database
     using the `MongoDB_URL` configuration. Once the database is connected, the code logs a message to
     the console indicating that the server is running and listening on the specified `PORT`. */
-    
-/* `DB(); // Connect to MongoDB database` is calling the `MongoDB_Connect` middleware function to
+
+        /* `DB(); // Connect to MongoDB database` is calling the `MongoDB_Connect` middleware function to
 connect to the MongoDB database when the server starts. This function is responsible for
 establishing a connection to the MongoDB database using the `MongoDB_URL` configuration specified in
 the `./config/DB Config/MongoDB` file. Once the connection is established, the server can interact
 with the database to perform CRUD (Create, Read, Update, Delete) operations on the data stored in
 the database. */
-    DB(); // Connect to MongoDB database
+        DB(); // Connect to MongoDB database
         console.log(`API Server is running on port ${GeneralGlobalNumberData.PORT}`);
     });
 }
