@@ -3,7 +3,7 @@ the `Router` class called `POST_REQUEST_Manager`. The `Router` class is used to 
 mountable route handlers for web applications. */
 import { Router } from 'express'; // Importing express types & Router class
 
-const POST_REQUEST_Manager = Router(); // Creating a new Router instance
+const PostRequestManager = Router(); // Creating a new Router instance
 
 /* These lines of code are importing two sub-routers, `Authenticate` and `EmployeeRouterManagement`,
 from separate files located in the `./Auth/Authentication` and `./Store Management/Employee
@@ -25,10 +25,10 @@ router with the prefix `/auth`, and any routes defined in the `EmployeeRouterMan
 will be accessible through the main router with the prefix `/employee`. */
 
 // linking all Sub-Routers to the main Router
-POST_REQUEST_Manager.use('/auth', Authenticate); // Linking Authentication Router to the main Router
-POST_REQUEST_Manager.use('/employee', EmployeeRouterManagement); // Linking Employee Management Router to the main Router
-POST_REQUEST_Manager.use('/inventory', InventoryRouterManagement); // Linking Employee Management Router to the main Router
-POST_REQUEST_Manager.use('/category', CategoryRouterManagement); // Linking Employee Management Router to the main Router
+PostRequestManager.use('/auth', Authenticate); // Linking Authentication Router to the main Router
+PostRequestManager.use('/employee', EmployeeRouterManagement); // Linking Employee Management Router to the main Router
+PostRequestManager.use('/inventory', InventoryRouterManagement); // Linking Employee Management Router to the main Router
+PostRequestManager.use('/category', CategoryRouterManagement); // Linking Employee Management Router to the main Router
 
 /* `export default POST_REQUEST_Manager;` is exporting the `POST_REQUEST_Manager` router instance as
 the default export of this module. This means that when another module imports this module, they can
@@ -36,4 +36,4 @@ access the `POST_REQUEST_Manager` router instance by simply importing this modul
 specify the name of the exported object. For example, another module could import this module like
 this: `import router from './router';` and then use the `POST_REQUEST_Manager` router instance like
 this: `router.get('/some-route', someHandlerFunction);`. */
-export default POST_REQUEST_Manager; // Exporting the Router instance
+export default PostRequestManager; // Exporting the Router instance

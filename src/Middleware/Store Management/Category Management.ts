@@ -47,15 +47,15 @@ export default CategoryMiddleware; // Exporting Middleware
 export async function CategoryMiddleware(req:Request, res: obj | globe, next:globe) : Promise<blank>{
     try{
         const {User_id, OwnerEmail} = req.body;
-        let ShortedOwnerEmail:str = OwnerEmail.toLowerCase(); // Lowercase the email
+        const ShortedOwnerEmail:str = OwnerEmail.toLowerCase(); // Lowercase the email
 
-        let AccountFindStatus : obj[] = await ClientAccountModel.find({
-            $and: [{User_id: User_id}, {Email: ShortedOwnerEmail}]
+        const AccountFindStatus : obj[] = await ClientAccountModel.find({
+            $and: [{User_id}, {Email: ShortedOwnerEmail}]
          }); // Finding the employee in the database
 
-         if (AccountFindStatus.length == 0) {
+         if (AccountFindStatus.length === 0) {
             Response({
-                res: res,
+                res,
                 Status: 'Account Not Found',
                 StatusCode: ResponseCode.Not_Found,
                 Message: 'The Account is not found in the database',
@@ -63,14 +63,14 @@ export async function CategoryMiddleware(req:Request, res: obj | globe, next:glo
             }); // If the employee is not in the array, push the employee to the array
         } else if (AccountFindStatus.length > 0) {
             // If the account is found, find the store of the account
-            let StoreDataFind: obj[] = await StoreManagementModel.find({
-                $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+            const StoreDataFind: obj[] = await StoreManagementModel.find({
+                $and: [{ User_id }, { Email: ShortedOwnerEmail }],
             }); // Finding the owner store in the database
 
             // If the store is not found, send a response to the client
-            if (StoreDataFind.length == 0) {
+            if (StoreDataFind.length === 0) {
                 Response({
-                    res: res,
+                    res,
                     Status: 'Store Not Found',
                     StatusCode: ResponseCode.Not_Found,
                     Message: 'The Store is not found in the database',
@@ -84,6 +84,6 @@ export async function CategoryMiddleware(req:Request, res: obj | globe, next:glo
         };
     }
     catch(error: globe){
-        Response({res: res, Status:'Internal Server Error', StatusCode: ResponseCode.Internal_Server_Error, Message: error, Data: undefined});
+        Response({res, Status:'Internal Server Error', StatusCode: ResponseCode.Internal_Server_Error, Message: error, Data: undefined});
     }
 }; // Middleware for Category Management

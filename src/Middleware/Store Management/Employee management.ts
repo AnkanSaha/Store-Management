@@ -53,7 +53,7 @@ export const CheckEmployeeAddMiddleware = async (req: GlobalInterFaceForEmployee
    the code is specifying that the `req.body` object should conform to the `EmployeeAdd` interface.
    This line of code is essentially extracting the `User_id` property from the request body and
    assigning it to a variable for further use in the middleware function. */
-    let { User_id } = req.body; // Getting the data from the request body
+    const { User_id } = req.body; // Getting the data from the request body
 
    /* `let AccountFindStatus = await ClientAccountModel.find({ User_id: User_id })` is finding an
    employee account in the database by searching for a document in the `ClientAccountModel`
@@ -61,8 +61,8 @@ export const CheckEmployeeAddMiddleware = async (req: GlobalInterFaceForEmployee
    The `await` keyword is used to wait for the database query to complete before moving on to the
    next line of code. The result of the query is stored in the `AccountFindStatus` variable, which
    is an array of documents that match the search criteria. */
-    let AccountFindStatus : obj[] = await ClientAccountModel.find({
-        User_id: User_id,
+    const AccountFindStatus : obj[] = await ClientAccountModel.find({
+        User_id,
     }); // Finding the employee in the database
 
   /* This code block is checking if an employee account exists in the database by searching for a
@@ -73,9 +73,9 @@ export const CheckEmployeeAddMiddleware = async (req: GlobalInterFaceForEmployee
   found in the database. If the search returns an array with one or more documents, it means that
   the employee account exists in the database, and the middleware function calls the `next()`
   function to move to the next middleware function in the stack. */
-    if (AccountFindStatus.length == 0) {
+    if (AccountFindStatus.length === 0) {
         Response({
-            res: res,
+            res,
             Status: 'Accont Not Found',
             StatusCode: ResponseCode.Not_Found,
             Message: 'The Account is not found in the database',
@@ -103,15 +103,15 @@ export const CheckEmployeeDeleteMiddleware = async (req: GlobalInterFaceForEmplo
    request. */
     const {User_id, OwnerEmail} = req.query; // Getting the data from the request query
 
-    let ShortedOwnerEmail:str = OwnerEmail.toLowerCase(); // Lowercase the email
+    const ShortedOwnerEmail:str = OwnerEmail.toLowerCase(); // Lowercase the email
 
    /* This line of code is finding an employee account in the database by searching for a document in
    the `ClientAccountModel` collection that has a `User_id` property matching the `User_id` value
    passed in the request body. The `await` keyword is used to wait for the database query to
    complete before moving on to the next line of code. The result of the query is stored in the
    `AccountFindStatus` variable, which is an array of documents that match the search criteria. */
-    let AccountFindStatus: obj[] = await ClientAccountModel.find({
-        User_id: User_id,
+    const AccountFindStatus: obj[] = await ClientAccountModel.find({
+        User_id,
     }); // Finding the employee in the database
 
    /* This code block is checking if an employee account exists in the database by searching for a
@@ -123,17 +123,17 @@ export const CheckEmployeeDeleteMiddleware = async (req: GlobalInterFaceForEmplo
    the employee account exists in the database, and the middleware function moves on to the next
    step of checking if the employee is associated with a store in the `StoreManagementModel`
    collection. */
-    if (AccountFindStatus.length == 0) {
+    if (AccountFindStatus.length === 0) {
         Response({
-            res: res,
+            res,
             Status: 'Accont Not Found',
             StatusCode: ResponseCode.Not_Found,
             Message: 'The Account is not found in the database',
             Data: undefined,
         }); // If the employee is not in the array, push the employee to the array
     } else if (AccountFindStatus.length > 0) {
-        let StoreDataFind: obj[] = await StoreManagementModel.find({
-            $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+        const StoreDataFind: obj[] = await StoreManagementModel.find({
+            $and: [{ User_id }, { Email: ShortedOwnerEmail }],
         }); // Finding the owner store in the database
 
        /* This code block is checking if an employee is associated with a store in the
@@ -146,8 +146,8 @@ export const CheckEmployeeDeleteMiddleware = async (req: GlobalInterFaceForEmplo
        database. If the search returns an array with one or more documents, it means that the
        employee is associated with a store in the database, and the middleware function calls the
        `next()` function to move to the next middleware function in the stack. */
-        if (StoreDataFind.length == 0) {
-            Response({res:res, Status:"No Store Found", StatusCode: ResponseCode.Not_Found, Message:"No Store Found in the database", Data:undefined}) // If the employee is not in the array, do nothing
+        if (StoreDataFind.length === 0) {
+            Response({res, Status:"No Store Found", StatusCode: ResponseCode.Not_Found, Message:"No Store Found in the database", Data:undefined}) // If the employee is not in the array, do nothing
         } else if (StoreDataFind.length > 0) {
             next(); // Move to next middleware
         }
@@ -164,7 +164,7 @@ export const CheckEmployeeUpdateMiddleware = async (req: GlobalInterFaceForEmplo
    the code is specifying that the `req.body` object should conform to the `EmployeeAdd` interface.
    This line of code is essentially extracting the `User_id` property from the request body and
    assigning it to a variable for further use in the middleware function. */
-   let { User_id } = req.body; // Getting the data from the request body
+   const { User_id } = req.body; // Getting the data from the request body
 
    /* `let AccountFindStatus = await ClientAccountModel.find({ User_id: User_id })` is finding an
    employee account in the database by searching for a document in the `ClientAccountModel`
@@ -172,8 +172,8 @@ export const CheckEmployeeUpdateMiddleware = async (req: GlobalInterFaceForEmplo
    The `await` keyword is used to wait for the database query to complete before moving on to the
    next line of code. The result of the query is stored in the `AccountFindStatus` variable, which
    is an array of documents that match the search criteria. */
-    let AccountFindStatus : obj[] = await ClientAccountModel.find({
-        User_id: User_id,
+    const AccountFindStatus : obj[] = await ClientAccountModel.find({
+        User_id,
     }); // Finding the employee in the database
 
   /* This code block is checking if an employee account exists in the database by searching for a
@@ -184,9 +184,9 @@ export const CheckEmployeeUpdateMiddleware = async (req: GlobalInterFaceForEmplo
   found in the database. If the search returns an array with one or more documents, it means that
   the employee account exists in the database, and the middleware function calls the `next()`
   function to move to the next middleware function in the stack. */
-    if (AccountFindStatus.length == 0) {
+    if (AccountFindStatus.length === 0) {
         Response({
-            res: res,
+            res,
             Status: 'Accont Not Found',
             StatusCode: ResponseCode.Not_Found,
             Message: 'The Account is not found in the database',

@@ -40,8 +40,8 @@ interface ResponseInterface {
  */
 export const Response = ({res, StatusCode, Status, Message, Data}:ResponseInterface) : blank => {
     res.status(StatusCode).json({
-        Status: Status,
-        Message: Message,
-        Data: Data,
+        Status,
+        Message,
+        Data,
     }); // Send Response
 }; // Success Response Function

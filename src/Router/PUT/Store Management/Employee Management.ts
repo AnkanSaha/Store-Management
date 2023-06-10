@@ -11,7 +11,7 @@ Express application. */
 const EmployeeRouterManagement = Router(); // Creating a new Router instance
 EmployeeRouterManagement.use(CORS({
     origin:GeneralGlobalStringData.API_Allowed_URL
-})); // Using CORS middleware  
+})); // Using CORS middleware
 
 // Importing All Controllers
 /* Importing the `UpdateEmployee` controller from the file located at `'../../../Controller/Store

@@ -55,7 +55,7 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
    ensure that the extracted properties match the expected types defined in the `EmployeeAdd`
    interface. This line of code is essentially getting the data from the request body and assigning
    it to variables with meaningful names for further use in the function. */
-    let {
+    const {
         EmployeeName,
         EmployeeEmail,
         EmployeeMonthlySalary,
@@ -70,7 +70,7 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
    format and avoid any issues that may arise from case sensitivity when comparing or storing email
    addresses. */
     // Lowercase the email
-    let ShortedOwnerEmail: str = EmployeeEmail.toLowerCase();
+    const ShortedOwnerEmail: str = EmployeeEmail.toLowerCase();
 
     /* This code block is trying to find an employee in the database by querying the
    `StoreManagementModel` using the `User_id` provided in the request body. It then checks if the
@@ -80,8 +80,8 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
    variable for further use in the function. */
     try {
         // Finding the employee in the database
-        let EmployeeFindStatus: globe | obj = await StoreManagementModel.find({
-            User_id: User_id,
+        const EmployeeFindStatus: globe | obj = await StoreManagementModel.find({
+            User_id,
         });
 
         /* This code block is checking if an employee already exists in the `Employees` array of the
@@ -92,9 +92,9 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
        means that the employee already exists in the array and the function returns a failed
        response. If the length of the `EmployeeAlreadyExist` array is 0, it means that the employee
        does not exist in the array and the function proceeds to add the employee to the array. */
-        //Checking if the employee is already in the array
-        let EmployeeAlreadyExist: obj[] = EmployeeFindStatus[0].Employees.filter((Employee: any) => {
-            return Employee.EmployeeEmail == ShortedOwnerEmail || Employee.EmployeePhoneNumber == EmployeePhoneNumber;
+        // Checking if the employee is already in the array
+        const EmployeeAlreadyExist: obj[] = EmployeeFindStatus[0].Employees.filter((Employee: any) => {
+            return Employee.EmployeeEmail === ShortedOwnerEmail || Employee.EmployeePhoneNumber === EmployeePhoneNumber;
         });
 
         /* This code block is checking if an employee already exists in the `Employees` array of the
@@ -109,33 +109,33 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
        database. */
         if (EmployeeAlreadyExist.length > 0) {
             Response({
-                res: res,
+                res,
                 Status: 'Employee Already Exist',
                 StatusCode: ResponseCode.Conflict,
                 Message: 'The Employee is already in the database',
                 Data: undefined,
             }); // If the employee is already in the array, do nothing
         } // If the employee is already in the array, do nothing
-        else if (EmployeeAlreadyExist.length == 0) {
+        else if (EmployeeAlreadyExist.length === 0) {
             EmployeeFindStatus[0].Employees.push({
-                EmployeeName: EmployeeName,
+                EmployeeName,
                 EmployeeEmail: ShortedOwnerEmail,
-                EmployeePhoneNumber: EmployeePhoneNumber,
-                EmployeeDateOfJoining: EmployeeDateOfJoining,
-                EmployeeRole: EmployeeRole,
-                EmployeeMonthlySalary: EmployeeMonthlySalary,
+                EmployeePhoneNumber,
+                EmployeeDateOfJoining,
+                EmployeeRole,
+                EmployeeMonthlySalary,
             }); // Pushing the employee to the array
 
-            //After pushing the employee to the array, saving the data to the database
+            // After pushing the employee to the array, saving the data to the database
             /* This code block is updating the `StoreManagementModel` in the database with the new
            employee data. It uses the `findOneAndUpdate` method to find the document in the
            `StoreManagementModel` collection that matches the `User_id` provided in the request body
            and updates it with the new employee data stored in the `EmployeeFindStatus[0]` object.
            Once the update is complete, it sends a success response to the client with a status code
            of 200, a status message of 'Employee Added', and an empty data object. */
-            await StoreManagementModel.findOneAndUpdate({ User_id: User_id }, EmployeeFindStatus[0]);
+            await StoreManagementModel.findOneAndUpdate({ User_id }, EmployeeFindStatus[0]);
             Response({
-                res: res,
+                res,
                 Status: 'Employee Added',
                 StatusCode: ResponseCode.OK,
                 Message: 'The Employee is added to the database',
@@ -171,8 +171,8 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
     /* The above code is written in TypeScript and it is extracting the values of `User_id` and
    `OwnerEmail` from the `req.query` object. It then converts the `OwnerEmail` to lowercase and
    assigns it to a new variable `ShortedOwnerEmail`. */
-    let { User_id, OwnerEmail } = req.query; // Getting the data from the request body
-    let ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Lowercase the email
+    const { User_id, OwnerEmail } = req.query; // Getting the data from the request body
+    const ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Lowercase the email
 
     /* The above code is finding an employee in the database based on the provided User_id and
     ShortedOwnerEmail. If the employee is found, it returns a success response with the employee
@@ -186,8 +186,8 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
      matches the value of the "ShortedOwnerEmail" variable. The result of the query is stored in the
      "StoreDataFind" variable. The code is using the "await" keyword to wait for the query to
      complete before continuing execution. */
-        let StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+        const StoreDataFind: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id }, { Email: ShortedOwnerEmail }],
         }); // Finding the employee in the database
 
         /* The above code is checking if an array called `StoreDataFind` has any elements. If it has no
@@ -195,22 +195,22 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
        Found in the database". If it has one or more elements, it sends a success response with a
        200 status code and a message saying "Employee Found in the database", along with the data of
        the first element in the array. */
-        if (StoreDataFind.length == 0) {
+        if (StoreDataFind.length === 0) {
             Response({
-                res: res,
+                res,
                 Status: 'No Employee Found',
                 StatusCode: ResponseCode.Not_Found,
                 Message: 'No Employee Found in the database',
                 Data: undefined,
             }); // If the employee is not in the array, do nothing
         } else if (StoreDataFind.length > 0) {
-            const Response_Token:globe = await GenerateJWTtoken(StoreDataFind[0].Employees); // Generating the JWT token
+            const ResponseToken:globe = await GenerateJWTtoken(StoreDataFind[0].Employees); // Generating the JWT token
             Response({
-                res: res,
+                res,
                 Status: 'Employee Found',
                 StatusCode: ResponseCode.Found,
                 Message: 'Employee Found in the database',
-                Data: Response_Token,
+                Data: ResponseToken,
             });
         }
         /* The above code is incomplete and does not provide enough context to determine its purpose. It
@@ -237,16 +237,16 @@ export async function DeleteEmployee(req: GlobalRequestInterface, res: obj | glo
    `EmployeeEmail` to lowercase using the `toLowerCase()` method and stores them in
    `ShortedOwnerEmail` and `ShortedEmployeeEmail` variables respectively. */
     const { User_id, OwnerEmail, EmployeeMobileNumber, EmployeeEmail } = req.query; // Getting the data from the request query
-    let ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Lowercase the email
-    let ShortedEmployeeEmail: str = EmployeeEmail.toLowerCase(); // Lowercase the email
+    const ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Lowercase the email
+    const ShortedEmployeeEmail: str = EmployeeEmail.toLowerCase(); // Lowercase the email
 
     /* The above code is using the Mongoose library to find data in a MongoDB database. It is searching
    for a document in the "StoreManagementModel" collection that matches the specified conditions:
    the "User_id" field must match the value of the "User_id" variable, and the "Email" field must
    match the value of the "ShortedOwnerEmail" variable. The result of the query is stored in the
    "StoreDataFind" variable. */
-    let StoreDataFind: any = await StoreManagementModel.find({
-        $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+    const StoreDataFind: any = await StoreManagementModel.find({
+        $and: [{ User_id }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database
 
     /* The above code is finding the index of an employee in an array of employees. It is using the
@@ -254,15 +254,15 @@ export async function DeleteEmployee(req: GlobalRequestInterface, res: obj | glo
 `ShortedEmployeeEmail` and `EmployeeMobileNumber`, respectively. Once the employee is found, the
 index of that employee in the array is returned and stored in the `Index` variable. */
 
-    let Index: num = StoreDataFind[0].Employees.findIndex((Employee: any) => {
-        return Employee.EmployeeEmail == ShortedEmployeeEmail && Employee.EmployeePhoneNumber == EmployeeMobileNumber;
+    const Index: num = StoreDataFind[0].Employees.findIndex((Employee: any) => {
+        return Employee.EmployeeEmail === ShortedEmployeeEmail && Employee.EmployeePhoneNumber === EmployeeMobileNumber;
     }); // Finding the index of the employee in the array
     /* The above code is checking if an employee exists in an array of employees. If the employee exists,
   it is removed from the array. If the employee does not exist, a failed response is returned with a
   404 status code and a message indicating that no employee was found in the database. */
-    if (Index == -1) {
+    if (Index === -1) {
         Response({
-            res: res,
+            res,
             Status: 'No Employee Found',
             StatusCode: ResponseCode.Not_Found,
             Message: 'No Employee Found in the database',
@@ -278,15 +278,15 @@ index of that employee in the array is returned and stored in the `Index` variab
    it as a response to the client. The response includes a success status code, message, and the
    updated employee data for the store. */
     // Re-Saving the data to the database
-    await StoreManagementModel.findOneAndUpdate({ User_id: User_id }, StoreDataFind[0]);
+    await StoreManagementModel.findOneAndUpdate({ User_id }, StoreDataFind[0]);
 
     // Re-Finding the employee in the database
-    let StoreDataFindAgain: obj | globe = await StoreManagementModel.find({
-        $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+    const StoreDataFindAgain: obj | globe = await StoreManagementModel.find({
+        $and: [{ User_id }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database again for sending the data to the client
 
     Response({
-        res: res,
+        res,
         Status: 'Employee Deleted',
         StatusCode: ResponseCode.Accepted,
         Message: 'Employee Deleted from the database',
@@ -311,7 +311,7 @@ export async function UpdateEmployee(req: GlobalRequestInterface, res: obj | glo
 object into separate variables. These variables are used to update the employee details. The
 `EmployeeUpdate` is a type/interface that defines the structure of the data being received in the
 request body. */
-    let {
+    const {
         OwnerEmail,
         EmployeeName,
         EmployeeEmail,
@@ -326,8 +326,8 @@ request body. */
 and "ShortedEmployeeEmail". These variables are assigned the lowercase version of the values stored
 in the variables "OwnerEmail" and "EmployeeEmail" respectively. The purpose of this code is to
 standardize the email addresses to lowercase for consistency and ease of comparison. */
-    let ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Lowercase the email
-    let ShortedEmployeeEmail: str = EmployeeEmail.toLowerCase(); // Lowercase the email
+    const ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Lowercase the email
+    const ShortedEmployeeEmail: str = EmployeeEmail.toLowerCase(); // Lowercase the email
 
     /* The above code is using the Mongoose library to perform a database query to find data in the
 "StoreManagementModel" collection that matches the specified conditions. The conditions are that the
@@ -335,16 +335,16 @@ standardize the email addresses to lowercase for consistency and ease of compari
 of the "ShortedOwnerEmail" variable. The result of the query is stored in the "StoreDataFind"
 variable. The "await" keyword is used to wait for the query to complete before continuing with the
 rest of the code. */
-    let StoreDataFind: globe | obj = await StoreManagementModel.find({
-        $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+    const StoreDataFind: globe | obj = await StoreManagementModel.find({
+        $and: [{ User_id }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database
 
     /* The above code is finding the index of an employee in an array of employees based on their email and
 phone number. It uses the `findIndex` method to iterate through the array and check if the email and
 phone number of each employee match the provided values. If a match is found, the index of that
 employee in the array is returned. */
-    let Index: num = StoreDataFind[0].Employees.findIndex((Employee: obj | globe) => {
-        return Employee.EmployeeEmail == ShortedEmployeeEmail && Employee.EmployeePhoneNumber == EmployeePhoneNumber;
+    const Index: num = StoreDataFind[0].Employees.findIndex((Employee: obj | globe) => {
+        return Employee.EmployeeEmail === ShortedEmployeeEmail && Employee.EmployeePhoneNumber === EmployeePhoneNumber;
     }); // Finding the index of the employee in the array
 
     /* The above code is checking if the value of the variable "Index" is equal to -1. If it is, then it
@@ -355,7 +355,7 @@ returns from the function. */
 
     if (Index < 0) {
         Response({
-            res: res,
+            res,
             Status: 'No Employee Found',
             StatusCode: ResponseCode.Not_Found,
             Message: 'No Employee Found in the database',
@@ -375,22 +375,22 @@ StoreDataFind array. The employee object contains properties such as EmployeeNam
 EmployeePhoneNumber, EmployeeDateOfJoining, EmployeeRole, and EmployeeMonthlySalary. The values for
 these properties are provided as arguments to the push method. */
     StoreDataFind[0].Employees.push({
-        EmployeeName: EmployeeName,
+        EmployeeName,
         EmployeeEmail: ShortedEmployeeEmail,
-        EmployeePhoneNumber: EmployeePhoneNumber,
-        EmployeeDateOfJoining: EmployeeDateOfJoining,
-        EmployeeRole: EmployeeRole,
-        EmployeeMonthlySalary: EmployeeMonthlySalary,
+        EmployeePhoneNumber,
+        EmployeeDateOfJoining,
+        EmployeeRole,
+        EmployeeMonthlySalary,
     }); // Pushing the employee to the array
 
-    await StoreManagementModel.findOneAndUpdate({ User_id: User_id }, StoreDataFind[0]); // Re-Saving the data to the database
+    await StoreManagementModel.findOneAndUpdate({ User_id }, StoreDataFind[0]); // Re-Saving the data to the database
 
     // Re-Finding the employee in the database
-    let StoreDataFindAgain: any = await StoreManagementModel.find({
-        $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+    const StoreDataFindAgain: any = await StoreManagementModel.find({
+        $and: [{ User_id }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database again for sending the data to the client
     Response({
-        res: res,
+        res,
         Status: 'Employee Updated',
         StatusCode: ResponseCode.Accepted,
         Message: 'Employee details updated in the database',
