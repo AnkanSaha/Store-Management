@@ -17,7 +17,7 @@ middleware is responsible for connecting to the MongoDB database when the server
 
 // Global Types
 type num = number; // Define a type for numbers
-type obj = Object; // Creating a type alias for an object or undefined
+type obj = object; // Creating a type alias for an object or undefined
 type globe = any; // Creating a type alias for a string, number, boolean, object, or undefined
 type str = string; // Define a type for strings
 
@@ -59,8 +59,7 @@ if (cluster.isPrimary) {
    (`Worker ${worker.process.pid} died`) and then creates a new worker process using
    `cluster.fork()`. This ensures that the server continues to run even if one of the worker
    processes crashes or stops working. */
-    cluster.on('exit', (worker): void => {
-        console.log(`Worker ${worker.process.pid} died`);
+    cluster.on('exit', (): void => {
         cluster.fork(); // Create new cluster if one dies
     }); // Listen for exit event
 } else {
@@ -81,18 +80,18 @@ if (cluster.isPrimary) {
     `index.html` file located in the `public` folder for any request that does not match any of the
     other routes defined in the `Router_Manager` or any static files in the `public` folder. */
     Service.get('*', (req, res): void => {
-        console.log(req.url);
+        res.header('URL', req.baseUrl);
         res.sendFile('index.html', { root: 'public' });
     });
 
     // API Error Handling
-    interface Error_request_InterFace {
+    interface ErrorRequestInterFace {
         originalUrl: str;
     }
 
-    Service.all('*', (req: Error_request_InterFace, res: obj | globe): void => {
+    Service.all('*', (req: ErrorRequestInterFace, res: obj | globe): void => {
         Response({
-            res: res,
+            res,
             Status: 'fail',
             StatusCode: ResponseCode.Internal_Server_Error,
             Message: `Can't find ${req.originalUrl} on this server!`,
@@ -120,6 +119,5 @@ the `./config/DB Config/MongoDB` file. Once the connection is established, the s
 with the database to perform CRUD (Create, Read, Update, Delete) operations on the data stored in
 the database. */
         DB(); // Connect to MongoDB database
-        console.log(`API Server is running on port ${GeneralGlobalNumberData.PORT}`);
     });
 }

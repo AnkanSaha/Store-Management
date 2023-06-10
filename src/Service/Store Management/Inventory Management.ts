@@ -67,22 +67,22 @@ interface Request {
         } = req.body;
 
         // Lowercase the email
-        let ShortedOwnerEmail: str = OwnerEmail.toLowerCase();
-        let ShortedProductSKU : str = ProductSKU.toLowerCase();
+        const ShortedOwnerEmail: str = OwnerEmail.toLowerCase();
+        const ShortedProductSKU : str = ProductSKU.toLowerCase();
 
         // Finding the employee in the database
-        let StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+        const StoreDataFind: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id }, { Email: ShortedOwnerEmail }],
         }); // Finding the owner store in the database
-        
+
             // check if the product is already in the store
-            let ProductExist: globe[] = StoreDataFind[0].Products.filter(
+            const ProductExist: globe[] = StoreDataFind[0].Products.filter(
                 (Product: globe) => Product.ProductSKU === ShortedProductSKU,
             );
 
             if (ProductExist.length > 0) {
                 Response({
-                    res: res,
+                    res,
                     Status: 'Product Already Exist',
                     StatusCode: ResponseCode.Conflict,
                     Message: 'The Product is already exist in the store',
@@ -90,22 +90,22 @@ interface Request {
                 }); // If the employee is not in the array, send a response to the client
             } else if (ProductExist.length === 0) {
                 StoreDataFind[0].Products.push({
-                    ProductName: ProductName,
-                    ProductCategory: ProductCategory,
+                    ProductName,
+                    ProductCategory,
                     ProductSKU: ShortedProductSKU,
-                    ProductQuantity: ProductQuantity,
-                    ProductPrice: ProductPrice,
-                    ProductExpiryDate: ProductExpiryDate,
-                    ProductManufacturingDate: ProductManufacturingDate,
-                    ProductDescription: ProductDescription,
+                    ProductQuantity,
+                    ProductPrice,
+                    ProductExpiryDate,
+                    ProductManufacturingDate,
+                    ProductDescription,
                 }); // Pushing the new product to the array
 
                 await StoreManagementModel.findOneAndUpdate(
-                    { User_id: User_id },
+                    { User_id },
                     { Products: StoreDataFind[0].Products },
                 ); // Updating the database
                 Response({
-                    res: res,
+                    res,
                     Status: 'Product Added',
                     StatusCode: ResponseCode.Accepted,
                     Message: 'The Product is added to the store',
@@ -113,7 +113,7 @@ interface Request {
                 }); // Sending a Success Response to the client
             }
     } catch {
-        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
+        Response({ res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
     }
 }; // Add Inventory Function
 
@@ -129,26 +129,26 @@ interface Request {
 export async function GetAllInventory(req: Request, res: obj | globe): Promise<blank> {
     const { User_id, OwnerEmail } = req.params; // Get Data from Request params
     // Shorting email
-    let ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Convert Email to Lower Case
+    const ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Convert Email to Lower Case
 
     try {
         // Finding the employee in the database
-        let StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+        const StoreDataFind: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id }, { Email: ShortedOwnerEmail }],
         }); // Finding the owner store in the database
 
         if (StoreDataFind.length > 0) {
-            const Response_Token:globe = await GenerateJWTtoken(StoreDataFind[0].Products); // Generating a JWT Token
+            const ResponseToken:globe = await GenerateJWTtoken(StoreDataFind[0].Products); // Generating a JWT Token
             Response({
-                res: res,
+                res,
                 Status: 'Success',
                 StatusCode: ResponseCode.Found,
                 Message: 'The Inventory is found',
-                Data: Response_Token,
+                Data: ResponseToken,
             }); // Sending a Success Response to the client
         } else if (StoreDataFind.length === 0) {
             Response({
-                res: res,
+                res,
                 Status: 'Inventory Not Found',
                 StatusCode: ResponseCode.Not_Found,
                 Message: 'The Inventory is not found in the store',
@@ -157,7 +157,7 @@ export async function GetAllInventory(req: Request, res: obj | globe): Promise<b
         }
     }
     catch {
-        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
+        Response({ res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
     }
 };
 
@@ -188,39 +188,39 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
         } = req.body;
 
         // Lowercase the email and SKU
-        let ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Convert Email to Lower Case
-        let ShortedProductSKU : str = ProductSKU.toLowerCase(); // Convert Email to Lower Case
+        const ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Convert Email to Lower Case
+        const ShortedProductSKU : str = ProductSKU.toLowerCase(); // Convert Email to Lower Case
 
         // Finding the product in the database
-        let StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }]
+        const StoreDataFind: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id }, { Email: ShortedOwnerEmail }]
         }); // Finding the owner store in the database
 
             // check if the product is already in the store
-            let ProductExist: globe[] = StoreDataFind[0].Products.filter(
+            const ProductExist: globe[] = StoreDataFind[0].Products.filter(
                 (Product: globe) => Product.ProductSKU === ShortedProductSKU,
             ); // Finding the product in the array
 
             if (ProductExist.length > 0) {
             //  find Index of the product
-            let ProductIndex: num = StoreDataFind[0].Products.indexOf(ProductExist[0]); // Finding the index of the product in the array
+            const ProductIndex: num = StoreDataFind[0].Products.indexOf(ProductExist[0]); // Finding the index of the product in the array
             if(ProductIndex >= 0){ // Check if the product is in the array
                 StoreDataFind[0].Products.splice(ProductIndex, 1); // Removing the product from the array
-                let NewData = {
-                    ProductName: ProductName,
-                    ProductCategory: ProductCategory,
+                const NewData = {
+                    ProductName,
+                    ProductCategory,
                     ProductSKU: ShortedProductSKU,
-                    ProductQuantity: ProductQuantity,
-                    ProductPrice: ProductPrice,
-                    ProductExpiryDate: ProductExpiryDate,
-                    ProductManufacturingDate: ProductManufacturingDate,
-                    ProductDescription: ProductDescription
+                    ProductQuantity,
+                    ProductPrice,
+                    ProductExpiryDate,
+                    ProductManufacturingDate,
+                    ProductDescription
                 }  // Creating a new object for the product data
 
                 StoreDataFind[0].Products.push(NewData); // Pushing the new product to the array
-                 await StoreManagementModel.findOneAndUpdate({$and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
+                 await StoreManagementModel.findOneAndUpdate({$and: [{ User_id }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
                  Response({
-                    res: res,
+                    res,
                     Status: 'Product Updated',
                     StatusCode: ResponseCode.Accepted,
                     Message: 'The Product is updated in the store',
@@ -230,7 +230,7 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
             }
             else if (ProductExist.length === 0) {
                 Response({
-                    res: res,
+                    res,
                     Status: 'Product Not Found',
                     StatusCode: ResponseCode.Not_Found,
                     Message: 'The Product is not found in the store',
@@ -238,7 +238,7 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
                 });
             }
     }catch(err:globe){
-        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
+        Response({ res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
     }
 }; // Update Inventory Function
 
@@ -259,29 +259,29 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                     ProductSKU,
                     User_id,
                 } = req.params;
-        
+
                 // Lowercase the email and SKU
-                let ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Convert Email to Lower Case
-                let ShortedProductSKU : str = ProductSKU.toLowerCase(); // Convert Email to Lower Case
-        
+                const ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Convert Email to Lower Case
+                const ShortedProductSKU : str = ProductSKU.toLowerCase(); // Convert Email to Lower Case
+
                 // Finding the product in the database
-                let StoreDataFind: globe[] = await StoreManagementModel.find({
-                    $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }]
+                const StoreDataFind: globe[] = await StoreManagementModel.find({
+                    $and: [{ User_id }, { Email: ShortedOwnerEmail }]
                 }); // Finding the owner store in the database
-        
+
                 if(StoreDataFind.length > 0){
                     // check if the product is already in the store
-                    let ProductExist: globe[] = StoreDataFind[0].Products.filter(
+                    const ProductExist: globe[] = StoreDataFind[0].Products.filter(
                         (Product: globe) => Product.ProductSKU === ShortedProductSKU,
                     ); // Finding the product in the array
-                    
+
                     if (ProductExist.length > 0) {
                         const ProductIndex: num = StoreDataFind[0].Products.indexOf(ProductExist[0]); // Finding the index of the product in the array
                         if(ProductIndex >= 0){ // Check if the product is in the array
                             StoreDataFind[0].Products.splice(ProductIndex, 1); // Removing the product from the array
-                            await StoreManagementModel.findOneAndUpdate({$and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
+                            await StoreManagementModel.findOneAndUpdate({$and: [{ User_id }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
                             Response({
-                               res: res,
+                               res,
                                Status: 'Product Deleted',
                                StatusCode: ResponseCode.Accepted,
                                Message: 'The Product is Deleted in the store',
@@ -291,7 +291,7 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                     }
                     else if (ProductExist.length === 0) {
                         Response({
-                            res: res,
+                            res,
                             Status: 'Product Not Found',
                             StatusCode: ResponseCode.Not_Found,
                             Message: 'The Product is not found in the store',
@@ -301,7 +301,7 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                 }
                 else {
                     Response({
-                        res: res,
+                        res,
                         Status: 'Store Not Found',
                         StatusCode: ResponseCode.Not_Found,
                         Message: 'The Store is not found',
@@ -309,6 +309,6 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                     });
                 }
     }catch (err:globe){
-        Response({ res: res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
+        Response({ res, Status: 'fail', StatusCode: ResponseCode.Bad_Request, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
     }
 }; // Delete Inventory Function

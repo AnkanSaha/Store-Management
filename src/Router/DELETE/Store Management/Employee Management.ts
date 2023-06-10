@@ -9,7 +9,7 @@ import { GeneralGlobalStringData } from '../../../config/App Config/General Conf
 object will be used to define the routes and middleware for handling HTTP requests and responses
 related to employee management in a store management system. */
 // Configuring Express Router
-const Employee_Manage_Router = Router(); // Creating Router Object
+const EmployeeManageRouter = Router(); // Creating Router Object
 
 /* This code is configuring the Express router to use CORS (Cross-Origin Resource Sharing)
 functionality. The `CORS` module is imported and then used as middleware with the `use()` method of
@@ -18,7 +18,7 @@ the `Employee_Manage_Router` object. The `CORS()` function is passed an options 
 handle requests from different domains or ports, which is necessary for web applications that need
 to access resources from different sources. */
 // Configuring Express Router to use CORS
-Employee_Manage_Router.use(CORS({ origin: GeneralGlobalStringData.API_Allowed_URL })); // Using CORS
+EmployeeManageRouter.use(CORS({ origin: GeneralGlobalStringData.API_Allowed_URL })); // Using CORS
 
 /* This line of code is importing a middleware function named `CheckEmployeeDeleteMiddleware` from a
 file located at the path `'../../../Middleware/Store Management/Employee Management.ts'`. This
@@ -41,7 +41,7 @@ module. This allows other modules to import and use this router object in their 
 importing the module that contains this code. The `export default` statement is used to specify the
 default export of the module, which in this case is the `Employee_Manage_Router` object. */
 // Exporting Employee Management Router
-export default Employee_Manage_Router;
+export default EmployeeManageRouter;
 
 /* This line of code is defining a route for handling HTTP DELETE requests to delete an employee in a
 store management system. The route is created using the `delete()` method of the
@@ -53,4 +53,4 @@ check if the employee being deleted has any associated data or not, and if so, i
 deletion of the employee. `DeleteEmployee` is a controller function that handles the actual deletion
 of the employee. */
 // Creating Employee Management Router
-Employee_Manage_Router.delete('/delete', json(),CheckEmployeeDeleteMiddleware, DeleteEmployee);
+EmployeeManageRouter.delete('/delete', json(),CheckEmployeeDeleteMiddleware, DeleteEmployee);

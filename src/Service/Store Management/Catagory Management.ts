@@ -37,7 +37,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
 
         // Check if the Category Name is already exist
         const CategoryNameExist: obj | globe = await StoreManagementModel.find({
-            $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }],
+            $and: [{ User_id }, { Email: ShortedOwnerEmail }],
         }); // Check if the Category Name is already exist
 
         const FilteredCategoryName: obj[] | globe = CategoryNameExist[0].Catagories.filter(
@@ -47,19 +47,19 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
         // Check if the Category Name is already exist
         if (FilteredCategoryName.length === 0) {
             CategoryNameExist[0].Catagories.push({
-                CategoryName: CategoryName,
-                CategoryDescription: CategoryDescription,
-                MaxProduct: MaxProduct,
-                isActivated: isActivated,
+                CategoryName,
+                CategoryDescription,
+                MaxProduct,
+                isActivated,
             }); // Add the new Category to the Category List
 
             await StoreManagementModel.findOneAndUpdate(
-                { $and: [{ User_id: User_id }, { Email: ShortedOwnerEmail }] },
+                { $and: [{ User_id }, { Email: ShortedOwnerEmail }] },
                 CategoryNameExist[0],
             ); // Update the Category List
 
             Response({
-                res: res,
+                res,
                 StatusCode: ResponseCode.Accepted,
                 Status: 'Success',
                 Message: 'The Category name added to database',
@@ -67,7 +67,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
             }); // Send the Response
         } else if (FilteredCategoryName.length > 0) {
             Response({
-                res: res,
+                res,
                 StatusCode: ResponseCode.Bad_Request,
                 Status: 'Bad Request',
                 Message: 'Category Name is already exist',
@@ -77,7 +77,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
         }
     } catch (err: globe) {
         Response({
-            res: res,
+            res,
             StatusCode: ResponseCode.Internal_Server_Error,
             Status: 'Internal Server Error',
             Message: err.message,

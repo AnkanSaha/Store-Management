@@ -19,7 +19,7 @@ import { CheckEmployeeAddMiddleware } from '../../../Middleware/Store Management
 assigning it to a variable named `EmployeeRouterManagement`. This instance of `Router` is used to
 create modular, mountable route handlers for the employee management functionality of the
 application. */
-//Creating an instance of Router
+// Creating an instance of Router
 const EmployeeRouterManagement = Router(); // Creating an instance of Router
 
 /* The lines of code `EmployeeRouterManagement.use(CORS({ origin: '*' }));` are enabling Cross-Origin
@@ -35,7 +35,7 @@ located in the `Controller/Store Management/Employee Management` directory. This
 controller function that handles the logic for adding a new employee to the store management system.
 It is used in the `EmployeeRouterManagement.post('/create', json(), CheckEmployeeAddMiddleware,
 AddnewEmployee)` route handler to handle the POST request for creating a new employee. */
-//import controller function
+// import controller function
 import { AddnewEmployee } from '../../../Service/Store Management/Employee Management'; // Path: Function/Account Management/Employee Management.ts
 
 
@@ -52,5 +52,5 @@ EmployeeRouterManagement.post('/create', json(), CheckEmployeeAddMiddleware, Add
 /* The `export default` statement is used to export the `EmployeeRouterManagement` instance of the
 `Router` module as a default export from the module. This allows other modules to import and use the
 `EmployeeRouterManagement` instance by simply importing the module that exports it. */
-//Exporting the Router
+// Exporting the Router
 export default EmployeeRouterManagement;

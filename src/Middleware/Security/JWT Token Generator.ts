@@ -8,13 +8,13 @@ type str = string; // Define a type for strings
 type globe = any; // Define a type for global variables
 
 export async function GenerateJWTtoken(payload: globe): Promise<str> {
-    const Temp_Payload = JSON.stringify(payload); // Define a variable for payload
-    const Signed_Token: str = sign(Temp_Payload, GeneralGlobalStringData.JWT_Secret); // Generate JWT Token
-    return Signed_Token; // Return JWT Token
+    const TempPayload = JSON.stringify(payload); // Define a variable for payload
+    const SignedToken: str = sign(TempPayload, GeneralGlobalStringData.JWT_Secret); // Generate JWT Token
+    return SignedToken; // Return JWT Token
 } // Generate JWT Token
 
 
 export async function VerifyJWTtoken(token: str): Promise<globe> {
-    const Verified_Token: globe = verify(token, GeneralGlobalStringData.JWT_Secret); // Verify JWT Token
-    return Verified_Token; // Return Verified JWT Token
+    const VerifiedToken: globe = verify(token, GeneralGlobalStringData.JWT_Secret); // Verify JWT Token
+    return VerifiedToken; // Return Verified JWT Token
 } // Verify JWT Token
