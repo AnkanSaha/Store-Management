@@ -12,7 +12,7 @@ import { ResponseCode } from '../../config/App Config/General Config'; // Import
 
 // Global Types
 type str = string; // Type for str
-type num = number; // Type for number
+type int = number; // Type for number
 type obj = object; // Type for object
 type globe = any; // Type for globe
 type blank = void; // Type for void
@@ -21,7 +21,7 @@ type blank = void; // Type for void
 interface RequestinterfaceForValidation {
     body: {
         Email: str;
-        Phone: num;
+        Phone: int;
         PAN: str;
     };
 }

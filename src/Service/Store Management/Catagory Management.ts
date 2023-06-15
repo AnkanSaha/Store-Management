@@ -7,7 +7,7 @@ import { StoreManagementModel } from '../../Models'; //  Model
 
 // global types
 type str = string; // Define a type for strings
-type num = number; // Define a type for numbers
+type int = number; // Define a type for numbers
 type globe = any; // Define a type for any
 type obj = object; // Define a type for objects
 type blank = void; // Define a type for void
@@ -16,11 +16,11 @@ type bool = boolean; // Define a type for boolean
 // Request interfaces
 interface Request {
     body: {
-        User_id: num;
+        User_id: int;
         OwnerEmail: str;
         CategoryName: str;
         CategoryDescription: str;
-        MaxProduct: num;
+        MaxProduct: int;
         isActivated: bool;
     };
 }

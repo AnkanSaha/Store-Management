@@ -8,7 +8,7 @@ import { genSalt, hash, compare} from 'bcrypt'; // import Bcrypt
 // global typescript types
 type str = string; // Type for string
 type bool = boolean; // Type for boolean
-type num = number; // Type for number
+type int = number; // Type for number
 
 
 /**
@@ -16,14 +16,14 @@ type num = number; // Type for number
  * as a string.
  * @param {str} Password - This parameter is a string that represents the password that needs to be
  * encrypted.
- * @param {num} saltRounds - The number of rounds of salting and hashing to be performed on the
+ * @param {int} saltRounds - The number of rounds of salting and hashing to be performed on the
  * password. Increasing the number of rounds makes it harder for attackers to crack the password using
  * brute force methods.
  * @returns a hashed password as a string.
  */
 
 // Function to Encrypt Password
-export async function EncryptPassword(Password: str, saltRounds:num):Promise<str> {
+export async function EncryptPassword(Password: str, saltRounds:int):Promise<str> {
     try {
         const Salt:str = await genSalt(saltRounds); // Generate Salt
         const HashedPassword:str = await hash(Password, Salt); // Hash Password

@@ -5,7 +5,7 @@ the code to access and use the functionality defined in these models and respons
 
 // global types
 type str = string; // type for string
-type num = number; // type for number
+type int = number; // type for number
 type obj = object; // type for object
 type globe = any; // type for any
 type blank = void; // type for void
@@ -14,11 +14,11 @@ type bool = boolean; // type for boolean
 
 interface Request {
     body: {
-        User_id: num,
+        User_id: int,
         OwnerEmail: str,
         CategoryName: str,
         CategoryDescription: str,
-        MaxProduct: num,
+        MaxProduct: int,
         isActivated: bool
     }
 }

@@ -23,7 +23,7 @@ import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; /
 
 // global types
 type str = string; // type for string
-type num = number; // type for number
+type int = number; // type for number
 type obj = object; // type for object
 type globe = any; // type for any
 type blank = void; // type for void
@@ -42,11 +42,11 @@ interface AccountInterface {
     Name: str;
     Email: str;
     Password: str;
-    Phone: num;
+    Phone: int;
     Address: str;
     City: str;
     State: str;
-    Zip: num;
+    Zip: int;
     Country: str;
     SecurityQuestion: str;
     SecurityAnswer: str;
@@ -60,7 +60,7 @@ interface AccountInterface {
 }
 
 interface RegisterAccountData extends AccountInterface {
-    User_id: num;
+    User_id: int;
     JWT_Token?: str;
 }
 
@@ -107,8 +107,8 @@ export async function CreateAccount(req: RequestInterface, res: obj | globe): Pr
         // Generate ID and Encrypt Password
         /* The above code is generating a random number to determine the length of the ID and the encryption
         round number. It then generates a random ID with the determined length. */
-        const RoundNumber: num = await randomNumber(1, false); // Generate Round Number for Encryption Password and ID
-        const ID: num = await randomNumber(RoundNumber, true); // Generate ID
+        const RoundNumber: int = await randomNumber(1, false); // Generate Round Number for Encryption Password and ID
+        const ID: int = await randomNumber(RoundNumber, true); // Generate ID
 
         /* The above code is written in TypeScript and it is declaring two variables `RoundNumber` and
 `EncryptedPassword`.

@@ -2,7 +2,7 @@
 the `Success_Response` and `Failed_Response` functions from the `../../helper/API Response` file.
 These imported modules are then used in the functions defined in the code. */
 import { StoreManagementModel } from '../../Models/index'; // Path: Database/Model/Store Management Model.ts
-import {GenerateJWTtoken} from '../../Middleware/Security/JWT Token Generator'; // Path: src/Middleware/Security/JWT Token Generator.ts
+
 // import Custom Response
 import { Response } from '../../helper/API Response'; // Import API Response Function
 import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
@@ -15,7 +15,7 @@ contains all the required properties and their types match the expected types. *
 
 // global types
 type str = string; // type for string
-type num = number; // type for number
+type int = number; // type for number
 type obj = object; // type for object
 type blank = void; // type for void
 type globe = any; // type for any
@@ -26,16 +26,16 @@ interface GlobalRequestInterface {
         OwnerEmail: str;
         EmployeeName: str;
         EmployeeEmail: str;
-        EmployeeMonthlySalary: num;
-        EmployeePhoneNumber: num;
+        EmployeeMonthlySalary: int;
+        EmployeePhoneNumber: int;
         EmployeeDateOfJoining: str;
         EmployeeRole: str;
-        User_id: num;
+        User_id: int;
     };
     query: {
-        User_id: num;
+        User_id: int;
         OwnerEmail: str;
-        EmployeeMobileNumber: num;
+        EmployeeMobileNumber: int;
         EmployeeEmail: str;
     };
 }
@@ -204,13 +204,12 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
                 Data: undefined,
             }); // If the employee is not in the array, do nothing
         } else if (StoreDataFind.length > 0) {
-            const ResponseToken:globe = await GenerateJWTtoken(StoreDataFind[0].Employees); // Generating the JWT token
             Response({
                 res,
                 Status: 'Employee Found',
                 StatusCode: ResponseCode.Found,
                 Message: 'Employee Found in the database',
-                Data: ResponseToken,
+                Data: StoreDataFind[0].Employees,
             });
         }
         /* The above code is incomplete and does not provide enough context to determine its purpose. It
@@ -254,7 +253,7 @@ export async function DeleteEmployee(req: GlobalRequestInterface, res: obj | glo
 `ShortedEmployeeEmail` and `EmployeeMobileNumber`, respectively. Once the employee is found, the
 index of that employee in the array is returned and stored in the `Index` variable. */
 
-    const Index: num = StoreDataFind[0].Employees.findIndex((Employee: any) => {
+    const Index: int = StoreDataFind[0].Employees.findIndex((Employee: any) => {
         return Employee.EmployeeEmail === ShortedEmployeeEmail && Employee.EmployeePhoneNumber === EmployeeMobileNumber;
     }); // Finding the index of the employee in the array
     /* The above code is checking if an employee exists in an array of employees. If the employee exists,
@@ -343,7 +342,7 @@ rest of the code. */
 phone number. It uses the `findIndex` method to iterate through the array and check if the email and
 phone number of each employee match the provided values. If a match is found, the index of that
 employee in the array is returned. */
-    const Index: num = StoreDataFind[0].Employees.findIndex((Employee: obj | globe) => {
+    const Index: int = StoreDataFind[0].Employees.findIndex((Employee: obj | globe) => {
         return Employee.EmployeeEmail === ShortedEmployeeEmail && Employee.EmployeePhoneNumber === EmployeePhoneNumber;
     }); // Finding the index of the employee in the array
 

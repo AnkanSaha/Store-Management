@@ -18,7 +18,7 @@ the request body is of the correct format and can be properly processed by the m
 
 // global types
 type str = string; // Type for str
-type num = number; // Type for number
+type int = number; // Type for number
 type obj = object; // Type for object
 type globe = any; // Type for globe
 type blank = void; // Type for void
@@ -26,11 +26,11 @@ type blank = void; // Type for void
 // interface
 interface GlobalInterFaceForEmployee {
   body : {
-    User_id: num;
+    User_id: int;
     OwnerEmail: str;
   };
   query : {
-    User_id: num;
+    User_id: int;
     OwnerEmail: str;
   }
 }

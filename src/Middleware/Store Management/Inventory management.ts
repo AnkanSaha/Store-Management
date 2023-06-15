@@ -11,7 +11,7 @@ import { Response } from '../../helper/API Response'; // Import API Response Fun
 import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
 // global types
 type str = string; // type for string
-type num = number; // type for number
+type int = number; // type for number
 type obj = object; // type for object
 type globe = any; // type for any
 type blank = void; // type for void
@@ -20,12 +20,12 @@ type blank = void; // type for void
 interface InventoryInterface{
    body : {
     OwnerEmail: str,
-    User_id: num,
+    User_id: int,
     ProductName: str,
     ProductCategory: str,
     ProductSKU: str,
-    ProductQuantity: num,
-    ProductPrice: num,
+    ProductQuantity: int,
+    ProductPrice: int,
     ProductExpiryDate: str,
     ProductManufacturingDate: str,
     ProductDescription: str

@@ -3,12 +3,11 @@
 // import all modules
 import { Response } from '../../helper/API Response'; // Import API Response Function
 import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
-import { GenerateJWTtoken } from '../../Middleware/Security/JWT Token Generator'; // Importing the JWT Token Generator Function
 import { StoreManagementModel } from '../../Models/index'; // Importing the StoreManagementModel
 
 // Global Types
 type str = string; // type for string
-type num = number; // type for number
+type int = number; // type for number
 type obj = object; // type for object
 type globe = any; // type for any
 type blank = void; // type for void
@@ -25,18 +24,18 @@ function has the required properties and types. */
 interface Request {
     body: {
         OwnerEmail: str;
-        User_id: num;
+        User_id: int;
         ProductName: str;
         ProductCategory: str;
         ProductSKU: str;
-        ProductQuantity: num;
-        ProductPrice: num;
+        ProductQuantity: int;
+        ProductPrice: int;
         ProductExpiryDate: str;
         ProductManufacturingDate: str;
         ProductDescription: str;
     },
     params : {
-        User_id : num;
+        User_id : int;
         OwnerEmail : str;
         ProductSKU: str;
     }
@@ -138,13 +137,12 @@ export async function GetAllInventory(req: Request, res: obj | globe): Promise<b
         }); // Finding the owner store in the database
 
         if (StoreDataFind.length > 0) {
-            const ResponseToken:globe = await GenerateJWTtoken(StoreDataFind[0].Products); // Generating a JWT Token
             Response({
                 res,
                 Status: 'Success',
                 StatusCode: ResponseCode.Found,
                 Message: 'The Inventory is found',
-                Data: ResponseToken,
+                Data: StoreDataFind[0].Products,
             }); // Sending a Success Response to the client
         } else if (StoreDataFind.length === 0) {
             Response({
@@ -203,7 +201,7 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
 
             if (ProductExist.length > 0) {
             //  find Index of the product
-            const ProductIndex: num = StoreDataFind[0].Products.indexOf(ProductExist[0]); // Finding the index of the product in the array
+            const ProductIndex: int = StoreDataFind[0].Products.indexOf(ProductExist[0]); // Finding the index of the product in the array
             if(ProductIndex >= 0){ // Check if the product is in the array
                 StoreDataFind[0].Products.splice(ProductIndex, 1); // Removing the product from the array
                 const NewData = {
@@ -276,7 +274,7 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                     ); // Finding the product in the array
 
                     if (ProductExist.length > 0) {
-                        const ProductIndex: num = StoreDataFind[0].Products.indexOf(ProductExist[0]); // Finding the index of the product in the array
+                        const ProductIndex: int = StoreDataFind[0].Products.indexOf(ProductExist[0]); // Finding the index of the product in the array
                         if(ProductIndex >= 0){ // Check if the product is in the array
                             StoreDataFind[0].Products.splice(ProductIndex, 1); // Removing the product from the array
                             await StoreManagementModel.findOneAndUpdate({$and: [{ User_id }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database

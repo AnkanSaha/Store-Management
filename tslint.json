@@ -12,7 +12,7 @@
         "no-duplicate-variable": true
     },
     "rules": {
-        "no-console": true,
+        "no-console": false,
         "no-debugger": true,
         "no-empty": true,
         "no-eval": true,
