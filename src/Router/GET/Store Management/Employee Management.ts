@@ -4,6 +4,8 @@ import { Router, json } from "express"; // import Router from express
 import CORS from "cors"; // import CORS
 import { GeneralGlobalStringData } from "../../../config/App Config/General Config"; // import GeneralGlobalStringData
 
+import {AccountExistMiddleware} from "../../../Middleware/Store Management/AccountExistMiddileware"; // import AccountExistMiddleware
+
 /* These lines of code are importing the `GetEmployee` function from the `Employee Management` module
 in the `Controller/Store Management` directory. This function is used as the controller for the `GET
 /get` route in the `EmployeeRouter`. */
@@ -30,4 +32,4 @@ export default EmployeeRouter; // Export EmployeeRouter
 function from the `Employee Management` module as the controller for this route. The `json()`
 middleware is used to parse incoming request bodies in JSON format. */
 // all routes
-EmployeeRouter.get("/get",json(),  GetEmployee) // Get Employee Route
+EmployeeRouter.get("/get",json(), AccountExistMiddleware,  GetEmployee) // Get Employee Route

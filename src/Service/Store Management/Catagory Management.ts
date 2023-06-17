@@ -16,8 +16,8 @@ type bool = boolean; // Define a type for boolean
 // Request interfaces
 interface Request {
     body: {
-        User_id: int;
-        OwnerEmail: str;
+        User_idForBody: int;
+        OwnerEmailForBody: str;
         CategoryName: str;
         CategoryDescription: str;
         MaxProduct: int;
@@ -31,13 +31,13 @@ export default AddNewCategory;
 // All  Routes for this Router
 export async function AddNewCategory(req: Request, res: obj | globe): Promise<blank> {
     try {
-        const { CategoryName, CategoryDescription, MaxProduct, OwnerEmail, User_id, isActivated } = req.body; // get the request body
+        const { CategoryName, CategoryDescription, MaxProduct, OwnerEmailForBody, User_idForBody, isActivated } = req.body; // get the request body
 
-        const ShortedOwnerEmail: str = OwnerEmail.toLocaleLowerCase(); // Short the Owner Email
+        const ShortedOwnerEmail: str = OwnerEmailForBody.toLocaleLowerCase(); // Short the Owner Email
 
         // Check if the Category Name is already exist
         const CategoryNameExist: obj | globe = await StoreManagementModel.find({
-            $and: [{ User_id }, { Email: ShortedOwnerEmail }],
+            $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }],
         }); // Check if the Category Name is already exist
 
         const FilteredCategoryName: obj[] | globe = CategoryNameExist[0].Catagories.filter(
@@ -54,7 +54,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
             }); // Add the new Category to the Category List
 
             await StoreManagementModel.findOneAndUpdate(
-                { $and: [{ User_id }, { Email: ShortedOwnerEmail }] },
+                { $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }] },
                 CategoryNameExist[0],
             ); // Update the Category List
 

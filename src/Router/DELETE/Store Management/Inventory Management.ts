@@ -5,6 +5,8 @@ import { Router, json } from 'express'; // Importing Express Router
 import CORS from 'cors'; // Importing CORS
 import { GeneralGlobalStringData } from '../../../config/App Config/General Config'; // Importing Global String Data
 
+import {AccountExistMiddleware} from '../../../Middleware/Store Management/AccountExistMiddileware'; // Path: Middleware/Store Management/AccountExistMiddileware.ts
+
 const InventoryManagementRouter = Router(); // Creating a new Express Router
 
 
@@ -20,4 +22,4 @@ export default InventoryManagementRouter; // Exporting Inventory Management Rout
 import { DeleteInventory } from '../../../Service/Store Management/Inventory Management'; // Path: Controller/Store Management/Inventory Management.ts
 
 // all routes related to inventory management
-InventoryManagementRouter.delete('/delete/:User_id/:OwnerEmail/:ProductSKU', json(), DeleteInventory); // Path: Controller/Store Management/Inventory Management.ts
+InventoryManagementRouter.delete('/delete/:User_idForParams/:OwnerEmailForParams/:ProductSKU', json(), AccountExistMiddleware, DeleteInventory); // Path: Controller/Store Management/Inventory Management.ts

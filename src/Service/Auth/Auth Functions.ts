@@ -12,7 +12,7 @@ import { ResponseCode } from '../../config/App Config/General Config'; // Import
 // import All Sub Middlewares & Functions
 /* These lines of code are importing functions from two different middleware modules. */
 import { EncryptPassword, ComparePassword } from '../../Middleware/Security/Bcrypt'; // Import Encrypt Password Function
-import {GenerateJWTtoken} from '../../Middleware/Security/JWT Token Generator'; // Import JWT Token Generator Function
+import {GenerateJWTtoken} from '../../Middleware/Security/JWT/JWT Token Generator'; // Import JWT Token Generator Function
 
 // IMPORT Models for Database Operations
 /* The `import { ClientAccountModel, StoreManagementModel } from '../../Models/index';` statement is
@@ -192,7 +192,6 @@ is awaited. The `randomNumber` function is likely a custom function that generat
      error. The application ID is included in the response */
         AccountData.Password = 'Encrypted with Crypto'; // Remove Password from Response
         const JWTSignedDataForAccountCreate: str = await GenerateJWTtoken(AccountData); // Generate JWT Token
-        AccountData.JWT_Token = JWTSignedDataForAccountCreate; // Add JWT Token to Response
         if (Result != null && StoreResult != null) {
             // Check if Result is not undefined
             Response({
@@ -200,7 +199,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
                 Status: 'Success',
                 StatusCode: ResponseCode.OK,
                 Message: 'Account Created Successfully ! Please Login to Continue with your Account !',
-                Data:AccountData
+                Data:Object(JWTSignedDataForAccountCreate)
             }); // Send Response
         } else {
             Response({
@@ -312,7 +311,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                 Status: 'Failed',
                 StatusCode: ResponseCode.Unauthorized,
                 Message: 'Password is Incorrect !',
-                Data: undefined,
+                Data: {},
             }); // Send Response
         }
     } catch (error) {

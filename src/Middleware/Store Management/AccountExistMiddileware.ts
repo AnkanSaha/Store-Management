@@ -9,18 +9,21 @@ type int = number; // type for number
 type obj = object; // type for object
 type globe = any; // type for any
 type blank = void; // type for void
-type bool = boolean; // type for boolean
 
 
 interface Request {
     body: {
-        User_id: int,
-        OwnerEmail: str,
-        CategoryName: str,
-        CategoryDescription: str,
-        MaxProduct: int,
-        isActivated: bool
-    }
+        User_idForBody: int,
+        OwnerEmailForBody: str,
+    },
+    query : {
+        User_idForQuery: int;
+        OwnerEmailForQuery: str;
+      },
+      params : {
+        User_idForParams: int;
+        OwnerEmailForParams: str;
+      }
 }
 
 // import all models
@@ -32,7 +35,7 @@ import { Response } from '../../helper/API Response'; // Response Path: src/help
 import { ResponseCode } from '../../config/App Config/General Config'; // Import Response Code
 
 // export default CategoryMiddleware; // Exporting Middleware
-export default CategoryMiddleware; // Exporting Middleware
+export default AccountExistMiddleware; // Exporting Middleware
 
 /**
  * This is a TypeScript middleware function for category management that checks if an account and its
@@ -44,15 +47,19 @@ export default CategoryMiddleware; // Exporting Middleware
  * function in the stack. It is typically called at the end of the current middleware function to
  * indicate that it has completed its processing and the next middleware function can take over.
  */
-export async function CategoryMiddleware(req:Request, res: obj | globe, next:globe) : Promise<blank>{
+export async function AccountExistMiddleware(req:Request, res: obj | globe, next:globe) : Promise<blank>{
     try{
-        const {User_id, OwnerEmail} = req.body;
-        const ShortedOwnerEmail:str = OwnerEmail.toLowerCase(); // Lowercase the email
+        const {User_idForQuery, OwnerEmailForQuery} = req.query; // Destructure the request body
+        const {User_idForBody, OwnerEmailForBody} = req.body; // Destructure the request body
+        const {User_idForParams, OwnerEmailForParams} = req.params; // Destructure the request body
+        // short the email and user id
+        const ShortedOwnerEmail:str = OwnerEmailForQuery ? OwnerEmailForQuery.toLowerCase() : OwnerEmailForBody ? OwnerEmailForBody.toLowerCase() : OwnerEmailForParams.toLowerCase(); // Lowercase the email
+        const UserId:int = User_idForQuery ? User_idForQuery: User_idForBody ? User_idForBody : User_idForParams; // Destructure the request body
 
+        // Check if the account exists in the database
         const AccountFindStatus : obj[] = await ClientAccountModel.find({
-            $and: [{User_id}, {Email: ShortedOwnerEmail}]
-         }); // Finding the employee in the database
-
+            $and: [{User_id:UserId}, {Email: ShortedOwnerEmail}]
+        }); // Finding the employee in the database
          if (AccountFindStatus.length === 0) {
             Response({
                 res,
@@ -64,7 +71,7 @@ export async function CategoryMiddleware(req:Request, res: obj | globe, next:glo
         } else if (AccountFindStatus.length > 0) {
             // If the account is found, find the store of the account
             const StoreDataFind: obj[] = await StoreManagementModel.find({
-                $and: [{ User_id }, { Email: ShortedOwnerEmail }],
+                $and: [{ User_id:UserId }, { Email: ShortedOwnerEmail }],
             }); // Finding the owner store in the database
 
             // If the store is not found, send a response to the client

@@ -23,8 +23,8 @@ function has the required properties and types. */
 
 interface Request {
     body: {
-        OwnerEmail: str;
-        User_id: int;
+        OwnerEmailForBody: str;
+        User_idForBody: int;
         ProductName: str;
         ProductCategory: str;
         ProductSKU: str;
@@ -35,8 +35,8 @@ interface Request {
         ProductDescription: str;
     },
     params : {
-        User_id : int;
-        OwnerEmail : str;
+        User_idForParams : int;
+        OwnerEmailForParams : str;
         ProductSKU: str;
     }
 }
@@ -53,7 +53,7 @@ interface Request {
     try {
         // Get Data from Request Body
         const {
-            OwnerEmail,
+            OwnerEmailForBody,
             ProductCategory,
             ProductDescription,
             ProductExpiryDate,
@@ -62,16 +62,16 @@ interface Request {
             ProductPrice,
             ProductQuantity,
             ProductSKU,
-            User_id,
+            User_idForBody,
         } = req.body;
 
         // Lowercase the email
-        const ShortedOwnerEmail: str = OwnerEmail.toLowerCase();
+        const ShortedOwnerEmail: str = OwnerEmailForBody.toLowerCase();
         const ShortedProductSKU : str = ProductSKU.toLowerCase();
 
         // Finding the employee in the database
         const StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id }, { Email: ShortedOwnerEmail }],
+            $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }],
         }); // Finding the owner store in the database
 
             // check if the product is already in the store
@@ -100,7 +100,7 @@ interface Request {
                 }); // Pushing the new product to the array
 
                 await StoreManagementModel.findOneAndUpdate(
-                    { User_id },
+                    { User_id:User_idForBody },
                     { Products: StoreDataFind[0].Products },
                 ); // Updating the database
                 Response({
@@ -126,14 +126,14 @@ interface Request {
  * @param {obj | globe} res - The response object that will be sent back to the client.
  */
 export async function GetAllInventory(req: Request, res: obj | globe): Promise<blank> {
-    const { User_id, OwnerEmail } = req.params; // Get Data from Request params
+    const { User_idForParams, OwnerEmailForParams } = req.params; // Get Data from Request params
     // Shorting email
-    const ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Convert Email to Lower Case
+    const ShortedOwnerEmail: str = OwnerEmailForParams.toLowerCase(); // Convert Email to Lower Case
 
     try {
         // Finding the employee in the database
         const StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id }, { Email: ShortedOwnerEmail }],
+            $and: [{ User_id:User_idForParams }, { Email: ShortedOwnerEmail }],
         }); // Finding the owner store in the database
 
         if (StoreDataFind.length > 0) {
@@ -173,7 +173,7 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
     try{
          // Get Data from Request Body
          const {
-            OwnerEmail,
+            OwnerEmailForBody,
             ProductCategory,
             ProductDescription,
             ProductExpiryDate,
@@ -182,16 +182,16 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
             ProductPrice,
             ProductQuantity,
             ProductSKU,
-            User_id,
+            User_idForBody,
         } = req.body;
 
         // Lowercase the email and SKU
-        const ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Convert Email to Lower Case
+        const ShortedOwnerEmail: str = OwnerEmailForBody.toLowerCase(); // Convert Email to Lower Case
         const ShortedProductSKU : str = ProductSKU.toLowerCase(); // Convert Email to Lower Case
 
         // Finding the product in the database
         const StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id }, { Email: ShortedOwnerEmail }]
+            $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }]
         }); // Finding the owner store in the database
 
             // check if the product is already in the store
@@ -216,7 +216,7 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
                 }  // Creating a new object for the product data
 
                 StoreDataFind[0].Products.push(NewData); // Pushing the new product to the array
-                 await StoreManagementModel.findOneAndUpdate({$and: [{ User_id }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
+                 await StoreManagementModel.findOneAndUpdate({$and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
                  Response({
                     res,
                     Status: 'Product Updated',
@@ -253,18 +253,18 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
     try{
                  // Get Data from Request Body
                  const {
-                    OwnerEmail,
+                    OwnerEmailForParams,
                     ProductSKU,
-                    User_id,
+                    User_idForParams,
                 } = req.params;
 
                 // Lowercase the email and SKU
-                const ShortedOwnerEmail: str = OwnerEmail.toLowerCase(); // Convert Email to Lower Case
+                const ShortedOwnerEmail: str = OwnerEmailForParams.toLowerCase(); // Convert Email to Lower Case
                 const ShortedProductSKU : str = ProductSKU.toLowerCase(); // Convert Email to Lower Case
 
                 // Finding the product in the database
                 const StoreDataFind: globe[] = await StoreManagementModel.find({
-                    $and: [{ User_id }, { Email: ShortedOwnerEmail }]
+                    $and: [{ User_id:User_idForParams }, { Email: ShortedOwnerEmail }]
                 }); // Finding the owner store in the database
 
                 if(StoreDataFind.length > 0){
@@ -277,7 +277,7 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                         const ProductIndex: int = StoreDataFind[0].Products.indexOf(ProductExist[0]); // Finding the index of the product in the array
                         if(ProductIndex >= 0){ // Check if the product is in the array
                             StoreDataFind[0].Products.splice(ProductIndex, 1); // Removing the product from the array
-                            await StoreManagementModel.findOneAndUpdate({$and: [{ User_id }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
+                            await StoreManagementModel.findOneAndUpdate({$and: [{ User_id:User_idForParams }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
                             Response({
                                res,
                                Status: 'Product Deleted',

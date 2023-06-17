@@ -14,7 +14,7 @@ InventoryRouterManagement.use(CORS({
 })); // Using CORS middleware
 
 // import Middleware
-import { InventoryMiddleware } from '../../../Middleware/Store Management/Inventory management'; // Importing InventoryMiddleware function
+import { AccountExistMiddleware } from '../../../Middleware/Store Management/AccountExistMiddileware'; // Importing InventoryMiddleware function
 
 // import all controllers
 import { UpdateInventory } from '../../../Service/Store Management/Inventory Management'; // Importing UpdateInventory function
@@ -24,4 +24,4 @@ export default InventoryRouterManagement; // Exporting InventoryRouterManagement
 
 
 // all routes that can handle requests
-InventoryRouterManagement.put('/update', json(), InventoryMiddleware, UpdateInventory); // Update Inventory Route
+InventoryRouterManagement.put('/update', json(), AccountExistMiddleware, UpdateInventory); // Update Inventory Route
