@@ -26,7 +26,7 @@ middleware function is used to check if the employee being deleted has any assoc
 and if so, it prevents the deletion of the employee. The middleware function is used in the
 `Employee_Manage_Router` to handle the HTTP DELETE request for deleting an employee. */
 // import controller Middleware
-import { CheckEmployeeDeleteMiddleware } from '../../../Middleware/Store Management/Employee management'; // Path: Middleware/Store Management/Employee Management.ts
+import { AccountExistMiddleware } from '../../../Middleware/Store Management/AccountExistMiddileware'; // Path: Middleware/Store Management/Employee Management.ts
 
 /* This line of code is importing a function named `DeleteEmployee` from a file located at the path
 `'../../../Controller/Store Management/Employee Management.ts'`. This function is a controller
@@ -53,4 +53,4 @@ check if the employee being deleted has any associated data or not, and if so, i
 deletion of the employee. `DeleteEmployee` is a controller function that handles the actual deletion
 of the employee. */
 // Creating Employee Management Router
-EmployeeManageRouter.delete('/delete', json(),CheckEmployeeDeleteMiddleware, DeleteEmployee);
+EmployeeManageRouter.delete('/delete', json(),AccountExistMiddleware, DeleteEmployee);

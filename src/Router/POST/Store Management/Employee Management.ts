@@ -12,7 +12,7 @@ in the `Middleware/Store Management/Employee management` directory. This middlew
 to check if the request to add a new employee has all the required fields and is valid before
 passing it on to the `AddnewEmployee` controller function. */
 // Importing Employee Middleware
-import { CheckEmployeeAddMiddleware } from '../../../Middleware/Store Management/Employee management'; // Path: Middleware/Store Management/Employee Management.ts
+import { AccountExistMiddleware } from '../../../Middleware/Store Management/AccountExistMiddileware'; // Path: Middleware/Store Management/Employee Management.ts
 
 
 /* These lines of code are creating an instance of the `Router` module from the `express` package and
@@ -47,7 +47,7 @@ fields and is valid before passing it on to the `AddnewEmployee` controller func
 `AddnewEmployee` function is a controller function that handles the logic for adding a new employee
 to the store management system. */
 // All Routes
-EmployeeRouterManagement.post('/create', json(), CheckEmployeeAddMiddleware, AddnewEmployee); // Creating an employee
+EmployeeRouterManagement.post('/create', json(), AccountExistMiddleware, AddnewEmployee); // Creating an employee
 
 /* The `export default` statement is used to export the `EmployeeRouterManagement` instance of the
 `Router` module as a default export from the module. This allows other modules to import and use the

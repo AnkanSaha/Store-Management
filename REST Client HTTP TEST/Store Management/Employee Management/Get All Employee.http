@@ -1,1 +1,1 @@
-GET http://localhost:3201/api/get/employee/get?User_id=435063052938472&OwnerEmail=ankansahaofficial@gmail.com HTTP/1.1
+GET http://localhost:3201/api/get/employee/get?User_idForQuery=435063052938472&OwnerEmailForQuery=ankansahaofficial@gmail.com HTTP/1.1

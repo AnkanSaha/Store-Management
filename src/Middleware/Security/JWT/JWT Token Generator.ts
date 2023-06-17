@@ -2,7 +2,7 @@
 The `sign` function is used to generate a JSON Web Token (JWT) with a given payload and secret key. */
 
 import { sign, verify } from 'jsonwebtoken'; // Import JWT library
-import { GeneralGlobalStringData } from '../../config/App Config/General Config'; // Import General Global String Data
+import { GeneralGlobalStringData } from '../../../config/App Config/General Config'; // Import General Global String Data
 // Global types
 type str = string; // Define a type for strings
 type globe = any; // Define a type for global variables

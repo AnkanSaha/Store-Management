@@ -12,7 +12,7 @@ import { ResponseCode } from '../../config/App Config/General Config'; // Import
 
 // Global Types
 type str = string; // Type for str
-type num = number; // Type for number
+type int = number; // Type for number
 type obj = object; // Type for object
 type globe = any; // Type for globe
 type blank = void; // Type for void
@@ -21,7 +21,7 @@ type blank = void; // Type for void
 interface RequestinterfaceForValidation {
     body: {
         Email: str;
-        Phone: num;
+        Phone: int;
         PAN: str;
     };
 }
@@ -145,7 +145,7 @@ returns. If an account is found, it calls the next middleware function in the ch
             Status: 'Failed',
             StatusCode: ResponseCode.Bad_Request,
             Message: 'Account Not Found ! Please Create Account !',
-            Data: undefined,
+            Data: {},
         }); // Send Not Found Response
     } else if (FindAccountResult.length > 0) {
         next(); // Move to next middleware

@@ -12,7 +12,7 @@ import { ResponseCode } from '../../config/App Config/General Config'; // Import
 // import All Sub Middlewares & Functions
 /* These lines of code are importing functions from two different middleware modules. */
 import { EncryptPassword, ComparePassword } from '../../Middleware/Security/Bcrypt'; // Import Encrypt Password Function
-import {GenerateJWTtoken} from '../../Middleware/Security/JWT Token Generator'; // Import JWT Token Generator Function
+import {GenerateJWTtoken} from '../../Middleware/Security/JWT/JWT Token Generator'; // Import JWT Token Generator Function
 
 // IMPORT Models for Database Operations
 /* The `import { ClientAccountModel, StoreManagementModel } from '../../Models/index';` statement is
@@ -23,7 +23,7 @@ import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; /
 
 // global types
 type str = string; // type for string
-type num = number; // type for number
+type int = number; // type for number
 type obj = object; // type for object
 type globe = any; // type for any
 type blank = void; // type for void
@@ -42,11 +42,11 @@ interface AccountInterface {
     Name: str;
     Email: str;
     Password: str;
-    Phone: num;
+    Phone: int;
     Address: str;
     City: str;
     State: str;
-    Zip: num;
+    Zip: int;
     Country: str;
     SecurityQuestion: str;
     SecurityAnswer: str;
@@ -60,7 +60,7 @@ interface AccountInterface {
 }
 
 interface RegisterAccountData extends AccountInterface {
-    User_id: num;
+    User_id: int;
     JWT_Token?: str;
 }
 
@@ -107,8 +107,8 @@ export async function CreateAccount(req: RequestInterface, res: obj | globe): Pr
         // Generate ID and Encrypt Password
         /* The above code is generating a random number to determine the length of the ID and the encryption
         round number. It then generates a random ID with the determined length. */
-        const RoundNumber: num = await randomNumber(1, false); // Generate Round Number for Encryption Password and ID
-        const ID: num = await randomNumber(RoundNumber, true); // Generate ID
+        const RoundNumber: int = await randomNumber(1, false); // Generate Round Number for Encryption Password and ID
+        const ID: int = await randomNumber(RoundNumber, true); // Generate ID
 
         /* The above code is written in TypeScript and it is declaring two variables `RoundNumber` and
 `EncryptedPassword`.
@@ -192,7 +192,6 @@ is awaited. The `randomNumber` function is likely a custom function that generat
      error. The application ID is included in the response */
         AccountData.Password = 'Encrypted with Crypto'; // Remove Password from Response
         const JWTSignedDataForAccountCreate: str = await GenerateJWTtoken(AccountData); // Generate JWT Token
-        AccountData.JWT_Token = JWTSignedDataForAccountCreate; // Add JWT Token to Response
         if (Result != null && StoreResult != null) {
             // Check if Result is not undefined
             Response({
@@ -200,7 +199,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
                 Status: 'Success',
                 StatusCode: ResponseCode.OK,
                 Message: 'Account Created Successfully ! Please Login to Continue with your Account !',
-                Data:AccountData
+                Data:Object(JWTSignedDataForAccountCreate)
             }); // Send Response
         } else {
             Response({
@@ -312,7 +311,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                 Status: 'Failed',
                 StatusCode: ResponseCode.Unauthorized,
                 Message: 'Password is Incorrect !',
-                Data: undefined,
+                Data: {},
             }); // Send Response
         }
     } catch (error) {

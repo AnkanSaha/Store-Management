@@ -29,7 +29,7 @@ corresponding handlers, and then links them to the main `Service` app using
 the appropriate data or actions based on the requested route. */
 // Import Routes Manager
 import Router_Manager from './Router/Router Manager'; // Import Router_Manager
-import DB from './config/DB/MongoDB'; // Import MongoDB_Connect middleware
+import DB from './config/Connection/MongoDB'; // Import MongoDB_Connect middleware
 // Create cluster
 /* This code is creating a cluster of worker processes using the `os` and `cluster` modules in Node.js.
 It first gets the number of CPUs available on the system using `os.cpus().length`. Then, if the
@@ -118,6 +118,7 @@ establishing a connection to the MongoDB database using the `MongoDB_URL` config
 the `./config/DB Config/MongoDB` file. Once the connection is established, the server can interact
 with the database to perform CRUD (Create, Read, Update, Delete) operations on the data stored in
 the database. */
-        DB(); // Connect to MongoDB database
+        await DB(); // Connect to MongoDB database
+        console.log(`Server running on port ${GeneralGlobalNumberData.PORT}`); // Log message to console
     });
 }
