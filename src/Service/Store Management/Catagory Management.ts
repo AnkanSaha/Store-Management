@@ -22,7 +22,11 @@ interface Request {
         CategoryDescription: str;
         MaxProduct: int;
         isActivated: bool;
-    };
+    },
+    params: {
+        User_idForParams: int;
+        OwnerEmailForParams: str;
+    },
 }
 
 // export The Controller Function
@@ -85,3 +89,51 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
         });
     }
 } // Add New Category
+
+/**
+ * This function retrieves the categories of a store based on the owner's email and user ID.
+ * @param {Request} req - The `req` parameter is an object that represents the HTTP request made to the
+ * server. It contains information such as the request method, headers, URL, and parameters.
+ * @param {obj | globe} res - The `res` parameter is the response object that will be sent back to the
+ * client making the request. It contains information such as the status code, status message, and any
+ * data that is being returned.
+ */
+export async function GetCategory(req: Request, res: obj | globe): Promise<blank> {
+    try{
+        const {OwnerEmailForParams, User_idForParams} = req.params; // get the request body
+
+        // Short the Owner Email
+        const ShortedOwnerEmail: str = OwnerEmailForParams.toLocaleLowerCase();
+
+        // Find the Store Details
+        const StoreDetails: globe[] = await StoreManagementModel.find({$and:[{User_id:User_idForParams}, {Email:ShortedOwnerEmail}]}); // Find the Store Details
+
+        if(StoreDetails.length !== 0){
+            Response({
+                res,
+                StatusCode: ResponseCode.Accepted,
+                Status: "Success",
+                Message: "Store Details",
+                Data: StoreDetails[0].Catagories
+            });
+        }
+        else{
+            Response({
+                res,
+                StatusCode: ResponseCode.Not_Found,
+                Status: "Not Found",
+                Message: "Store Not Found",
+                Data: undefined
+            });
+        }
+    }
+    catch(err: globe| unknown){
+        Response({
+            res,
+            StatusCode: ResponseCode.Internal_Server_Error,
+            Status: "Internal Server Error",
+            Message: err.message,
+            Data: undefined
+        })
+    }
+}; // Get Category
