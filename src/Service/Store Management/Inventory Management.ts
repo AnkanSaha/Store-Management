@@ -201,9 +201,7 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
 
             if (ProductExist.length > 0) {
             //  find Index of the product
-            const ProductIndex: int = StoreDataFind[0].Products.indexOf(ProductExist[0]); // Finding the index of the product in the array
-            if(ProductIndex >= 0){ // Check if the product is in the array
-                StoreDataFind[0].Products.splice(ProductIndex, 1); // Removing the product from the array
+            const FilteredProductDetels: globe[] = StoreDataFind[0].Products.filter((element:globe) => element.ProductSKU !== ShortedProductSKU); // Finding the index of the product in the array
                 const NewData = {
                     ProductName,
                     ProductCategory,
@@ -215,16 +213,16 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
                     ProductDescription
                 }  // Creating a new object for the product data
 
-                StoreDataFind[0].Products.push(NewData); // Pushing the new product to the array
+                FilteredProductDetels.push(NewData); // Pushing the new product to the array
+                StoreDataFind[0].Products = FilteredProductDetels; // Updating the array
                  await StoreManagementModel.findOneAndUpdate({$and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
                  Response({
                     res,
                     Status: 'Product Updated',
                     StatusCode: ResponseCode.Accepted,
                     Message: 'The Product is updated in the store',
-                    Data: undefined
+                    Data: StoreDataFind[0].Products
                  }); // Sending a Success Response to the client
-                }
             }
             else if (ProductExist.length === 0) {
                 Response({
@@ -274,18 +272,16 @@ export async function DeleteInventory(req: Request, res: obj | globe): Promise<b
                     ); // Finding the product in the array
 
                     if (ProductExist.length > 0) {
-                        const ProductIndex: int = StoreDataFind[0].Products.indexOf(ProductExist[0]); // Finding the index of the product in the array
-                        if(ProductIndex >= 0){ // Check if the product is in the array
-                            StoreDataFind[0].Products.splice(ProductIndex, 1); // Removing the product from the array
+                        const DeletedProductDetails: obj | globe[] = StoreDataFind[0].Products.filter((element:globe)=> element.ProductSKU !== ShortedProductSKU); // Finding the index of the product in the array
+                            StoreDataFind[0].Products = DeletedProductDetails // Removing the product from the array
                             await StoreManagementModel.findOneAndUpdate({$and: [{ User_id:User_idForParams }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
                             Response({
                                res,
                                Status: 'Product Deleted',
                                StatusCode: ResponseCode.Accepted,
                                Message: 'The Product is Deleted in the store',
-                               Data: undefined
+                               Data: StoreDataFind[0].Products
                             }); // Sending a Success Response to the client
-                        }
                     }
                     else if (ProductExist.length === 0) {
                         Response({

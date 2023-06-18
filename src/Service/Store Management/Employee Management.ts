@@ -247,36 +247,35 @@ export async function DeleteEmployee(req: GlobalRequestInterface, res: obj | glo
         $and: [{ User_id:User_idForQuery }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database
 
-    /* The above code is finding the index of an employee in an array of employees. It is using the
-`findIndex` method to search for an employee whose email and phone number match the values of
-`ShortedEmployeeEmail` and `EmployeeMobileNumber`, respectively. Once the employee is found, the
-index of that employee in the array is returned and stored in the `Index` variable. */
 
-    const Index: int = StoreDataFind[0].Employees.findIndex((Employee: any) => {
-        return Employee.EmployeeEmail === ShortedEmployeeEmail && String(Employee.EmployeePhoneNumber) === String(EmployeeMobileNumber);
-    }); // Finding the index of the employee in the array
-    /* The above code is checking if an employee exists in an array of employees. If the employee exists,
-  it is removed from the array. If the employee does not exist, a failed response is returned with a
-  404 status code and a message indicating that no employee was found in the database. */
-    if (Index === -1) {
+/* The above code is filtering an array of employee data stored in `StoreDataFind[0].Employees` based
+on two conditions:
+1. The `EmployeeEmail` property of each employee object should not be equal to the
+`ShortedEmployeeEmail` variable.
+2. The `EmployeePhoneNumber` property of each employee object, when converted to a string, should
+not be equal to the `EmployeeMobileNumber` variable, also converted to a string. */
+
+    const DeletedArrayOfEmployeeData: globe[] = StoreDataFind[0].Employees.filter((Employee: any) => {
+        return Employee.EmployeeEmail !== ShortedEmployeeEmail && String(Employee.EmployeePhoneNumber) !== String(EmployeeMobileNumber);
+    }); // Getting Array of Employee Data after deleting the employee
+
+    if(StoreDataFind[0].Employees.length === 0){
         Response({
             res,
-            Status: 'No Employee Found',
+            Status: 'Employee Not Found',
             StatusCode: ResponseCode.Not_Found,
-            Message: 'No Employee Found in the database',
-            Data: undefined,
-        });
-        return;
-    } // If the employee is not in the array, do nothing
-
-    StoreDataFind[0].Employees.splice(Index, 1); // Removing the employee from the array
-
-    /* The above code is updating and re-saving data to a database for a store management system. It
+            Message: 'Employee Not Found in the database',
+            Data: undefined
+        })
+    }
+    else{
+        StoreDataFind[0].Employees = DeletedArrayOfEmployeeData // Updating the array of employees
+         /* The above code is updating and re-saving data to a database for a store management system. It
    first finds and updates the data for a specific user, then finds the updated data again and sends
    it as a response to the client. The response includes a success status code, message, and the
    updated employee data for the store. */
     // Re-Saving the data to the database
-    await StoreManagementModel.findOneAndUpdate({ User_id:User_idForQuery }, StoreDataFind[0]);
+    await StoreManagementModel.findOneAndUpdate({ User_id:User_idForQuery }, {Employees:StoreDataFind[0].Employees});
 
     // Re-Finding the employee in the database
     const StoreDataFindAgain: obj | globe = await StoreManagementModel.find({
@@ -290,6 +289,7 @@ index of that employee in the array is returned and stored in the `Index` variab
         Message: 'Employee Deleted from the database',
         Data: StoreDataFindAgain[0].Employees,
     }); // If the employee is not in the array, push the employee to the array
+    }
 } // Deleting the employee
 
 // Update Employee Function
@@ -337,41 +337,20 @@ rest of the code. */
         $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database
 
-    /* The above code is finding the index of an employee in an array of employees based on their email and
-phone number. It uses the `findIndex` method to iterate through the array and check if the email and
-phone number of each employee match the provided values. If a match is found, the index of that
-employee in the array is returned. */
-    const Index: int = StoreDataFind[0].Employees.findIndex((Employee: obj | globe) => {
-        return Employee.EmployeeEmail === ShortedEmployeeEmail && String(Employee.EmployeePhoneNumber) === String(EmployeePhoneNumber);
+/* The above code is filtering an array of employee data stored in `StoreDataFind[0].Employees` based
+on two conditions:
+1. The `EmployeeEmail` property of each employee object should not be equal to the
+`ShortedEmployeeEmail` variable.
+2. The `EmployeePhoneNumber` property of each employee object should not be equal to the
+`EmployeePhoneNumber` variable after converting both to strings. */
+    const FilteredArrayOfRemovedEmployeeData: globe[] = StoreDataFind[0].Employees.filter((Employee: obj | globe) => {
+        return Employee.EmployeeEmail !== ShortedEmployeeEmail && String(Employee.EmployeePhoneNumber) !== String(EmployeePhoneNumber);
     }); // Finding the index of the employee in the array
-    /* The above code is checking if the value of the variable "Index" is equal to -1. If it is, then it
-means that the employee is not found in the database. In that case, it calls a function named
-"Failed_Response" with an object containing details about the failure response, including the
-response object, status code, status message, error message, and an empty data object. Finally, it
-returns from the function. */
 
-    if (Index < 0) {
-        Response({
-            res,
-            Status: 'No Employee Found',
-            StatusCode: ResponseCode.Not_Found,
-            Message: 'No Employee Found in the database',
-            Data: undefined,
-        });
-        return;
-    } // If the employee is not in the array, do nothing
-
-    /* The above code is removing an employee from the Employees array of the first element in the
-StoreDataFind array. The Index variable is used to specify the index of the employee to be removed,
-and the splice method is used to remove that employee from the array. Specifically, the second
-argument of the splice method (1) indicates that only one element should be removed from the array. */
-    StoreDataFind[0].Employees.splice(Index, 1); // Removing the employee from the array
-
-    /* The above code is adding a new employee object to the Employees array of the first element in the
-StoreDataFind array. The employee object contains properties such as EmployeeName, EmployeeEmail,
-EmployeePhoneNumber, EmployeeDateOfJoining, EmployeeRole, and EmployeeMonthlySalary. The values for
-these properties are provided as arguments to the push method. */
-    StoreDataFind[0].Employees.push({
+/* The above code is pushing an object containing employee data (name, email, phone number, date of
+joining, role, and monthly salary) to an array called `FilteredArrayOfRemovedEmployeeData`. The
+email address is shortened before being added to the object. */
+    FilteredArrayOfRemovedEmployeeData.push({
         EmployeeName,
         EmployeeEmail: ShortedEmployeeEmail,
         EmployeePhoneNumber,
@@ -380,7 +359,9 @@ these properties are provided as arguments to the push method. */
         EmployeeMonthlySalary,
     }); // Pushing the employee to the array
 
-    await StoreManagementModel.findOneAndUpdate({ User_id:User_idForBody }, StoreDataFind[0]); // Re-Saving the data to the database
+    StoreDataFind[0].Employees = FilteredArrayOfRemovedEmployeeData; // Updating the array of employees in the database
+
+    await StoreManagementModel.findOneAndUpdate({ User_id:User_idForBody }, {Employees:StoreDataFind[0].Employees}); // Re-Saving the data to the database
 
     // Re-Finding the employee in the database
     const StoreDataFindAgain: any = await StoreManagementModel.find({

@@ -6,8 +6,8 @@ Content-Type: application/json
   "EmployeeName":"Ankan Saha",
   "EmployeeEmail":"ankansahaofficial@gmail.com",
   "User_idForBody":435063052938472,
-  "EmployeeMonthlySalary":100000,
-  "EmployeePhoneNumber":7063355213,
-  "EmployeeDateOfJoining":"2023-04-25",
+  "EmployeeMonthlySalary":1000000,
+  "EmployeePhoneNumber":9641620563,
+  "EmployeeDateOfJoining":"2023-04-26",
   "EmployeeRole":"Owner"
 }
