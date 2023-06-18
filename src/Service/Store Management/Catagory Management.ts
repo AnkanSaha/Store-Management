@@ -1,7 +1,7 @@
 // import Modules
 import { Response } from '../../helper/API Response'; // Response Module
 import { ResponseCode } from '../../config/App Config/General Config'; // General App Config Module
-import {randomNumber} from 'uniquegen'; // Unique ID Generator Module
+import { randomNumber } from 'uniquegen'; // Unique ID Generator Module
 
 // import Data models
 import { StoreManagementModel } from '../../Models'; //  Model
@@ -24,11 +24,16 @@ interface Request {
         CategoryDescription: str;
         MaxProduct: int;
         isActivated: bool;
-    },
+    };
+    query: {
+        User_idForQuery: int;
+        OwnerEmailForQuery: str;
+        CategoryID: int;
+    };
     params: {
         User_idForParams: int;
         OwnerEmailForParams: str;
-    },
+    };
 }
 
 // export The Controller Function
@@ -37,13 +42,14 @@ export default AddNewCategory;
 // All  Routes for this Router
 export async function AddNewCategory(req: Request, res: obj | globe): Promise<blank> {
     try {
-        const { CategoryName, CategoryDescription, MaxProduct, OwnerEmailForBody, User_idForBody, isActivated } = req.body; // get the request body
+        const { CategoryName, CategoryDescription, MaxProduct, OwnerEmailForBody, User_idForBody, isActivated } =
+            req.body; // get the request body
 
         const ShortedOwnerEmail: str = OwnerEmailForBody.toLocaleLowerCase(); // Short the Owner Email
 
         // Check if the Category Name is already exist
         const CategoryNameExist: obj | globe = await StoreManagementModel.find({
-            $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }],
+            $and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }],
         }); // Check if the Category Name is already exist
 
         const FilteredCategoryName: obj[] | globe = CategoryNameExist[0].Catagories.filter(
@@ -61,8 +67,8 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
             }); // Add the new Category to the Category List
 
             await StoreManagementModel.findOneAndUpdate(
-                { $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }] },
-                {Catagories:CategoryNameExist[0].Catagories},
+                { $and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }] },
+                { Catagories: CategoryNameExist[0].Catagories },
             ); // Update the Category List
 
             Response({
@@ -102,107 +108,181 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
  * data that is being returned.
  */
 export async function GetCategory(req: Request, res: obj | globe): Promise<blank> {
-    try{
-        const {OwnerEmailForParams, User_idForParams} = req.params; // get the request body
+    try {
+        const { OwnerEmailForParams, User_idForParams } = req.params; // get the request body
 
         // Short the Owner Email
         const ShortedOwnerEmail: str = OwnerEmailForParams.toLocaleLowerCase();
 
         // Find the Store Details
-        const StoreDetails: globe[] = await StoreManagementModel.find({$and:[{User_id:User_idForParams}, {Email:ShortedOwnerEmail}]}); // Find the Store Details
+        const StoreDetails: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id: User_idForParams }, { Email: ShortedOwnerEmail }],
+        }); // Find the Store Details
 
-        if(StoreDetails.length !== 0){
+        if (StoreDetails.length !== 0) {
             Response({
                 res,
                 StatusCode: ResponseCode.Accepted,
-                Status: "Success",
-                Message: "Store Details",
-                Data: StoreDetails[0].Catagories
+                Status: 'Success',
+                Message: 'Store Details',
+                Data: StoreDetails[0].Catagories,
             });
-        }
-        else{
+        } else {
             Response({
                 res,
                 StatusCode: ResponseCode.Not_Found,
-                Status: "Not Found",
-                Message: "Store Not Found",
-                Data: undefined
+                Status: 'Not Found',
+                Message: 'Store Not Found',
+                Data: undefined,
             });
         }
-    }
-    catch(err: globe| unknown){
+    } catch (err: globe | unknown) {
         Response({
             res,
             StatusCode: ResponseCode.Internal_Server_Error,
-            Status: "Internal Server Error",
+            Status: 'Internal Server Error',
             Message: err.message,
-            Data: undefined
-        })
+            Data: undefined,
+        });
     }
-}; // Get Category
-
+} // Get Category
 
 export async function UpdateCategory(req: Request, res: obj | globe): Promise<blank> {
-    try{
-        const {User_idForBody, OwnerEmailForBody, CategoryID, CategoryName, CategoryDescription, MaxProduct, isActivated} = req.body; // get the request body
+    try {
+        const {
+            User_idForBody,
+            OwnerEmailForBody,
+            CategoryID,
+            CategoryName,
+            CategoryDescription,
+            MaxProduct,
+            isActivated,
+        } = req.body; // get the request body
 
         // Short the Owner Email
         const ShortedOwnerEmail: str = OwnerEmailForBody.toLocaleLowerCase();
 
         // Find the Store Details
-        const StoreDetails : globe[] = await StoreManagementModel.find({$and:[{User_id:User_idForBody}, {Email:ShortedOwnerEmail}]}); // Find the Store Details
+        const StoreDetails: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }],
+        }); // Find the Store Details
 
-        if(StoreDetails.length !== 0){
-            const FilteredCategoryForFind : globe[] = StoreDetails[0].Catagories.filter((item: globe) => item.CategoryID === CategoryID); // Filter the Category
-            if(FilteredCategoryForFind.length === 0){
+        if (StoreDetails.length !== 0) {
+            const FilteredCategoryForFind: globe[] = StoreDetails[0].Catagories.filter(
+                (item: globe) => item.CategoryID === CategoryID,
+            ); // Filter the Category
+            if (FilteredCategoryForFind.length === 0) {
                 Response({
                     res,
                     StatusCode: ResponseCode.Not_Found,
-                    Status: "Category Not Found",
-                    Message: "Category Not Found in the Database",
-                    Data: undefined
+                    Status: 'Category Not Found',
+                    Message: 'Category Not Found in the Database',
+                    Data: undefined,
                 }); // Send the Response
-            }
-            else if(FilteredCategoryForFind.length !== 0){
-                const FilteredCategoryForUpdate : globe[] = StoreDetails[0].Catagories.filter((item: globe) => item.CategoryID !== CategoryID); // Filter the Category
+            } else if (FilteredCategoryForFind.length !== 0) {
+                const FilteredCategoryForUpdate: globe[] = StoreDetails[0].Catagories.filter(
+                    (item: globe) => item.CategoryID !== CategoryID,
+                ); // Filter the Category
 
                 FilteredCategoryForUpdate.push({
                     CategoryID,
                     CategoryName,
                     CategoryDescription,
                     MaxProduct,
-                    isActivated
+                    isActivated,
                 }); // Push the new Category
 
-                await StoreManagementModel.findOneAndUpdate({$and:[{User_id:User_idForBody}, {Email:ShortedOwnerEmail}]}, {Catagories:FilteredCategoryForUpdate}); // Update the Category
+                await StoreManagementModel.findOneAndUpdate(
+                    { $and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }] },
+                    { Catagories: FilteredCategoryForUpdate },
+                ); // Update the Category
 
                 Response({
                     res,
                     StatusCode: ResponseCode.Accepted,
-                    Status: "Success",
-                    Message: "Category Updated Successfully",
-                    Data: FilteredCategoryForUpdate
+                    Status: 'Success',
+                    Message: 'Category Updated Successfully',
+                    Data: FilteredCategoryForUpdate,
                 }); // Send the Response
             }
-        }
-        else if(StoreDetails.length === 0){
+        } else if (StoreDetails.length === 0) {
             Response({
                 res,
                 StatusCode: ResponseCode.Not_Found,
-                Status: "Store Not Found",
-                Message: "Store Not Found in the Database",
-                Data: undefined
+                Status: 'Store Not Found',
+                Message: 'Store Not Found in the Database',
+                Data: undefined,
             });
-        }// Check if the Store Details is exist
-
-    }
-    catch(err: globe| unknown){
+        } // Check if the Store Details is exist
+    } catch (err: globe | unknown) {
         Response({
             res,
             StatusCode: ResponseCode.Internal_Server_Error,
-            Status: "Internal Server Error",
+            Status: 'Internal Server Error',
             Message: err.message,
-            Data: undefined
-        })
+            Data: undefined,
+        });
     }
-}; // Update Category
+} // Update Category
+
+export async function DeleteCategory(req: Request, res: obj | globe): Promise<blank> {
+    try {
+        const { User_idForQuery, OwnerEmailForQuery, CategoryID } = req.query; // get the request body
+
+        // Short the Owner Email
+        const ShortedOwnerEmail: str = OwnerEmailForQuery.toLocaleLowerCase();
+
+        // Find the Store Details
+        const StoreDetails: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }],
+        }); // Find the Store Details
+
+        if (StoreDetails.length === 0) {
+            Response({
+                res,
+                StatusCode: ResponseCode.Not_Found,
+                Status: 'Store Not Found',
+                Message: 'Store Not Found in the Database',
+                Data: undefined,
+            });
+        } else if (StoreDetails.length !== 0) {
+            const FilteredCategoryDetailsForExist: globe[] = (StoreDetails[0].Catagories =
+                StoreDetails[0].Catagories.filter((item: globe) => String(item.CategoryID) === String(CategoryID))); // Filter the Category
+            if (FilteredCategoryDetailsForExist.length === 0) {
+                Response({
+                    res,
+                    StatusCode: ResponseCode.Not_Found,
+                    Status: 'Category Not Found',
+                    Message: 'Category Not Found in the Database',
+                    Data: undefined,
+                }); // Send the Response
+            } else if (FilteredCategoryDetailsForExist.length !== 0) {
+                const FilteredCategoryDetailsForDelete: globe[] = (StoreDetails[0].Catagories =
+                    StoreDetails[0].Catagories.filter((item: globe) => String(item.CategoryID) !== String(CategoryID))); // Filter the Category
+
+                StoreDetails[0].Catagories = FilteredCategoryDetailsForDelete; // Update the Category
+
+                await StoreManagementModel.findOneAndUpdate(
+                    { $and: [{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }] },
+                    { Catagories: StoreDetails[0].Catagories },
+                ); // Update the Category
+
+                Response({
+                    res,
+                    StatusCode: ResponseCode.Accepted,
+                    Status: 'Success',
+                    Message: 'Category Deleted Successfully',
+                    Data: [],
+                }); // Send the Response
+            }
+        }
+    } catch (err: globe | unknown) {
+        Response({
+            res,
+            StatusCode: ResponseCode.Internal_Server_Error,
+            Status: 'Internal Server Error',
+            Message: err.message,
+            Data: undefined,
+        });
+    }
+}
