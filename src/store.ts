@@ -79,17 +79,20 @@ if (cluster.isPrimary) {
     /* `Service.get('*', (req, res) => {...})` is a route handler that is used to serve the
     `index.html` file located in the `public` folder for any request that does not match any of the
     other routes defined in the `Router_Manager` or any static files in the `public` folder. */
-    Service.get('*', (req, res): void => {
+    type ReqType = {
+        baseUrl: str;
+    }
+    Service.get('*', (req:ReqType, res): void => {
         res.header('URL', req.baseUrl);
         res.sendFile('index.html', { root: 'public' });
     });
 
     // API Error Handling
-    interface ErrorRequestInterFace {
+    type ErrorRequest = {
         originalUrl: str;
     }
 
-    Service.all('*', (req: ErrorRequestInterFace, res: obj | globe): void => {
+    Service.all('*', (req: ErrorRequest, res: obj | globe): void => {
         Response({
             res,
             Status: 'fail',

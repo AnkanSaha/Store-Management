@@ -1,0 +1,12 @@
+PUT http://localhost:3201/api/put/category/update-category HTTP/1.1
+Content-Type: application/json
+
+{
+    "User_idForBody":435063052938472,
+    "OwnerEmailForBody": "ankansahaofficial@gmail.com",
+    "CategoryID": 6483923779,
+    "CategoryName": "Test Categorss",
+    "CategoryDescription": "Test Category Description",
+    "MaxProduct": 10,
+    "isActivated": true
+}
