@@ -55,7 +55,6 @@ export async function AccountExistMiddleware(req:Request, res: obj | globe, next
         // short the email and user id
         const ShortedOwnerEmail:str = OwnerEmailForQuery ? OwnerEmailForQuery.toLowerCase() : OwnerEmailForBody ? OwnerEmailForBody.toLowerCase() : OwnerEmailForParams.toLowerCase(); // Lowercase the email
         const UserId:int = User_idForQuery ? User_idForQuery: User_idForBody ? User_idForBody : User_idForParams; // Destructure the request body
-
         // Check if the account exists in the database
         const AccountFindStatus : obj[] = await ClientAccountModel.find({
             $and: [{User_id:UserId}, {Email: ShortedOwnerEmail}]

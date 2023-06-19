@@ -19,7 +19,7 @@ type str = string; // Define a type for strings
 properties: `MongoDB_URL` and `APP_URL`. Both properties are of type `str`, which is a type alias
 for `string`. This interface is used to ensure that any object that is expected to have these two
 properties will have the correct types for those properties. */
-interface GeneralGlobalStringDataInterface {
+type GeneralGlobalStringDataType = {
     MongoDB_URL: str; // Define a type for MongoDB URL
     API_Allowed_URL: str; // Define a type for APP URL
     JWT_Secret: str; // Define a type for JWT Secret
@@ -27,11 +27,11 @@ interface GeneralGlobalStringDataInterface {
 
 /* This code is exporting a constant named `GeneralGlobalStringData` that is of type
 `GeneralGlobalStringDataInterface`. It contains two properties: `MongoDB_URL` and `APP_URL`. */
-export const GeneralGlobalStringData : GeneralGlobalStringDataInterface = {
+export const GeneralGlobalStringData : GeneralGlobalStringDataType = Object.freeze({
     MongoDB_URL: String(process.env.STORE_MANAGEMENT_BACKEND_MONGOURL), // Get MongoDB URL from .env file
     API_Allowed_URL : String('http://localhost:5173'), // Main URL for this APP
     JWT_Secret : String(process.env.Store_Management_JWT_Secret) // Get JWT Secret from .env file
-}
+})
 
 /* This code is defining an enum named `GeneralGlobalNumberData`. By using an enum, the code is creating a set of
 named constants that can be used throughout the application. This allows for easier maintenance and

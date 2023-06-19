@@ -12,6 +12,7 @@ import { Schema } from 'mongoose'; // This is required to make the types availab
 statement exports the schema so that it can be used in other files. */
 
 export default new Schema({
+    StoreID: { type: Number, required: true, unique: true, index: true },
     User_id: { type: Number, required: true, unique: true, index: true },
     Email: { type: String, required: true, unique: true, index: true },
     StoreName: { type: String, required: true, index: true },
