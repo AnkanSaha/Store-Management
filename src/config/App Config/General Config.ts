@@ -29,7 +29,7 @@ type GeneralGlobalStringDataType = {
 `GeneralGlobalStringDataInterface`. It contains two properties: `MongoDB_URL` and `APP_URL`. */
 export const GeneralGlobalStringData : GeneralGlobalStringDataType = Object.freeze({
     MongoDB_URL: String(process.env.STORE_MANAGEMENT_BACKEND_MONGOURL), // Get MongoDB URL from .env file
-    API_Allowed_URL : String('http://localhost:5173'), // Main URL for this APP
+    API_Allowed_URL : String(process.env.STORE_MANAGEMENT_LIVE_URL), // Main URL for this APP
     JWT_Secret : String(process.env.Store_Management_JWT_Secret) // Get JWT Secret from .env file
 })
 

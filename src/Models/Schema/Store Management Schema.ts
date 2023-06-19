@@ -20,6 +20,5 @@ export default new Schema({
     Products: { type: Array, required: true },
     Customers: { type: Array, required: true },
     Orders: { type: Array, required: true },
-    Suppliers: { type: Array, required: true },
     Catagories: { type: Array, required: true },
 }); // export the schema

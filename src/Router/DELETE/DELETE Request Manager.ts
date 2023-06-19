@@ -14,6 +14,8 @@ handler. */
 import Employee_Manage_Router from './Store Management/Employee Management'; // Importing Employee Management Router
 import InventoryManagementRouter from './Store Management/Inventory Management'; // Importing Inventory Management Router
 import CategoryManagementRouter from './Store Management/Category Management'; // Importing Category Management Router
+import CustomerManagementRouter from './Store Management/Customer Management'; // Importing Customer Management Router
+
 /* This code is linking a sub-router called `Employee_Manage_Router` to the main router instance
 `DELETE_REQUEST_Manager` using the `use()` method. It specifies that any requests that match the
 route path `/employee` should be handled by the `Employee_Manage_Router` sub-router. This allows for
@@ -22,6 +24,7 @@ modular and organized handling of different routes and requests within the web a
 DeleteRequestManager.use('/employee', Employee_Manage_Router); // Using Employee Management Router
 DeleteRequestManager.use('/inventory', InventoryManagementRouter); // Using Employee Management Router
 DeleteRequestManager.use('/category', CategoryManagementRouter); // Using Category Management Router
+DeleteRequestManager.use('/customer', CustomerManagementRouter); // Using Customer Management Router
 
 /* This line of code is exporting the `DELETE_REQUEST_Manager` router instance as the default export of
 the module. This allows other modules to import and use the `DELETE_REQUEST_Manager` router instance

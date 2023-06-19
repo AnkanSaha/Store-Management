@@ -37,6 +37,19 @@ interface Request {
 export default AddNewCategory;
 
 // All  Routes for this Router
+/**
+ * This function adds a new category to a store's category list and checks if the category name already
+ * exists.
+ * @param {Request} req - The `req` parameter is an object that represents the HTTP request made to the
+ * server. It contains information such as the request method, headers, URL, and request body.
+ * @param {obj | globe} res - The `res` parameter is the response object that will be sent back to the
+ * client after the function is executed. It contains information such as the status code, status
+ * message, and any data that needs to be returned.
+ * @returns It seems that nothing is being returned explicitly from the `AddNewCategory` function.
+ * However, it is returning a Promise that resolves to a blank value (`Promise<blank>`). The function
+ * is mainly performing some operations and sending a response to the client using the `Response`
+ * function.
+ */
 export async function AddNewCategory(req: Request, res: obj | globe): Promise<blank> {
     try {
         const { CategoryName, CategoryDescription, OwnerEmailForBody, User_idForBody } =
@@ -92,7 +105,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
             Data: undefined,
         });
     }
-} // Add New Category
+}; // Add New Category
 
 /**
  * This function retrieves the categories of a store based on the owner's email and user ID.
@@ -140,8 +153,17 @@ export async function GetCategory(req: Request, res: obj | globe): Promise<blank
             Data: undefined,
         });
     }
-} // Get Category
+}; // Get Category
 
+/**
+ * This is an async function in TypeScript that updates a category in a store management system based
+ * on the request body.
+ * @param {Request} req - The `req` parameter is an object that represents the HTTP request made to the
+ * server. It contains information such as the request method, headers, URL, and request body.
+ * @param {obj | globe} res - The `res` parameter is the response object that will be sent back to the
+ * client after the function is executed. It contains information such as the status code, status
+ * message, and data.
+ */
 export async function UpdateCategory(req: Request, res: obj | globe): Promise<blank> {
     try {
         const {
@@ -214,8 +236,18 @@ export async function UpdateCategory(req: Request, res: obj | globe): Promise<bl
             Data: undefined,
         });
     }
-} // Update Category
+}; // Update Category
 
+/**
+ * This is a TypeScript function that deletes a category from a store based on the provided query
+ * parameters.
+ * @param {Request} req - The `req` parameter is an object that represents the HTTP request made to the
+ * server. It contains information such as the request method, headers, query parameters, and request
+ * body.
+ * @param {obj | globe} res - The `res` parameter is the response object that will be sent back to the
+ * client after the function is executed. It contains information such as the status code, status
+ * message, and data.
+ */
 export async function DeleteCategory(req: Request, res: obj | globe): Promise<blank> {
     try {
         const { User_idForQuery, OwnerEmailForQuery, CategoryID } = req.query; // get the request body
@@ -276,4 +308,4 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
             Data: undefined,
         });
     }
-}
+}; // Delete Category

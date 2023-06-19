@@ -50,7 +50,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
             CustomerName,
             CustomerEmail,
             CustomerPhone,
-        
+
         } = req.body; // get the request body
 
         // Short the Email
@@ -94,6 +94,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
                     const Filtered = StoreDetails[0].Customers.filter((Customer: globe) => String(Customer.CustomerEmail) === String(CustomerEmail));
                     if (Filtered.length === 0) {
                         StoreDetails[0].Customers.push({
+                            CustomerID : await randomNumber(16),
                             CustomerName,
                             CustomerEmail,
                             CustomerPhone,
@@ -110,10 +111,10 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
 
                     // Update the Product Details in db
                      StoreDetails[0].Orders.push(OrderDetails); // update the order details
- 
+
                      // Update the Order Details in db
                      await StoreManagementModel.updateOne({$and:[{User_id: User_idForBody}, {Email: ShortEmail}]}, {$set: {Products: StoreDetails[0].Products, Orders: StoreDetails[0].Orders, Customers: StoreDetails[0].Customers}});
- 
+
                      Response({
                          res,
                          StatusCode: ResponseCode.Created,
