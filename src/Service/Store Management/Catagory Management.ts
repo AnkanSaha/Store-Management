@@ -12,7 +12,6 @@ type int = number; // Define a type for numbers
 type globe = any; // Define a type for any
 type obj = object; // Define a type for objects
 type blank = void; // Define a type for void
-type bool = boolean; // Define a type for boolean
 
 // Request interfaces
 interface Request {
@@ -22,8 +21,6 @@ interface Request {
         OwnerEmailForBody: str;
         CategoryName: str;
         CategoryDescription: str;
-        MaxProduct: int;
-        isActivated: bool;
     };
     query: {
         User_idForQuery: int;
@@ -42,7 +39,7 @@ export default AddNewCategory;
 // All  Routes for this Router
 export async function AddNewCategory(req: Request, res: obj | globe): Promise<blank> {
     try {
-        const { CategoryName, CategoryDescription, MaxProduct, OwnerEmailForBody, User_idForBody, isActivated } =
+        const { CategoryName, CategoryDescription, OwnerEmailForBody, User_idForBody } =
             req.body; // get the request body
 
         const ShortedOwnerEmail: str = OwnerEmailForBody.toLocaleLowerCase(); // Short the Owner Email
@@ -61,9 +58,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
             CategoryNameExist[0].Catagories.push({
                 CategoryID: await randomNumber(10),
                 CategoryName,
-                CategoryDescription,
-                MaxProduct,
-                isActivated,
+                CategoryDescription
             }); // Add the new Category to the Category List
 
             await StoreManagementModel.findOneAndUpdate(
@@ -154,9 +149,7 @@ export async function UpdateCategory(req: Request, res: obj | globe): Promise<bl
             OwnerEmailForBody,
             CategoryID,
             CategoryName,
-            CategoryDescription,
-            MaxProduct,
-            isActivated,
+            CategoryDescription
         } = req.body; // get the request body
 
         // Short the Owner Email
@@ -169,7 +162,7 @@ export async function UpdateCategory(req: Request, res: obj | globe): Promise<bl
 
         if (StoreDetails.length !== 0) {
             const FilteredCategoryForFind: globe[] = StoreDetails[0].Catagories.filter(
-                (item: globe) => item.CategoryID === CategoryID,
+                (item: globe) => String(item.CategoryID) === String(CategoryID),
             ); // Filter the Category
             if (FilteredCategoryForFind.length === 0) {
                 Response({
@@ -187,9 +180,7 @@ export async function UpdateCategory(req: Request, res: obj | globe): Promise<bl
                 FilteredCategoryForUpdate.push({
                     CategoryID,
                     CategoryName,
-                    CategoryDescription,
-                    MaxProduct,
-                    isActivated,
+                    CategoryDescription
                 }); // Push the new Category
 
                 await StoreManagementModel.findOneAndUpdate(
