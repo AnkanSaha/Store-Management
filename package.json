@@ -36,7 +36,7 @@
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
     "jsonwebtoken": "^9.0.0",
-    "mongoland": "^4.2.1",
+    "mongoland": "^4.2.2",
     "mongoose": "^7.2.2",
     "uniquegen": "^8.4.5"
   },
