@@ -15,6 +15,7 @@ import  Authenticate from './Auth/Authentication'; // Importing Authentication R
 import EmployeeRouterManagement from './Store Management/Employee Management'; // Importing Employee Management Router
 import InventoryRouterManagement from './Store Management/Inventory Management'; // Importing Inventory Management Router
 import CategoryRouterManagement from './Store Management/Catagory Management'; // Importing Catagory Management Router
+import OrderManagementRouter from './Store Management/Order Management'; // Importing Order Management Router
 
 /* These lines of code are linking two sub-routers, `Authenticate` and `EmployeeRouterManagement`, to
 the main router `POST_REQUEST_Manager`. The `use()` method is used to link these sub-routers to the
@@ -29,6 +30,7 @@ PostRequestManager.use('/auth', Authenticate); // Linking Authentication Router 
 PostRequestManager.use('/employee', EmployeeRouterManagement); // Linking Employee Management Router to the main Router
 PostRequestManager.use('/inventory', InventoryRouterManagement); // Linking Employee Management Router to the main Router
 PostRequestManager.use('/category', CategoryRouterManagement); // Linking Employee Management Router to the main Router
+PostRequestManager.use('/order', OrderManagementRouter); // Linking Order Management Router to the main Router
 
 /* `export default POST_REQUEST_Manager;` is exporting the `POST_REQUEST_Manager` router instance as
 the default export of this module. This means that when another module imports this module, they can

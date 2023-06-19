@@ -157,6 +157,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
        program for managing a store's data. */
         // Create New Document for Store Management
         const StoreData: obj = {
+            StoreID : await randomNumber(15),
             User_id: ID,
             Email: Shortedemail,
             StoreName: ShopName,

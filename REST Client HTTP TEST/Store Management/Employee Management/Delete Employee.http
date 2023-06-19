@@ -1,1 +1,1 @@
-DELETE http://localhost:3201/api/delete/employee/delete?User_idForQuery=435063052938472&OwnerEmailForQuery=ankansahaofficial@gmail.com&EmployeeMobileNumber=7063355213&EmployeeEmail=ankansahaofficial@gmail.com HTTP/1.1
+DELETE http://localhost:3201/api/delete/employee/delete?User_idForQuery=842&OwnerEmailForQuery=ankansahaofficial@gmail.com&EmployeeMobileNumber=7063355213&EmployeeEmail=ankansahaofficial@gmail.com HTTP/1.1
