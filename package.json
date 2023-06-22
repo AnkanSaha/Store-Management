@@ -2,13 +2,13 @@
   "name": "store-management-backend",
   "version": "1.0.2",
   "description": "Manage Your Inventory with this website",
-  "main": "store.js",
+  "main": "./core/store.js",
   "scripts": {
     "test": "npm run lint",
-    "dev": "npm test && nodemon src/store.ts",
+    "dev": "nodemon ./source/core/store.ts",
     "build": "npm test && tsc && cp package.json Build/ && cp package-lock.json Build/ && npm install",
-    "start": "pm2 start store.js --name store-management-backend --watch",
-    "lint": "tslint -c tslint.json 'src/**/*.ts' --fix"
+    "start": "pm2 start ./core/store.js --name store-management-backend --watch",
+    "lint": "tslint -c tslint.json './source/**/*.ts' --fix"
   },
   "repository": {
     "type": "git",
