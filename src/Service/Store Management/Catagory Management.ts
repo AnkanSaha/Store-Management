@@ -132,7 +132,7 @@ export async function GetCategory(req: Request, res: obj | globe): Promise<blank
                 res,
                 StatusCode: ResponseCode.Accepted,
                 Status: 'Success',
-                Message: 'Store Details',
+                Message: 'Category Details Found on Server',
                 Data: StoreDetails[0].Catagories,
             });
         } else {
@@ -269,8 +269,7 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
                 Data: undefined,
             });
         } else if (StoreDetails.length !== 0) {
-            const FilteredCategoryDetailsForExist: globe[] = (StoreDetails[0].Catagories =
-                StoreDetails[0].Catagories.filter((item: globe) => String(item.CategoryID) === String(CategoryID))); // Filter the Category
+            const FilteredCategoryDetailsForExist: globe[] = StoreDetails[0].Catagories.filter((item: globe) => String(item.CategoryID) === String(CategoryID)); // Filter the Category
             if (FilteredCategoryDetailsForExist.length === 0) {
                 Response({
                     res,
@@ -280,8 +279,7 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
                     Data: undefined,
                 }); // Send the Response
             } else if (FilteredCategoryDetailsForExist.length !== 0) {
-                const FilteredCategoryDetailsForDelete: globe[] = (StoreDetails[0].Catagories =
-                    StoreDetails[0].Catagories.filter((item: globe) => String(item.CategoryID) !== String(CategoryID))); // Filter the Category
+                const FilteredCategoryDetailsForDelete: globe[] = StoreDetails[0].Catagories.filter((item: globe) => String(item.CategoryID) !== String(CategoryID)); // Filter the Category
 
                 StoreDetails[0].Catagories = FilteredCategoryDetailsForDelete; // Update the Category
 
@@ -289,13 +287,13 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
                     { $and: [{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }] },
                     { Catagories: StoreDetails[0].Catagories },
                 ); // Update the Category
-
+                const FindCategoryAfterDelete: globe[] = await StoreManagementModel.find({$and:[{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }]}); // Find the Store Details
                 Response({
                     res,
                     StatusCode: ResponseCode.Accepted,
                     Status: 'Success',
                     Message: 'Category Deleted Successfully',
-                    Data: [],
+                    Data: FindCategoryAfterDelete[0].Catagories,
                 }); // Send the Response
             }
         }

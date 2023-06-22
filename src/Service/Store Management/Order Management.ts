@@ -30,7 +30,12 @@ interface Request {
         CustomerName: str;
         CustomerEmail: str;
         CustomerPhone: str;
-    };
+        OrderID: int;
+    },
+    params : {
+        User_idForParams: int;
+        OwnerEmailForParams: str;
+      }
 }
 export async function CreateNewOrder(req: Request, res: obj | globe) {
     try {
@@ -160,3 +165,105 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
         });
     }
 } // End CreateNewOrder
+
+/**
+ * This function retrieves order details for a specific store based on the provided user ID and email.
+ * @param {Request} req - The `req` parameter is an object that represents the HTTP request made to the
+ * server. It contains information such as the request method, headers, URL, and parameters.
+ * @param {obj | globe} res - The `res` parameter is the response object that will be sent back to the
+ * client making the request. It contains information such as the status code, status message, and any
+ * data that is being returned.
+ */
+export async function GetOrderDetails(req: Request, res: obj | globe) {
+    try{
+        const {OwnerEmailForParams, User_idForParams} = req.params; // get the request params
+
+        // short the email
+        const ShortEmail: str = OwnerEmailForParams.toLowerCase(); // convert the email to lowercase
+
+        // get the store details
+        const StoreDetails: globe[] = await StoreManagementModel.find({$and: [{User_id: User_idForParams}, {Email: ShortEmail}]}); // get the store details
+
+        if(StoreDetails.length !== 0) {
+            Response({
+                res,
+                StatusCode: ResponseCode.OK,
+                Status: 'Ok',
+                Message: 'Order Details',
+                Data: StoreDetails[0].Orders,
+            }); // send the response
+        } else {
+            Response({
+                res,
+                StatusCode: ResponseCode.Not_Found,
+                Status: 'Not Found',
+                Message: 'Store Not Found',
+                Data: undefined
+            }); // send the response
+        }
+    }
+    catch {
+        Response({
+            res,
+            StatusCode: ResponseCode.Internal_Server_Error,
+            Status: 'Error',
+            Message: 'Internal Server Error',
+            Data: undefined
+        })
+    }
+};
+
+export async function UpdateOrderDetails(req: Request, res: obj | globe) {
+    try {
+        const {OwnerEmailForBody, User_idForBody, OrderID} = req.body; // get the request params
+        const {DeliveryAddress, DeliveryDate, DeliveryStatus, PaymentMethod, PaymentStatus} = req.body; // get the request body
+
+        // short the email
+        const ShortEmail: str = OwnerEmailForBody.toLowerCase(); // convert the email to lowercase
+
+        // get the store details
+        const StoreDetails: globe[] = await StoreManagementModel.find({$and: [{User_id: User_idForBody}, {Email: ShortEmail}]}); // get the store details
+
+        if(StoreDetails.length !== 0) {
+            // update the order details
+            for(let index =0; StoreDetails[0].Orders.length > index; index++) {
+                if(StoreDetails[0].Orders[index].OrderID === OrderID) {
+                    StoreDetails[0].Orders[index].DeliveryAddress = DeliveryAddress;
+                    StoreDetails[0].Orders[index].DeliveryDate = DeliveryDate;
+                    StoreDetails[0].Orders[index].DeliveryStatus = DeliveryStatus;
+                    StoreDetails[0].Orders[index].PaymentMethod = PaymentMethod;
+                    StoreDetails[0].Orders[index].PaymentStatus = PaymentStatus;
+                    break;
+                }
+            }
+
+            // update the order details in db
+            await StoreManagementModel.updateOne({$and: [{User_id: User_idForBody}, {Email: ShortEmail}]}, {$set: {Orders: StoreDetails[0].Orders}});
+
+            Response({
+                res,
+                StatusCode: ResponseCode.OK,
+                Status: 'Ok',
+                Message: 'Order Details Updated Successfully',
+                Data: undefined
+            }); // send the response
+        } else {
+            Response({
+                res,
+                StatusCode: ResponseCode.Not_Found,
+                Status: 'Not Found',
+                Message: 'Store Not Found',
+                Data: undefined
+            }); // send the response
+        }
+    }
+    catch {
+        Response({
+            res,
+            StatusCode: ResponseCode.Internal_Server_Error,
+            Status: 'Error',
+            Message: 'Internal Server Error',
+            Data: undefined
+        })
+    }
+}

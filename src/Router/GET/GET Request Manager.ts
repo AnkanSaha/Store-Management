@@ -13,6 +13,7 @@ import EmployeeRouter from './Store Management/Employee Management'; // Import E
 import InventoryRouter from './Store Management/Inventory Management'; // Import InventoryRouter
 import CategoryManagementRouter from './Store Management/Category Management'; // Import CategoryManagementRouter
 import CustomerManagementRouter from './Store Management/Customer Management'; // Import CustomerManagementRouter
+import OrderManagementRouter from './Store Management/Order Management'; // import Order Router manager
 
 /* This code is linking the `EmployeeRouter` sub-router to the `GET_REQUEST_Manager` main router. It is
 specifying that any requests that start with the `/employee` path should be handled by the
@@ -23,6 +24,7 @@ GetRequestManager.use('/employee', EmployeeRouter); // Link EmployeeRouter to th
 GetRequestManager.use('/inventory', InventoryRouter); // Link InventoryRouter to the main Router
 GetRequestManager.use('/category', CategoryManagementRouter); // Link CategoryManagementRouter to the main Router
 GetRequestManager.use('/customer', CustomerManagementRouter); // Link CustomerManagementRouter to the main Router
+GetRequestManager.use('/order', OrderManagementRouter); // Link OrderManagementRouter to the main Router
 
 /* This line of code is exporting the `GET_REQUEST_Manager` router instance as the default export of
 the module. This means that when this module is imported into another module, the default export

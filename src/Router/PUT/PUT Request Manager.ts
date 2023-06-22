@@ -20,6 +20,8 @@ this is one of potentially multiple sub-routers being imported and linked to the
 import EmployeeRouterManagement from './Store Management/Employee Management'; // Importing Employee Management Router
 import InventoryRouterManagement from './Store Management/Inventory Management'; // Importing Inventory Management Router
 import CategoryManagementRouter from './Store Management/Category Management'; // Importing Category Management Router
+import OrderManagementRouter from './Store Management/Order Management'; // Importing Order Management Router
+
 /* This code is linking the `EmployeeRouterManagement` sub-router to the `PUT_REQUEST_Manager` main
 router. It is specifying that any routes defined in the `EmployeeRouterManagement` sub-router should
 be accessible under the `/employee` path when accessed through the `PUT_REQUEST_Manager` router.
@@ -28,7 +30,7 @@ This allows for modular and organized routing in the application. */
 PutRequestManager.use('/employee', EmployeeRouterManagement); // Linking Employee Management Router to the main Router
 PutRequestManager.use('/inventory', InventoryRouterManagement); // Linking Employee Management Router to the main Router
 PutRequestManager.use('/category', CategoryManagementRouter); // Linking Employee Management Router to the main Router
-
+PutRequestManager.use('/order', OrderManagementRouter); // Linking Employee Management Router to the main Router
 /* `export default PUT_REQUEST_Manager;` is exporting the `PUT_REQUEST_Manager` instance of the
 `Router` class as the default export of this module. This means that when another module imports
 this module, they will receive the `PUT_REQUEST_Manager` instance as the default export, which they

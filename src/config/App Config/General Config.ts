@@ -37,7 +37,7 @@ export const GeneralGlobalStringData : GeneralGlobalStringDataType = Object.free
 named constants that can be used throughout the application. This allows for easier maintenance and
 readability of the code. */
 export enum GeneralGlobalNumberData {
-    PORT = Number(process.env.STORE_MANAGEMENT_BACKEND_PORT) // Get PORT from .env file
+    PORT = Number(process.env.STORE_MANAGEMENT_BACKEND_PORT) || 3201 // Get PORT from .env file
 }
 
 /* The code is defining an enum named `ResponseCode` that contains three named constants: `Success`,
