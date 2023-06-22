@@ -3,6 +3,8 @@ The `sign` function is used to generate a JSON Web Token (JWT) with a given payl
 
 import { sign, verify } from 'jsonwebtoken'; // Import JWT library
 import { GeneralGlobalStringData } from '../../../config/Keys/General Keys'; // Import General Global String Data
+import { ResponseCode } from '../../../config/Keys/General Keys';
+
 // Global types
 type str = string; // Define a type for strings
 type globe = any; // Define a type for global variables
@@ -15,6 +17,18 @@ export async function GenerateJWTtoken(payload: globe): Promise<str> {
 
 
 export async function VerifyJWTtoken(token: str): Promise<globe> {
+   try{
     const VerifiedToken: globe = verify(token, GeneralGlobalStringData.JWT_Secret); // Verify JWT Token
-    return VerifiedToken; // Return Verified JWT Token
+    return {
+        status: ResponseCode.OK,
+        message: "Valid Token",
+        data: VerifiedToken
+    }
+   }
+   catch (error) {
+       return {
+        status: ResponseCode.Unauthorized,
+        message: "Invalid Token"
+       }
+   }
 } // Verify JWT Token
