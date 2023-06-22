@@ -2,10 +2,9 @@ POST http://localhost:3201/api/post/category/AddNewCategory HTTP/1.1
 Content-Type: application/json
 
 {
-    "User_idForBody":174,
+    "User_idForBody":70292480,
     "OwnerEmailForBody": "ankansahaofficial@gmail.com",
-    "CategoryName":"Test Categorys",
+    "CategoryName":"Test Category",
     "CategoryDescription":"Test Category Description",
-    "MaxProduct":10,
     "isActivated":true
 }

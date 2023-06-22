@@ -2,7 +2,7 @@
   "compilerOptions": {
       "target": "ES6", // this is for set the target version of typescript written code
       "module": "UMD", // this is for set the module type of javascript code compiled
-      "rootDir": "./src", // this is for set the root directory of typescript written code
+      "rootDir": "./source", // this is for set the root directory of typescript written code
       "moduleResolution": "node", // this is for set the module resolution strategy
       "allowJs": true, // this is set of allow javascript file to be compiled
       "inlineSourceMap": false, // this is for set the inline source map
@@ -19,6 +19,6 @@
       "sourceMap": true, // this is for set the source map
   },
   "include": [
-      "./src/**/*"
+      "./source/**/*"
   ] // this is for set the include directory of typescript written code
 }

@@ -2,12 +2,12 @@ POST http://localhost:3201/api/post/order/create-new-order HTTP/1.1
 Content-Type: application/json
 
 {
-    "User_idForBody":174,
+    "User_idForBody":70292480,
     "OwnerEmailForBody":"ankansahaofficial@gmail.com",
     "ProductName":"Nakeless Chain",
-    "ProductSKU":"condom2",
+    "ProductSKU":"sdk158",
     "ProductPrice":100,
-    "ProductCatagory":"Test Category",
+    "ProductCatagory":"Test Categoryss",
     "ProductQuantity":1,
     "DeliveryAddress":"Near Daluabari Bazar, Daluabari, Ranaghat, nadia, 741504",
     "DeliveryDate":"2021-05-20",
