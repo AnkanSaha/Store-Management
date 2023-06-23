@@ -2,9 +2,9 @@ PUT http://localhost:3201/api/put/category/update-category HTTP/1.1
 Content-Type: application/json
 
 {
-    "User_idForBody":70292480,
-    "OwnerEmailForBody": "ankansahaofficial@gmail.com",
-    "CategoryID": 7395768058,
+    "User_idForBody":"YOUR_USER_ID",
+    "OwnerEmailForBody": "YOUR_EMAIL",
+    "CategoryID": "YOUR_CATEGORY_ID",
     "CategoryName": "Test Categors",
     "CategoryDescription": "Test Category Description"
 }

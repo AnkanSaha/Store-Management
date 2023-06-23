@@ -1,1 +1,1 @@
-DELETE  http://localhost:3201/api/delete/inventory/delete/435063052938472/ankansahaofficial@gmail.com/manforce HTTP/1.1
+DELETE  http://localhost:3201/api/delete/inventory/delete/"YOUR_USER_ID"/"YOUR_EMAIL_ID"/"PRODUCT_SKU" HTTP/1.1

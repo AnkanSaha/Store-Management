@@ -1,1 +1,1 @@
-GET http://localhost:3201/api/get/order/GetAllOrders/ankansahaofficial@gmail.com/70292480 HTTP/1.1
+GET http://localhost:3201/api/get/order/GetAllOrders/"YOUR_EMAIL_ID"/"YOUR_USER_ID" HTTP/1.1

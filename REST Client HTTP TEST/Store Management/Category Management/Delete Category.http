@@ -1,1 +1,1 @@
-DELETE http://localhost:3201/api/delete/category/delete-category/?User_idForQuery=70292480&OwnerEmailForQuery=ankansahaofficial@gmail.com&CategoryID=9908034015 HTTP/1.1
+DELETE http://localhost:3201/api/delete/category/delete-category/?User_idForQuery="YOUR_USER_ID"&OwnerEmailForQuery="YOUR_EMAIL_ID"&CategoryID="YOUR_CATEGORY_ID" HTTP/1.1

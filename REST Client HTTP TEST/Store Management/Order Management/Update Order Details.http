@@ -2,12 +2,12 @@ PUT http://localhost:3201/api/put/order/update-order-details HTTP/1.1
 Content-Type: application/json
 
 {
-    "OwnerEmailForBody":"ankansahaofficial@gmail.com",
-    "User_idForBody": 70292480,
-    "OrderID": 3990870625181849,
-    "DeliveryAddress":"Ranaghat",
-    "DeliveryDate": "25-12-2203",
-    "DeliveryStatus": "Delivered",
-    "PaymentMethod": "Cash on Delivery",
-    "PaymentStatus": "Paid"
+    "OwnerEmailForBody":"YOUR_EMAIL",
+    "User_idForBody": "YOUR_USER_ID",
+    "OrderID": "ORDER_ID",
+    "DeliveryAddress":"DELIVERY_ADDRESS",
+    "DeliveryDate": "DELIVERY_DATE",
+    "DeliveryStatus": "DELIVERY_STATUS",
+    "PaymentMethod": "PAYMENT_METHOD",
+    "PaymentStatus": "PAYMENT_STATUS",
 }
