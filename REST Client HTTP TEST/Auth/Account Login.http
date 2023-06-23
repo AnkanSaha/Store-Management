@@ -2,7 +2,7 @@ POST http://localhost:3201/api/post/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "Email": "ankansahaofficial@gmail.com",
-  "Password": "Ankan@1578",
+  "Email": "YOUR_EMAIL_ID",
+  "Password": "YOUR_PASSWORD",
   "RememberMe": true
 }

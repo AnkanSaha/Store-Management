@@ -2,12 +2,12 @@ PUT http://localhost:3201/api/put/employee/update HTTP/1.1
 Content-Type: application/json
 
 {
-  "OwnerEmailForBody":"ankansahaofficial@gmail.com",
-  "EmployeeName":"Ankan Saha",
-  "EmployeeEmail":"ankansahaofficial@gmail.com",
-  "User_idForBody":70292480,
-  "EmployeeMonthlySalary":1000000,
-  "EmployeePhoneNumber":9641620563,
-  "EmployeeDateOfJoining":"2023-04-26",
-  "EmployeeRole":"Owner"
+  "OwnerEmailForBody":"YOUR_EMAIL",
+  "EmployeeName":"Employee Name",
+  "EmployeeEmail":"Employee Email",
+  "User_idForBody":"YOUR_USER_ID",
+  "EmployeeMonthlySalary":"Employee Monthly Salary",
+  "EmployeePhoneNumber":"Employee Phone Number",
+  "EmployeeDateOfJoining":"Employee Date Of Joining",
+  "EmployeeRole":"Employee Role",
 }

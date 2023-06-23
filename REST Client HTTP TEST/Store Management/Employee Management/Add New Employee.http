@@ -2,12 +2,12 @@ POST http://localhost:3201/api/post/employee/create HTTP/1.1
 Content-Type: application/json
 
 {
-  "User_idForBody": 70292480,
-  "OwnerEmailForBody":"ankansahaofficial@gmail.com",
-  "EmployeeName":"Ankan Saha",
-  "EmployeeMonthlySalary":"10000",
-  "EmployeeEmail":"ankansahaofficial@gmail.com",
+  "User_idForBody": "YOUR_USER_ID",
+  "OwnerEmailForBody":"YOUR_EMAIL",
+  "EmployeeName":"EMPLOYEE_NAME",
+  "EmployeeMonthlySalary":"EMPLOYEE_MONTHLY_SALARY",
+  "EmployeeEmail":"EMPLOYEE_EMAIL",
   "EmployeePhoneNumber":"7063355213",
-  "EmployeeDateOfJoining":"2023-04-25",
-  "EmployeeRole":"Owner"
+  "EmployeeDateOfJoining":"EMPLOYEE_DATE_OF_JOINING",
+  "EmployeeRole":"EMPLOYEE_ROLE",
 }

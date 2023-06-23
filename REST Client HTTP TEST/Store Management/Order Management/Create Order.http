@@ -2,19 +2,19 @@ POST http://localhost:3201/api/post/order/create-new-order HTTP/1.1
 Content-Type: application/json
 
 {
-    "User_idForBody":70292480,
-    "OwnerEmailForBody":"ankansahaofficial@gmail.com",
-    "ProductName":"Nakeless Chain",
-    "ProductSKU":"sdk158",
-    "ProductPrice":100,
-    "ProductCatagory":"Test Categoryss",
-    "ProductQuantity":1,
-    "DeliveryAddress":"Near Daluabari Bazar, Daluabari, Ranaghat, nadia, 741504",
-    "DeliveryDate":"2021-05-20",
-    "DeliveryStatus":"Pending",
-    "PaymentMethod": "CASH",
-    "PaymentStatus": "Pending",
-    "CustomerName": "Ankan saha",
-    "CustomerEmail": "ankansahaofficial@gmail.com",
-    "CustomerPhone": 7063355213
+    "User_idForBody":"YOUR_USER_ID",
+    "OwnerEmailForBody":"YOUR_OWNER_EMAIL",
+    "ProductName":"PRODUCT_NAME",
+    "ProductSKU":"PRODUCT_SKU",
+    "ProductPrice":"PRODUCT_PRICE",
+    "ProductCatagory":"PRODUCT_CATAGORY",
+    "ProductQuantity":"PRODUCT_QUANTITY",
+    "DeliveryAddress":"DELIVERY_ADDRESS",
+    "DeliveryDate":"DELIVERY_DATE",
+    "DeliveryStatus":"DELIVERY_STATUS",
+    "PaymentMethod": "PAYMENT_METHOD",
+    "PaymentStatus": "PAYMENT_STATUS",
+    "CustomerName": "CUSTOMER_NAME",
+    "CustomerEmail": "CUSTOMER_EMAIL",
+    "CustomerPhone": "CUSTOMER_PHONE"
 }
