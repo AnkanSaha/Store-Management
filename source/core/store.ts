@@ -73,19 +73,7 @@ if (cluster.isPrimary) {
     /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
    app. This means that any routes defined in the `Router_Manager` will be accessible through the
    `Service` app. */
-    Service.use('/api', Router_Manager); // Link Router_Manager to the main app
-
-    // Serving static files made by React
-    /* `Service.get('*', (req, res) => {...})` is a route handler that is used to serve the
-    `index.html` file located in the `public` folder for any request that does not match any of the
-    other routes defined in the `Router_Manager` or any static files in the `public` folder. */
-    type ReqType = {
-        baseUrl: str;
-    }
-    Service.get('*', (req:ReqType, res): void => {
-        res.header('URL', req.baseUrl);
-        res.sendFile('index.html', { root: 'public' });
-    });
+    Service.use(Router_Manager); // Link Router_Manager to the main app
 
     // API Error Handling
     type ErrorRequest = {
