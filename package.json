@@ -37,7 +37,7 @@
     "express-fileupload": "^1.4.0",
     "jsonwebtoken": "^9.0.1",
     "mongoland": "^4.2.2",
-    "mongoose": "^7.3.2",
+    "mongoose": "^7.3.4",
     "uniquegen": "^8.4.5"
   },
   "devDependencies": {
