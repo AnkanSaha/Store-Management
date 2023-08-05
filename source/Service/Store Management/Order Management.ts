@@ -87,7 +87,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
                 (Product: globe) => String(Product.ProductSKU) === String(ProductSKU),
             ); // filter the product details
             if (FilteredProductDetailsForFind.length !== 0) {
-                if (FilteredProductDetailsForFind[0].ProductQuantity !== 0) {
+                if (FilteredProductDetailsForFind[0].ProductQuantity > 0) {
                     // Update the Product Details in db
                     for(let index =0; StoreDetails[0].Products.length > index; index++) {
                         if(StoreDetails[0].Products[index].ProductSKU === ProductSKU) {
