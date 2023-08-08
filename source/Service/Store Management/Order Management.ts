@@ -91,8 +91,19 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
                     // Update the Product Details in db
                     for(let index =0; StoreDetails[0].Products.length > index; index++) {
                         if(StoreDetails[0].Products[index].ProductSKU === ProductSKU) {
-                            StoreDetails[0].Products[index].ProductQuantity -= ProductQuantity;
-                            break;
+                           if(StoreDetails[0].Products[index].ProductQuantity > 0) {
+                             StoreDetails[0].Products[index].ProductQuantity -= ProductQuantity;
+                             break;
+                           }
+                           else {
+                            Response({
+                                res,
+                                StatusCode: ResponseCode.Service_Unavailable,
+                                Status: 'Out of Stock',
+                                Message: 'Product Out of Stock Please Try Again Later',
+                                Data: undefined,
+                            }); // send the response
+                           }
                         }
                     }
                     // update Customer Details
