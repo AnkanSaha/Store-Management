@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run lint",
     "dev": "nodemon ./source/core/store.ts",
-    "build": "npm test && tsc && cp package.json Build/ && cp package-lock.json Build/ && npm install",
+    "build": "tsc && cp package.json Build/ && cp package-lock.json Build/ && npm install",
     "start": "pm2 start ./core/store.js --name store-management-backend --watch",
     "lint": "tslint -c tslint.json './source/**/*.ts' --fix"
   },
