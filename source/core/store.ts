@@ -10,6 +10,7 @@ import { cpus } from 'os'; // Import os module
 import cluster from 'cluster'; // Import cluster module
 import { Response } from '../helper/API Response'; // Import Failed_Response function
 const Service = express(); // Create express app
+import RateLimiter from '../Middleware/Security/RateLimiter'; // RateLimiter Middleware
 
 /* Importing the `MongoDB_Connect` middleware from the `./config/DB Config/MongoDB` file. This
 middleware is responsible for connecting to the MongoDB database when the server starts. */
@@ -73,7 +74,7 @@ if (cluster.isPrimary) {
     /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
    app. This means that any routes defined in the `Router_Manager` will be accessible through the
    `Service` app. */
-    Service.use('/api', Router_Manager); // Link Router_Manager to the main app
+    Service.use('/api',RateLimiter, Router_Manager); // Link Router_Manager to the main app
 
     // API Error Handling
     type ErrorRequest = {
