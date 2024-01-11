@@ -2,19 +2,12 @@
 in a Node.js application using the Express framework. */
 // Import Essential Modules
 import { Router, json } from 'express'; // import Router Module
-import cors from 'cors'; // import Cors Module
-import { GeneralGlobalStringData } from '../../../config/Keys/General Keys'; // Import General Global String Data
 
 /* Creating an instance of the Router module from the Express framework and assigning it to the
 variable `Authenticate`. This instance can be used to define routes and handle requests for the
 authentication functionality of the Node.js application. */
 // Invoke Router
 const Authenticate = Router(); // Create Router Instance
-
-/* `// using Cors` is a comment that indicates that the following line of code is enabling Cross-Origin
-Resource Sharing (CORS) for the `Authenticate` router. */
-// using Cors
-Authenticate.use(cors({ origin: GeneralGlobalStringData.API_Allowed_URL})); // Allow All Origin
 
 /* The code is importing two middleware functions named `SignUpValidation` and `LoginValidation` from
 the file located at `'../../../Middleware/Auth/Account Validation'`. These middleware functions are

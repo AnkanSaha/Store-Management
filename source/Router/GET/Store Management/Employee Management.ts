@@ -1,8 +1,6 @@
 /* These lines of code are importing the necessary dependencies for the code to work properly. */
 // import required dependency
 import { Router, json } from "express"; // import Router from express
-import CORS from "cors"; // import CORS
-import { GeneralGlobalStringData } from "../../../config/Keys/General Keys"; // import GeneralGlobalStringData
 
 import {AccountExistMiddleware} from "../../../Middleware/Store Management/AccountExistMiddileware"; // import AccountExistMiddleware
 
@@ -18,7 +16,6 @@ This allows the `EmployeeRouter` to handle HTTP requests and responses and to ha
 different domains or origins. */
 // config router & cors
 const EmployeeRouter = Router(); // Create EmployeeRouter
-EmployeeRouter.use(CORS({origin: GeneralGlobalStringData.API_Allowed_URL})); // Enable CORS
 
 /* These lines of code are exporting the `EmployeeRouter` instance as the default export of the module.
 This allows other modules to import and use the `EmployeeRouter` instance in their own code. The

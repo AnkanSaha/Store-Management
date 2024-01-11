@@ -1,8 +1,4 @@
 import { Router, json } from "express"; // import Router from express
-import CORS from "cors"; // import CORS from cors
-
-// import Global Data
-import { GeneralGlobalStringData } from "../../../config/Keys/General Keys"; // Path: src/config/App Config/General Config.ts
 
 // import Middleware
 import AccountExistMiddleware from "../../../Middleware/Store Management/AccountExistMiddileware"; // Path: src/Middleware/Store Management/AccountExistMiddileware.ts
@@ -12,9 +8,6 @@ import { DeleteCustomer } from "../../../Service/Store Management/Customer Manag
 
 // Setup Router
 const CustomerManagementRouter : Router = Router(); // Setup Router
-CustomerManagementRouter.use(CORS({
-    origin: GeneralGlobalStringData.API_Allowed_URL
-})); // Setup CORS
 
 // export Router
 export default CustomerManagementRouter; // export Router

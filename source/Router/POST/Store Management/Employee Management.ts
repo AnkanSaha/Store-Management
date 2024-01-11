@@ -4,8 +4,6 @@ route handlers, while the `json` module is used to parse incoming request bodies
 `CORS` module is used to enable Cross-Origin Resource Sharing, which allows resources on a web page
 to be requested from another domain outside the domain from which the resource originated. */
 import { Router, json } from 'express'; // Importing Router from express
-import CORS from 'cors'; // Importing CORS from cors
-import { GeneralGlobalStringData } from '../../../config/Keys/General Keys'; // Path: config/App Config/General Config.ts
 
 /* Importing the `CheckEmployeeAddMiddleware` function from the `Employee Management.ts` file located
 in the `Middleware/Store Management/Employee management` directory. This middleware function is used
@@ -22,13 +20,6 @@ application. */
 // Creating an instance of Router
 const EmployeeRouterManagement = Router(); // Creating an instance of Router
 
-/* The lines of code `EmployeeRouterManagement.use(CORS({ origin: '*' }));` are enabling Cross-Origin
-Resource Sharing (CORS) for the `EmployeeRouterManagement` instance of the `Router` module. The
-`CORS` middleware is being used to allow requests from any origin (`'*'`) to access the resources of
-the server. This is necessary when the client-side code is hosted on a different domain than the
-server-side code and needs to access resources from the server. */
-// Using CORS
-EmployeeRouterManagement.use(CORS({ origin: GeneralGlobalStringData.API_Allowed_URL })); // Using CORS
 
 /* This line of code is importing the `AddnewEmployee` function from the `Employee Management.ts` file
 located in the `Controller/Store Management/Employee Management` directory. This function is a

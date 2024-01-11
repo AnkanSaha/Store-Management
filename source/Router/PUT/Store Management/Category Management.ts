@@ -1,8 +1,4 @@
 import {Router, json} from 'express'; // Express
-import CORS from 'cors'; // CORS
-
-// import Global Values
-import { GeneralGlobalStringData } from '../../../config/Keys/General Keys'; // General App Config Module
 
 // import Middlewares
 import {AccountExistMiddleware} from '../../../Middleware/Store Management/AccountExistMiddileware'; // Account Exist Middleware
@@ -12,9 +8,6 @@ import { UpdateCategory } from '../../../Service/Store Management/Catagory Manag
 
 // Setup the Router
 const CategoryManagementRouter: Router = Router(); // Setup the Router
-CategoryManagementRouter.use(CORS({
-    origin: GeneralGlobalStringData.API_Allowed_URL
-})); // CORS Middleware
 
 // Export the Router
 export default CategoryManagementRouter; // Export the Router

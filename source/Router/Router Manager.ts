@@ -4,7 +4,13 @@ for a web application. By creating a new instance of `Router`, we can define rou
 specific to that instance, and then mount it as a middleware to the main Express application using
 `app.use()`. */
 import { Router } from 'express'; // Importing express types & Router class
+import CORS  from '../Middleware/Security/CORS'; // Importing CORS Middleware
+
+// create a new Router instance
 const RouterManager = Router(); // Creating a new Router instance
+
+// CORS Middleware
+RouterManager.use(CORS); // Using CORS Middleware
 
 /* These lines of code are importing four different sub-routers that handle specific types of HTTP
 requests (POST, GET, PUT, and DELETE). Each sub-router is defined in a separate file located in
