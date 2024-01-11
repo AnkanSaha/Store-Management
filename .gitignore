@@ -1,4 +1,5 @@
-node_modules
+# Server
 Build
+node_modules
 .env
 dist
