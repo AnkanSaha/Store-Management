@@ -14,7 +14,7 @@ export default defineConfig({
   ],
   build: {
     chunkSizeWarningLimit: 100000,
-    outDir: "StoreManagement",
+    outDir: "Store-Management",
     assetsDir:"static",
     cssMinify: true,
     cssCodeSplit: true,
