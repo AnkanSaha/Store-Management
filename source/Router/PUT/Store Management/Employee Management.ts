@@ -1,17 +1,11 @@
 /* These lines of code are importing the necessary dependencies for creating a router and enabling CORS
 in an Express application. */
 import { Router, json } from 'express'; // Importing express types & Router class
-import CORS from 'cors'; // Importing CORS middleware
-import { GeneralGlobalStringData } from '../../../config/Keys/General Keys'; // Importing GeneralGlobalStringData constant
-
 /* This code is configuring a router and enabling CORS (Cross-Origin Resource Sharing) middleware in an
 Express application. */
 
 // Config Router & CORS
 const EmployeeRouterManagement = Router(); // Creating a new Router instance
-EmployeeRouterManagement.use(CORS({
-    origin:GeneralGlobalStringData.API_Allowed_URL
-})); // Using CORS middleware
 
 // Importing All Controllers
 /* Importing the `UpdateEmployee` controller from the file located at `'../../../Controller/Store

@@ -1,8 +1,4 @@
 import { Router, json } from "express"; // Import express and json
-import CORS from "cors"; // Import cors
-
-// import Global Data
-import { GeneralGlobalStringData } from "../../../config/Keys/General Keys"; // Import General Global String Data
 
 // import Function
 import { UpdateOrderDetails } from "../../../Service/Store Management/Order Management"; // Import Update Order Details Function
@@ -12,9 +8,6 @@ import AccountExistMiddleware from "../../../Middleware/Store Management/Account
 
 // setup
 const OrderManagementRouter: Router = Router(); // Order Management Router
-OrderManagementRouter.use(CORS({
-    origin: GeneralGlobalStringData.API_Allowed_URL
-})); // CORS
 
 // export Order Management Router
 export default OrderManagementRouter;

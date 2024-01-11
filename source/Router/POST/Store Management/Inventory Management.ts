@@ -1,8 +1,5 @@
 /* These lines of code are importing necessary modules from the 'express' and 'cors' packages. */
 import {Router, json} from 'express'; // Importing express types & Router class
-import CORS from 'cors'; // Importing CORS middleware
-import { GeneralGlobalStringData } from '../../../config/Keys/General Keys'; // Importing GeneralGlobalStringData for MongoDB URL
-
 // import all Controllers
 import { AddInventory } from '../../../Service/Store Management/Inventory Management'; // Importing AddInventory controller
 
@@ -13,10 +10,6 @@ package and is used to apply the CORS middleware to the router instance. The `or
 the CORS middleware allows requests from any origin. */
 // Config Router & CORS
 const InventoryRouterManagement = Router(); // Creating a new Router instance
-InventoryRouterManagement.use(CORS({
-    origin: GeneralGlobalStringData.API_Allowed_URL,
-})); // Using CORS middleware
-
 
 // import all Controllers Middleware
 import { AccountExistMiddleware } from '../../../Middleware/Store Management/AccountExistMiddileware'; // Importing AddInventoryMiddleware middleware

@@ -1,14 +1,11 @@
 /* These lines of code are importing the necessary dependencies for the code to work properly. */
 // import required dependency
 import {Router, json} from "express"; // import Router from express
-import CORS from "cors"; // import CORS
-import { GeneralGlobalStringData } from "../../../config/Keys/General Keys"; // import GeneralGlobalStringData
 
 import {AccountExistMiddleware} from "../../../Middleware/Store Management/AccountExistMiddileware"; // import AccountExistMiddleware
 
 // Config Router & CORS
 const InventoryRouter = Router(); // Create EmployeeRouter
-InventoryRouter.use(CORS({origin: GeneralGlobalStringData.API_Allowed_URL})); // Enable CORS
 
 // export router
 export default InventoryRouter; // Export EmployeeRouter

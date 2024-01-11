@@ -2,23 +2,13 @@
 /* These lines of code are importing the necessary modules for creating an Express router and enabling
 CORS (Cross-Origin Resource Sharing) functionality. */
 import { Router, json } from 'express'; // Importing Express Router
-import CORS from 'cors'; // Importing CORS
-import { GeneralGlobalStringData } from '../../../config/Keys/General Keys'; // Importing Global String Data
+
 /* These lines of code are configuring an Express router by creating a new router object named
 `Employee_Manage_Router` using the `Router()` method provided by the Express module. This router
 object will be used to define the routes and middleware for handling HTTP requests and responses
 related to employee management in a store management system. */
 // Configuring Express Router
 const EmployeeManageRouter = Router(); // Creating Router Object
-
-/* This code is configuring the Express router to use CORS (Cross-Origin Resource Sharing)
-functionality. The `CORS` module is imported and then used as middleware with the `use()` method of
-the `Employee_Manage_Router` object. The `CORS()` function is passed an options object with the
-`origin` property set to `'*'`, which allows requests from any origin. This enables the router to
-handle requests from different domains or ports, which is necessary for web applications that need
-to access resources from different sources. */
-// Configuring Express Router to use CORS
-EmployeeManageRouter.use(CORS({ origin: GeneralGlobalStringData.API_Allowed_URL })); // Using CORS
 
 /* This line of code is importing a middleware function named `CheckEmployeeDeleteMiddleware` from a
 file located at the path `'../../../Middleware/Store Management/Employee Management.ts'`. This
