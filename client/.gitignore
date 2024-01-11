@@ -1,0 +1,5 @@
+node_modules
+StoreManagement
+.env
+dist
+dev-dist

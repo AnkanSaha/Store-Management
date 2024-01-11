@@ -1,0 +1,5 @@
+# Server
+Build
+node_modules
+.env
+dist
