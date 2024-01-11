@@ -1,4 +1,4 @@
-# Store Management Backend Node App Made With Typescript, ExpressJS, MongoDB
+# Store Management App Made With Typescript, ExpressJS, MongoDB
 
 This is a backend Node.js application designed for store management, built using TypeScript, ExpressJS, and MongoDB. The app is designed to handle the management of store inventory, sales, and customer information.
 
@@ -32,4 +32,4 @@ To run this app on your local machine, follow these steps:
 
 ## Conclusion
 
-This Store Management Backend Node App Made With Typescript, ExpressJS, MongoDB provides an easy way for store owners to manage their inventory, sales, and customer information. With its user-friendly interface and robust features, it is an excellent tool for store management.
+This Store Management App Made With Typescript, ExpressJS, MongoDB provides an easy way for store owners to manage their inventory, sales, and customer information. With its user-friendly interface and robust features, it is an excellent tool for store management.
