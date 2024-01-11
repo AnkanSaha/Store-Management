@@ -31,6 +31,7 @@ the appropriate data or actions based on the requested route. */
 // Import Routes Manager
 import Router_Manager from '../Router/Router Manager'; // Import Router_Manager
 import DB from '../config/Connection/MongoDB'; // Import MongoDB_Connect middleware
+
 // Create cluster
 /* This code is creating a cluster of worker processes using the `os` and `cluster` modules in Node.js.
 It first gets the number of CPUs available on the system using `os.cpus().length`. Then, if the
@@ -43,6 +44,7 @@ a new worker process if one dies. */
 using the `os` module in Node.js and storing it in the `numCPUs` variable. This is used later in the
 code to create a cluster of worker processes, with each worker process running on a separate CPU. */
 let numCPUs: num = cpus().length; // Get number of cpus
+
 if (cluster.isPrimary) {
     /* This code is creating a cluster of worker processes using the `os` and `cluster` modules in
     Node.js. It first gets the number of CPUs available on the system using `os.cpus().length`.
@@ -76,6 +78,8 @@ if (cluster.isPrimary) {
    `Service` app. */
     Service.use('/api',RateLimiter, Router_Manager); // Link Router_Manager to the main app
 
+    // Set Trust Proxy
+    Service.use('trust-proxy', ()=> true); // Set trust proxy
     // API Error Handling
     type ErrorRequest = {
         originalUrl: str;
