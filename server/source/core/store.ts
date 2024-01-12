@@ -66,16 +66,15 @@ if (cluster.isPrimary) {
         cluster.fork(); // Create new cluster if one dies
     }); // Listen for exit event
 } else {
+    // Set Trust Proxy
+    Service.use('trust proxy', ()=> true); // Set trust proxy
+
     /* `Service.use(express.static('public'));` is linking the `public` folder to the main `Service`
    app. This means that any static files (such as images, CSS, and JavaScript files) located in the
    `public` folder will be accessible through the `Service` app. When a client requests a static
    file, the server will look for it in the `public` folder and serve it to the client if it exists. */
     Service.use(express.static('public')); // Link public folder to the main app
     
-    
-    // Set Trust Proxy
-    Service.use('trust-proxy', ()=> true); // Set trust proxy
-
     // link all Middleware & Routes to the main app
     /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
    app. This means that any routes defined in the `Router_Manager` will be accessible through the
