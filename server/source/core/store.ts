@@ -66,8 +66,8 @@ if (cluster.isPrimary) {
         cluster.fork(); // Create new cluster if one dies
     }); // Listen for exit event
 } else {
-    // Set Trust Proxy
-    Service.use('trust proxy', ()=> true); // Set trust proxy
+  // Enable All Proxy Settings for Server Security
+  Service.set('trust proxy', ()=> true); // Enable All Proxy Settings
 
     /* `Service.use(express.static('public'));` is linking the `public` folder to the main `Service`
    app. This means that any static files (such as images, CSS, and JavaScript files) located in the
