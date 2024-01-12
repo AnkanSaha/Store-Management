@@ -71,6 +71,10 @@ if (cluster.isPrimary) {
    `public` folder will be accessible through the `Service` app. When a client requests a static
    file, the server will look for it in the `public` folder and serve it to the client if it exists. */
     Service.use(express.static('public')); // Link public folder to the main app
+    
+    
+    // Set Trust Proxy
+    Service.use('trust-proxy', ()=> true); // Set trust proxy
 
     // link all Middleware & Routes to the main app
     /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
@@ -78,8 +82,7 @@ if (cluster.isPrimary) {
    `Service` app. */
     Service.use('/api',RateLimiter, Router_Manager); // Link Router_Manager to the main app
 
-    // Set Trust Proxy
-    Service.use('trust-proxy', ()=> true); // Set trust proxy
+    
     // API Error Handling
     type ErrorRequest = {
         originalUrl: str;
