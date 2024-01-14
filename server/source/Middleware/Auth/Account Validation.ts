@@ -8,7 +8,7 @@ These modules are then used in the middleware functions `SignUpValidation` and `
 perform account validation and send API responses. */
 import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; // Import Client Account Model
 import { Response } from '../../helper/API Response'; // Import API Response Function
-import { ResponseCode } from '../../config/Keys/General Keys'; // Import Response Code
+import { StatusCodes } from 'outers'; // Import Response Code
 
 // Global Types
 type str = string; // Type for str
@@ -74,7 +74,7 @@ export async function SignUpValidation(
             // Check if Account Exist
             Response({
                 res,
-                StatusCode: ResponseCode.Conflict,
+                StatusCode: StatusCodes.CONFLICT,
                 Status: 'Exist',
                 Message: 'Account Already Exist with this Email or Phone Number ! please Login or Reset Password !',
                 Data: {
@@ -88,7 +88,7 @@ export async function SignUpValidation(
             Response({
                 res,
                 Status: 'Exist',
-                StatusCode: ResponseCode.Conflict,
+                StatusCode: StatusCodes.CONFLICT,
                 Message: 'Account Already Exist with this Email or Phone Number ! please Login or Reset Password !',
                 Data: {
                     Application_ID: TemporaryFindResult[0].User_id,
@@ -143,7 +143,7 @@ returns. If an account is found, it calls the next middleware function in the ch
         Response({
             res,
             Status: 'Failed',
-            StatusCode: ResponseCode.Bad_Request,
+            StatusCode: StatusCodes.BAD_REQUEST,
             Message: 'Account Not Found ! Please Create Account !',
             Data: {},
         }); // Send Not Found Response

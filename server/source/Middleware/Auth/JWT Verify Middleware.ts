@@ -1,7 +1,7 @@
 import { VerifyJWTtoken } from "../Security/JWT/JWT Token Generator"; // Import Verify JWT Token function
 
 // import Global Response Code
-import { ResponseCode } from "../../config/Keys/General Keys"; // Import Response Code
+import { StatusCodes } from "outers"; // Import Response Code
 import { Response } from "../../helper/API Response"; // Import Response function
 
 // global types
@@ -37,13 +37,13 @@ export default async function JWTVerifyMiddleware(req: Request, res: globe, next
 
         // Verify JWT Token
         const VerifyStatus = await VerifyJWTtoken(Token);
-        if(VerifyStatus.status === ResponseCode.OK){
+        if(VerifyStatus.status === StatusCodes.OK){
             next(); // Move to next middleware
         }
-        else if(VerifyStatus.status === ResponseCode.Unauthorized){
+        else if(VerifyStatus.status === StatusCodes.UNAUTHORIZED){
             return Response({
                 res,
-                StatusCode: ResponseCode.Unauthorized,
+                StatusCode: StatusCodes.UNAUTHORIZED,
                 Status: "Invalid Token",
                 Message: "Invalid Token Provided",
                 Data: Object(null)
@@ -53,7 +53,7 @@ export default async function JWTVerifyMiddleware(req: Request, res: globe, next
     catch (error) {
         return Response({
             res,
-            StatusCode: ResponseCode.Unauthorized,
+            StatusCode: StatusCodes.UNAUTHORIZED,
             Status: "Invalid Token",
             Message: "Invalid Token Provided",
             Data: Object(null)

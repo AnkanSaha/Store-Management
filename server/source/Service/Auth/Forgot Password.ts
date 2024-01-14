@@ -1,9 +1,9 @@
 import { EncryptPassword } from "../../Middleware/Security/Bcrypt"; // Bcrypt
-import { randomNumber } from "uniquegen"; // Unique Generator
+import { methods } from "outers"; // Unique Generator
 
 // Response and Response Code
 import { Response } from "../../helper/API Response"; // API Response
-import { ResponseCode } from "../../config/Keys/General Keys"; // Response Code
+import { StatusCodes } from "outers"; // Response Code
 
 // import Data Model
 import { ClientAccountModel } from "../../Models"; // Client Account Model
@@ -31,7 +31,7 @@ export default async function ResetPassword(req: Request, res: globe) {
         const ShortEmail = OwnerEmailForBody.toLowerCase(); // Short Email
 
         // Encrypt Password
-        const RandomRounds = await randomNumber(1)
+        const RandomRounds = new methods.UniqueGenerator(1).RandomNumber(false, [1, 2, 3, 4, 5]);
         const EncryptedPassword = await EncryptPassword(NewPassword, RandomRounds);
 
        /* This code block is updating the password of a client account in the database. It uses the
@@ -53,7 +53,7 @@ Invalid Credentials". */
         if(Client.User_id === User_idForBody && Client.Email === ShortEmail){
             return Response({
                 res,
-                StatusCode: ResponseCode.OK,
+                StatusCode: StatusCodes.OK,
                 Status: "OK",
                 Message: "Password Reset Successfully",
                 Data: Object(null)
@@ -62,7 +62,7 @@ Invalid Credentials". */
         else{
             return Response({
                 res,
-                StatusCode: ResponseCode.Bad_Request,
+                StatusCode: StatusCodes.BAD_REQUEST,
                 Status: "Bad Request",
                 Message: "Password Reset Failed due to Invalid Credentials",
                 Data: Object(null)
@@ -72,9 +72,9 @@ Invalid Credentials". */
     catch(err){
         return Response({
             res,
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: "Internal Server Error",
-            Message: "Internal Server Error Occured while Resetting Password",
+            Message: "Internal Server Error Occurred while Resetting Password",
             Data: Object(null)
         })
     } // Try-Catch Block

@@ -1,7 +1,7 @@
 // import Modules
 import { Response } from '../../helper/API Response'; // Response Module
-import { ResponseCode } from '../../config/Keys/General Keys'; // General App Config Module
-import { randomNumber } from 'uniquegen'; // Unique ID Generator Module
+import { StatusCodes } from 'outers'; // General App Config Module
+import { methods } from 'outers'; // Unique ID Generator Module
 
 // import Data models
 import { StoreManagementModel } from '../../Models'; //  Model
@@ -69,7 +69,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
         // Check if the Category Name is already exist
         if (FilteredCategoryName.length === 0) {
             CategoryNameExist[0].Catagories.push({
-                CategoryID: await randomNumber(10),
+                CategoryID: new methods.UniqueGenerator(10).RandomNumber(true),
                 CategoryName,
                 CategoryDescription
             }); // Add the new Category to the Category List
@@ -81,7 +81,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
 
             Response({
                 res,
-                StatusCode: ResponseCode.Accepted,
+                StatusCode: StatusCodes.ACCEPTED,
                 Status: 'Success',
                 Message: 'The Category name added to database',
                 Data: undefined,
@@ -89,7 +89,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
         } else if (FilteredCategoryName.length > 0) {
             Response({
                 res,
-                StatusCode: ResponseCode.Bad_Request,
+                StatusCode: StatusCodes.BAD_REQUEST,
                 Status: 'Bad Request',
                 Message: 'Category Name is already exist',
                 Data: undefined,
@@ -99,7 +99,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
     } catch (err: globe) {
         Response({
             res,
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Internal Server Error',
             Message: err.message,
             Data: undefined,
@@ -130,7 +130,7 @@ export async function GetCategory(req: Request, res: obj | globe): Promise<blank
         if (StoreDetails.length !== 0) {
             Response({
                 res,
-                StatusCode: ResponseCode.Accepted,
+                StatusCode: StatusCodes.ACCEPTED,
                 Status: 'Success',
                 Message: 'Category Details Found on Server',
                 Data: StoreDetails[0].Catagories,
@@ -138,7 +138,7 @@ export async function GetCategory(req: Request, res: obj | globe): Promise<blank
         } else {
             Response({
                 res,
-                StatusCode: ResponseCode.Not_Found,
+                StatusCode: StatusCodes.NOT_FOUND,
                 Status: 'Not Found',
                 Message: 'Store Not Found',
                 Data: undefined,
@@ -147,7 +147,7 @@ export async function GetCategory(req: Request, res: obj | globe): Promise<blank
     } catch (err: globe | unknown) {
         Response({
             res,
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Internal Server Error',
             Message: err.message,
             Data: undefined,
@@ -189,7 +189,7 @@ export async function UpdateCategory(req: Request, res: obj | globe): Promise<bl
             if (FilteredCategoryForFind.length === 0) {
                 Response({
                     res,
-                    StatusCode: ResponseCode.Not_Found,
+                    StatusCode: StatusCodes.NOT_FOUND,
                     Status: 'Category Not Found',
                     Message: 'Category Not Found in the Database',
                     Data: undefined,
@@ -212,7 +212,7 @@ export async function UpdateCategory(req: Request, res: obj | globe): Promise<bl
 
                 Response({
                     res,
-                    StatusCode: ResponseCode.Accepted,
+                    StatusCode: StatusCodes.ACCEPTED,
                     Status: 'Success',
                     Message: 'Category Updated Successfully',
                     Data: FilteredCategoryForUpdate,
@@ -221,7 +221,7 @@ export async function UpdateCategory(req: Request, res: obj | globe): Promise<bl
         } else if (StoreDetails.length === 0) {
             Response({
                 res,
-                StatusCode: ResponseCode.Not_Found,
+                StatusCode: StatusCodes.NOT_FOUND,
                 Status: 'Store Not Found',
                 Message: 'Store Not Found in the Database',
                 Data: undefined,
@@ -230,7 +230,7 @@ export async function UpdateCategory(req: Request, res: obj | globe): Promise<bl
     } catch (err: globe | unknown) {
         Response({
             res,
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Internal Server Error',
             Message: err.message,
             Data: undefined,
@@ -263,7 +263,7 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
         if (StoreDetails.length === 0) {
             Response({
                 res,
-                StatusCode: ResponseCode.Not_Found,
+                StatusCode: StatusCodes.NOT_FOUND,
                 Status: 'Store Not Found',
                 Message: 'Store Not Found in the Database',
                 Data: undefined,
@@ -273,7 +273,7 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
             if (FilteredCategoryDetailsForExist.length === 0) {
                 Response({
                     res,
-                    StatusCode: ResponseCode.Not_Found,
+                    StatusCode: StatusCodes.NOT_FOUND,
                     Status: 'Category Not Found',
                     Message: 'Category Not Found in the Database',
                     Data: undefined,
@@ -290,7 +290,7 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
                 const FindCategoryAfterDelete: globe[] = await StoreManagementModel.find({$and:[{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }]}); // Find the Store Details
                 Response({
                     res,
-                    StatusCode: ResponseCode.Accepted,
+                    StatusCode: StatusCodes.ACCEPTED,
                     Status: 'Success',
                     Message: 'Category Deleted Successfully',
                     Data: FindCategoryAfterDelete[0].Catagories,
@@ -300,7 +300,7 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
     } catch (err: globe | unknown) {
         Response({
             res,
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Internal Server Error',
             Message: err.message,
             Data: undefined,

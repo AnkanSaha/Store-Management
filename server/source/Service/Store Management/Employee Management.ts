@@ -5,7 +5,7 @@ import { StoreManagementModel } from '../../Models/index'; // Path: Database/Mod
 
 // import Custom Response
 import { Response } from '../../helper/API Response'; // Import API Response Function
-import { ResponseCode } from '../../config/Keys/General Keys'; // Import Response Code
+import { StatusCodes } from 'outers'; // Import Response Code
 /* Defining an interface named `EmployeeAdd` which specifies the properties and their types that are
 expected to be present in the request body when adding a new employee. These properties include
 `User_id`, `EmployeeName`, `EmployeeEmail`, `EmployeePhoneNumber`, `EmployeeMonthlySalary`,
@@ -109,7 +109,7 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
             Response({
                 res,
                 Status: 'Employee Already Exist',
-                StatusCode: ResponseCode.Conflict,
+                StatusCode: StatusCodes.CONFLICT,
                 Message: 'The Employee is already in the database',
                 Data: undefined,
             }); // If the employee is already in the array, do nothing
@@ -135,7 +135,7 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
             Response({
                 res,
                 Status: 'Employee Added',
-                StatusCode: ResponseCode.OK,
+                StatusCode: StatusCodes.OK,
                 Message: 'The Employee is added to the database',
                 Data: undefined,
             }); // If the employee is not in the array, push the employee to the array
@@ -197,7 +197,7 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
             Response({
                 res,
                 Status: 'No Employee Found',
-                StatusCode: ResponseCode.Not_Found,
+                StatusCode: StatusCodes.NOT_FOUND,
                 Message: 'No Employee Found in the database',
                 Data: undefined,
             }); // If the employee is not in the array, do nothing
@@ -205,7 +205,7 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
             Response({
                 res,
                 Status: 'Employee Found',
-                StatusCode: ResponseCode.Found,
+                StatusCode: StatusCodes.FOUND,
                 Message: 'Employee Found in the database',
                 Data: StoreDataFind[0].Employees,
             });
@@ -263,7 +263,7 @@ not be equal to the `EmployeeMobileNumber` variable, also converted to a string.
         Response({
             res,
             Status: 'Employee Not Found',
-            StatusCode: ResponseCode.Not_Found,
+            StatusCode: StatusCodes.NOT_FOUND,
             Message: 'Employee Not Found in the database',
             Data: undefined
         })
@@ -285,7 +285,7 @@ not be equal to the `EmployeeMobileNumber` variable, also converted to a string.
     Response({
         res,
         Status: 'Employee Deleted',
-        StatusCode: ResponseCode.Accepted,
+        StatusCode: StatusCodes.ACCEPTED,
         Message: 'Employee Deleted from the database',
         Data: StoreDataFindAgain[0].Employees,
     }); // If the employee is not in the array, push the employee to the array
@@ -370,7 +370,7 @@ email address is shortened before being added to the object. */
     Response({
         res,
         Status: 'Employee Updated',
-        StatusCode: ResponseCode.Accepted,
+        StatusCode: StatusCodes.ACCEPTED,
         Message: 'Employee details updated in the database',
         Data: StoreDataFindAgain[0].Employees,
     }); // If the employee is not in the array, push the employee to the array
