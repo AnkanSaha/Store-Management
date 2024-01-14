@@ -12,8 +12,8 @@ separate files located in the `../Models/Schema/` directory. By importing these 
 can create Mongoose models for each schema and use them to interact with the corresponding MongoDB
 collections. */
 // import the schema
-import ClientAccountSchema from '../Models/Schema/Client Account Schema'; // import the schema
-import StoreManagementSchema from '../Models/Schema/Store Management Schema'; // import the schema
+import ClientAccountSchema from './Schema/Client Account Schema'; // import the schema
+import StoreManagementSchema from './Schema/Store Management Schema'; // import the schema
 
 
 /* These lines of code are creating Mongoose models for the `ClientAccountSchema` and

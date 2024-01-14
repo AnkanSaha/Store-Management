@@ -32,7 +32,7 @@ import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; /
 
 // import Custom Response
 import { Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
-import { ResponseCode } from '../../config/Keys/General Keys'; // Import Response Code
+import { StatusCodes } from 'outers'; // Import Response Code
 
 // export default CategoryMiddleware; // Exporting Middleware
 export default AccountExistMiddleware; // Exporting Middleware
@@ -63,7 +63,7 @@ export async function AccountExistMiddleware(req:Request, res: obj | globe, next
             Response({
                 res,
                 Status: 'Account Not Found',
-                StatusCode: ResponseCode.Not_Found,
+                StatusCode: StatusCodes.NOT_FOUND,
                 Message: 'The Account is not found in the database',
                 Data: undefined,
             }); // If the employee is not in the array, push the employee to the array
@@ -78,7 +78,7 @@ export async function AccountExistMiddleware(req:Request, res: obj | globe, next
                 Response({
                     res,
                     Status: 'Store Not Found',
-                    StatusCode: ResponseCode.Not_Found,
+                    StatusCode: StatusCodes.NOT_FOUND,
                     Message: 'The Store is not found in the database',
                     Data: undefined,
                 }); // If the employee is not in the array, push the employee to the array
@@ -90,6 +90,6 @@ export async function AccountExistMiddleware(req:Request, res: obj | globe, next
         };
     }
     catch(error: globe){
-        Response({res, Status:'Internal Server Error', StatusCode: ResponseCode.Internal_Server_Error, Message: error, Data: undefined});
+        Response({res, Status:'Internal Server Error', StatusCode: StatusCodes.INTERNAL_SERVER_ERROR, Message: error, Data: undefined});
     }
 }; // Middleware for Category Management

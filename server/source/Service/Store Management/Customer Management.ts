@@ -1,5 +1,5 @@
 import { Response } from "../../helper/API Response" // Response Path: src/helper/API Response.ts
-import { ResponseCode } from "../../config/Keys/General Keys" // Import Response Code
+import { StatusCodes } from "outers" // Import Response Code
 
 // import Data Models
 import { StoreManagementModel } from "../../Models" // Path: Database/Model/Store Management Model.ts
@@ -39,7 +39,7 @@ export async function getCustomerList(req:Request, res: globe) {
         if(CustomerList[0].Customers.length === 0){
             Response({
                 res,
-                StatusCode: ResponseCode.Not_Found,
+                StatusCode: StatusCodes.NOT_FOUND,
                 Status: 'Not Found',
                 Message: 'No customer found',
                 Data: undefined,
@@ -48,7 +48,7 @@ export async function getCustomerList(req:Request, res: globe) {
         else{
             Response({
                 res,
-                StatusCode: ResponseCode.OK,
+                StatusCode: StatusCodes.OK,
                 Status: 'OK',
                 Message: 'Customer list found',
                 Data: CustomerList[0].Customers,
@@ -58,7 +58,7 @@ export async function getCustomerList(req:Request, res: globe) {
     catch(err) {
         Response({
             res,
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Internal Server Error',
             Message: 'Something went wrong while getting the customer list',
             Data: undefined,
@@ -81,7 +81,7 @@ export async function DeleteCustomer(req:Request, res: globe){
             const ReFindData : globe[] = await StoreManagementModel.find({$and: [{User_id:User_idForParams}, {Email: ShortedOwnerEmail}]});
             Response({
                 res,
-                StatusCode: ResponseCode.OK,
+                StatusCode: StatusCodes.OK,
                 Status: 'OK',
                 Message: 'Customer deleted successfully',
                 Data: ReFindData[0].Customers
@@ -90,7 +90,7 @@ export async function DeleteCustomer(req:Request, res: globe){
         else if(StoreDetails.length === 0){
             Response({
                 res,
-                StatusCode: ResponseCode.Not_Found,
+                StatusCode: StatusCodes.NOT_FOUND,
                 Status: 'Not Found',
                 Message: 'No Store found with this user id and email',
                 Data: undefined,
@@ -100,7 +100,7 @@ export async function DeleteCustomer(req:Request, res: globe){
     catch{
         Response({
             res,
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Internal Server Error',
             Message: 'Something went wrong while deleting the customer',
             Data: undefined,

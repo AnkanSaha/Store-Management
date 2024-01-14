@@ -1,7 +1,6 @@
 // import modules
 import { Response } from '../../helper/API Response'; // import API Response
-import { ResponseCode } from '../../config/Keys/General Keys'; // import Response Code
-import { randomNumber } from 'uniquegen'; // import Unique Number Generator
+import { methods, StatusCodes } from 'outers'; // import Unique Number Generator
 
 // import Data Model
 import { StoreManagementModel } from '../../Models'; // import Store Management Model
@@ -66,7 +65,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
         });
         if (StoreDetails.length !== 0) {
             const OrderDetails: obj = Object.freeze({
-                OrderID: await randomNumber(16), // generate a random number for the order id
+                OrderID: new methods.UniqueGenerator(16).RandomNumber(true), // generate a random number for the order id
                 ProductName,
                 ProductPrice,
                 ProductSKU,
@@ -98,7 +97,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
                            else {
                             Response({
                                 res,
-                                StatusCode: ResponseCode.Service_Unavailable,
+                                StatusCode: StatusCodes.SERVICE_UNAVAILABLE,
                                 Status: 'Out of Stock',
                                 Message: 'Product Out of Stock Please Try Again Later',
                                 Data: undefined,
@@ -110,7 +109,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
                     const Filtered = StoreDetails[0].Customers.filter((Customer: globe) => String(Customer.CustomerEmail) === String(CustomerEmail));
                     if (Filtered.length === 0) {
                         StoreDetails[0].Customers.push({
-                            CustomerID : await randomNumber(16),
+                            CustomerID : new methods.UniqueGenerator(16).RandomNumber(true),
                             CustomerName,
                             CustomerEmail,
                             CustomerPhone,
@@ -133,7 +132,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
 
                      Response({
                          res,
-                         StatusCode: ResponseCode.Created,
+                         StatusCode: StatusCodes.CREATED,
                          Status: 'Ok',
                          Message: 'Order Created Successfully',
                          Data: undefined,
@@ -142,7 +141,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
                 } else {
                     Response({
                         res,
-                        StatusCode: ResponseCode.Service_Unavailable,
+                        StatusCode: StatusCodes.SERVICE_UNAVAILABLE,
                         Status: 'Out of Stock',
                         Message: 'Product Out of Stock Please Try Again Later',
                         Data: undefined,
@@ -151,7 +150,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
             } else {
                 Response({
                     res,
-                    StatusCode: ResponseCode.Not_Found,
+                    StatusCode: StatusCodes.NOT_FOUND,
                     Status: 'Not Found',
                     Message: 'Product Not Found',
                     Data: undefined,
@@ -160,7 +159,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
         } else {
             Response({
                 res,
-                StatusCode: ResponseCode.Not_Found,
+                StatusCode: StatusCodes.NOT_FOUND,
                 Status: 'Not Found',
                 Message: 'Store Not Found',
                 Data: undefined,
@@ -169,7 +168,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
     } catch (error) {
         Response({
             res,
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Error',
             Message: 'Internal Server Error',
             Data: undefined,
@@ -198,7 +197,7 @@ export async function GetOrderDetails(req: Request, res: obj | globe) {
         if(StoreDetails.length !== 0) {
             Response({
                 res,
-                StatusCode: ResponseCode.OK,
+                StatusCode: StatusCodes.OK,
                 Status: 'Ok',
                 Message: 'Order Details',
                 Data: StoreDetails[0].Orders,
@@ -206,7 +205,7 @@ export async function GetOrderDetails(req: Request, res: obj | globe) {
         } else {
             Response({
                 res,
-                StatusCode: ResponseCode.Not_Found,
+                StatusCode: StatusCodes.NOT_FOUND,
                 Status: 'Not Found',
                 Message: 'Store Not Found',
                 Data: undefined
@@ -216,7 +215,7 @@ export async function GetOrderDetails(req: Request, res: obj | globe) {
     catch {
         Response({
             res,
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Error',
             Message: 'Internal Server Error',
             Data: undefined
@@ -253,7 +252,7 @@ export async function UpdateOrderDetails(req: Request, res: obj | globe) {
 
             Response({
                 res,
-                StatusCode: ResponseCode.OK,
+                StatusCode: StatusCodes.OK,
                 Status: 'Ok',
                 Message: 'Order Details Updated Successfully',
                 Data: undefined
@@ -261,7 +260,7 @@ export async function UpdateOrderDetails(req: Request, res: obj | globe) {
         } else {
             Response({
                 res,
-                StatusCode: ResponseCode.Not_Found,
+                StatusCode: StatusCodes.NOT_FOUND,
                 Status: 'Not Found',
                 Message: 'Store Not Found',
                 Data: undefined
@@ -271,7 +270,7 @@ export async function UpdateOrderDetails(req: Request, res: obj | globe) {
     catch {
         Response({
             res,
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Error',
             Message: 'Internal Server Error',
             Data: undefined

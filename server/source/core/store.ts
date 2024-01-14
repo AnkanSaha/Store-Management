@@ -5,8 +5,9 @@ creates an instance of the Express app using `express()`. */
 
 import express from 'express'; // Import express module
 
-import { GeneralGlobalNumberData, ResponseCode } from '../config/Keys/General Keys'; // PORT from General Config
+import { GeneralGlobalNumberData } from '../config/Keys/General Keys'; // PORT from General Config
 import { cpus } from 'os'; // Import os module
+import { StatusCodes } from 'outers'; // Import StatusCodes from outers
 import cluster from 'cluster'; // Import cluster module
 import { Response } from '../helper/API Response'; // Import Failed_Response function
 const Service = express(); // Create express app
@@ -91,7 +92,7 @@ if (cluster.isPrimary) {
         Response({
             res,
             Status: 'fail',
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Message: `Can't find ${req.originalUrl} on this server!`,
             Data: undefined,
         }); // Sending a Failed Response to the client

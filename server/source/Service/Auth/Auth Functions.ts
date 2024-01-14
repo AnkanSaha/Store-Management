@@ -1,13 +1,13 @@
 // This File used To Create Account, Login, and Update Account
 
 // Import Essential Modules
-import { randomNumber } from 'uniquegen'; // Import Unique ID Generator
+import { methods } from 'outers'; // Import Unique ID Generator
 /* The `import { Failed_Response, Success_Response } from '../../helper/API Response';` statement is
 importing the `Failed_Response` and `Success_Response` functions from the `API Response` module
 located in the `../../helper/` directory. These functions are likely used to send standardized API
 responses with a specific format and status code. */
 import { Response } from '../../helper/API Response'; // Import API Response Function
-import { ResponseCode } from '../../config/Keys/General Keys'; // Import Response Code
+import { StatusCodes } from 'outers'; // Import Response Code
 
 // import All Sub Middlewares & Functions
 /* These lines of code are importing functions from two different middleware modules. */
@@ -107,8 +107,9 @@ export async function CreateAccount(req: RequestInterface, res: obj | globe): Pr
         // Generate ID and Encrypt Password
         /* The above code is generating a random number to determine the length of the ID and the encryption
         round number. It then generates a random ID with the determined length. */
-        const RoundNumber: int = await randomNumber(1, false); // Generate Round Number for Encryption Password and ID
-        const ID: int = await randomNumber(RoundNumber, true); // Generate ID
+
+        const RoundNumber: int = new methods.UniqueGenerator(1).RandomNumber(false, [1, 2, 3, 4, 5]); // Generate Round Number for Encryption Password and ID
+        const ID: int = new methods.UniqueGenerator(RoundNumber).RandomNumber(true);
 
         /* The above code is written in TypeScript and it is declaring two variables `RoundNumber` and
 `EncryptedPassword`.
@@ -129,7 +130,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
         `isTermsAccepted`, `ShopName`, `ShopAddress`, `isGSTIN`, `GSTIN`, and `PAN`. These
         properties contain the relevant information about a user's account, such as their personal
         details, shop information, and security information. This data */
-        // pripare Data to be saved in Database
+        // prepare Data to be saved in Database
         const AccountData: RegisterAccountData = {
             User_id: ID,
             Name,
@@ -157,7 +158,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
        program for managing a store's data. */
         // Create New Document for Store Management
         const StoreData: obj = {
-            StoreID : await randomNumber(15),
+            StoreID : new methods.UniqueGenerator(15).RandomNumber(true),
             User_id: ID,
             Email: Shortedemail,
             StoreName: ShopName,
@@ -198,7 +199,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
             Response({
                 res,
                 Status: 'Success',
-                StatusCode: ResponseCode.OK,
+                StatusCode: StatusCodes.OK,
                 Message: 'Account Created Successfully ! Please Login to Continue with your Account !',
                 Data:Object(JWTSignedDataForAccountCreate)
             }); // Send Response
@@ -206,7 +207,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
             Response({
                 res,
                 Status: 'Failed',
-                StatusCode: ResponseCode.Forbidden,
+                StatusCode: StatusCodes.FORBIDDEN,
                 Message: 'Account Creation Failed due to some internal server error !',
                 Data: { Application_ID: ID },
             }); // Send Response
@@ -215,7 +216,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
         Response({
             res,
             Status: 'Failed',
-            StatusCode: ResponseCode.Internal_Server_Error,
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Message: 'Account Creation Failed due to some internal server error !',
             Data: undefined,
         }); // Send Response
@@ -287,7 +288,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                 Response({
                     res,
                     Status: 'Success',
-                    StatusCode: ResponseCode.OK,
+                    StatusCode: StatusCodes.OK,
                     Message: 'Login Successful !',
                     Data: {
                         AccountDetails:JWTSignedDataForLogin, // Send Account Details
@@ -298,7 +299,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
                 Response({
                     res,
                     Status: 'Success',
-                    StatusCode: ResponseCode.OK,
+                    StatusCode: StatusCodes.OK,
                     Message: 'Login Successful !',
                     Data: {
                         AccountDetails: JWTSignedDataForLogin, // Send Account Details
@@ -310,7 +311,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
             Response({
                 res,
                 Status: 'Failed',
-                StatusCode: ResponseCode.Unauthorized,
+                StatusCode: StatusCodes.UNAUTHORIZED,
                 Message: 'Password is Incorrect !',
                 Data: {},
             }); // Send Response

@@ -28,4 +28,4 @@ define all the routes that can handle requests in the Express application. */
 /* The code is defining a route for updating an employee's information using the HTTP PUT method. The
 route is `/update` and it is using the `json()` middleware to parse the request body. However, the
 route handler function is missing and needs to be added to complete the route definition. */
-EmployeeRouterManagement.put('/update', json(),AccountExistMiddleware, UpdateEmployee); // Update Employee Route
+EmployeeRouterManagement.put('/update', json(), AccountExistMiddleware, UpdateEmployee); // Update Employee Route
