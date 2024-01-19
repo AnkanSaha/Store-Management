@@ -1,5 +1,7 @@
 # Store Management App Made With Typescript, ExpressJS, MongoDB
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/53b7368b86874b41adb638a390119dcf)](https://app.codacy.com/gh/AnkanSaha/Store-Management?utm_source=github.com&utm_medium=referral&utm_content=AnkanSaha/Store-Management&utm_campaign=Badge_Grade)
+
 This is a backend Node.js application designed for store management, built using TypeScript, ExpressJS, and MongoDB. The app is designed to handle the management of store inventory, sales, and customer information.
 
 ## Technologies Used
