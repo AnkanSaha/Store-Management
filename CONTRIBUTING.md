@@ -1,15 +1,19 @@
-# To Contributors
-## How to contribute
-### 1. Fork this repository
-### 2. Clone your forked repository
-### 3. Create a new branch
-### 4. Make changes in your branch
-### 5. Commit your changes
-### 6. Push your changes to your forked repository
-### 7. Create a pull request
-### 8. Wait for the review
-### 9. If there is no problem, your pull request will be merged
-### 10. Sync with the upstream repository
-### 11. Delete your branch
-### 12. Thank you for your contribution
-# Path: README.md
+# Contributing to Store Management
+Welcome to Store Management! We appreciate your interest in contributing. By participating in this project, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Getting Started
+
+Before you start contributing, please make sure you have read and understood the [README.md](README.md) file to get an overview of the project.
+
+## How to Contribute
+
+### 1. Fork the Repository
+
+Click the "Fork" button in the upper right corner of the repository to create your own fork. This will allow you to make changes without affecting the main project.
+
+### 2. Clone the Repository
+
+Clone your forked repository to your local machine:
+
+```bash
+git clone https://github.com/AnkanSaha/Store-Management.git
