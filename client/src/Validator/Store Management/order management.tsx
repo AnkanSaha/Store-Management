@@ -12,8 +12,8 @@ interface ValidateOrderDetails {
     ProductName: str;
     ProductCategory: str;
     ProductSKU: str;
-    ProductQuantity: num;   
-    ProductPrice: num;  
+    ProductQuantity: num;
+    ProductPrice: num;
     DeliveryAddress: str;
     DeliveryDate: str;
     DeliveryStatus: str;
