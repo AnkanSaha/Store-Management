@@ -32,11 +32,7 @@ export async function ValidateOrderDetails(data:ValidateOrderDetails): Promise<b
         alert ("Please Enter Customer Name");
         return false
     }
-    else if (data.CustomerEmail === "" || data.CustomerEmail === null || data.CustomerEmail === undefined) {
-        alert ("Please Enter Customer Email");
-        return false
-    }
-    else if(data.CustomerEmail.includes("@") === false || data.CustomerEmail.includes(".") === false){
+     else if(data.CustomerEmail.includes("@") === false || data.CustomerEmail.includes(".") === false){
         alert ("Please Enter Valid Customer Email");
         return false
     }
