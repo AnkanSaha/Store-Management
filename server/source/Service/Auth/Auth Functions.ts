@@ -317,6 +317,6 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
             }); // Send Response
         }
     } catch (error) {
-        throw error;
+        throw error; // Throw a error
     }
 }
