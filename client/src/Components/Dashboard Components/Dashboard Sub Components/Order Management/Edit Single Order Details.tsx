@@ -73,7 +73,7 @@ const Decoded_AuthDetails: any = Decode_Token(AuthDetails.Data.AccountDetails); 
       OrderID: 0,
         DeliveryAddress: "",
     }); // Clearing Employee Data
-    Navigator(`/dashboard`);
+    Navigator("/dashboard");
   };
 
   // useEffect

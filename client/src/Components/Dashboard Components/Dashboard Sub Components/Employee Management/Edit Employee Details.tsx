@@ -78,7 +78,7 @@ export default function Edit_Employee_Details() {
   const GoBack = (event: any) => {
     event.preventDefault();
     setEmployeeData({}); // Clearing Employee Data
-    Navigator(`/dashboard`);
+    Navigator("/dashboard");
   };
 
   // Update Employee Data on Change

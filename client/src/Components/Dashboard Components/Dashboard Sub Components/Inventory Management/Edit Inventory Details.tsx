@@ -82,7 +82,7 @@ const Decoded_AuthDetails: any = Decode_Token(AuthDetails.Data.AccountDetails); 
       ProductManufacturingDate: "",
       ProductDescription: ""
     }); // Clearing Employee Data
-    Navigator(`/dashboard`);
+    Navigator("/dashboard");
   };
 
     // Update Employee Data on Change
