@@ -34,8 +34,8 @@ export default async function CreateAccountFunction({ FullData }: Props) {
   // if the validation is successful
   if (Validation_Result === true) {
     let wait = await HTTP_POST({
-      PostPath: `/post/auth/CreateAccount`,
-      SendData: FullData
+      PostPath: "/post/auth/CreateAccount",
+      SendData: FullData,
     }); // send the data to the server
     return wait;
   } else if (Validation_Result === false) {
