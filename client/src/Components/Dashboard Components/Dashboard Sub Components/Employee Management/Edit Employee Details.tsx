@@ -17,7 +17,7 @@ import { GlobalContext } from "../../../../Context/Context API"; // import globa
 import {
   Update_Document_Title,
   HTTP_GET,
-  Internet_Connection_Status
+  Internet_Connection_Status,
 } from "../../../../Functions/Most Used Functions";
 import { UpdateEmployee } from "../../../../Functions/Store Management/Employee Management Function";
 import { Connection_Fail } from "../../../Most Used Components/Connection Fail";
@@ -31,8 +31,8 @@ export default function Edit_Employee_Details() {
   let { AuthDetails, UpdateAlert, AlertMessage, InternetStatus }: any =
     React.useContext(GlobalContext);
 
-    // Decode Auth Details
-    const Decoded_AuthDetails : any = JWT_Decode(AuthDetails.Data.AccountDetails); // decode JWT token
+  // Decode Auth Details
+  const Decoded_AuthDetails: any = JWT_Decode(AuthDetails.Data.AccountDetails); // decode JWT token
   // All States
   const [isLoading, setIsLodaing] = React.useState<boolean>(true);
   const [EmployeeData, setEmployeeData] = React.useState<any>({});
@@ -64,8 +64,9 @@ export default function Edit_Employee_Details() {
       if (Response.Status === "Employee Found") {
         let Filtered_employee_Data = Response.Data.filter(
           (Employee: any) =>
-            Number(Employee.EmployeePhoneNumber) === Number(ParameterData.Phone) &&
-            Employee.EmployeeEmail === ParameterData.Email
+            Number(Employee.EmployeePhoneNumber) ===
+              Number(ParameterData.Phone) &&
+            Employee.EmployeeEmail === ParameterData.Email,
         );
         setEmployeeData(Filtered_employee_Data); // set Employee Data
       } else if (Response.Status === "No Employee Found") {
@@ -167,7 +168,7 @@ export default function Edit_Employee_Details() {
           ) : null}
           {EmployeeData.length !== 0 ? (
             <>
-            {InternetStatus === "Offline" ? <Connection_Fail /> : null}
+              {InternetStatus === "Offline" ? <Connection_Fail /> : null}
               <Navbar AppName={`${AppName} (${ParameterData.Phone})`} />
 
               <form className="mt-[6.25rem] mx-20">
@@ -302,7 +303,7 @@ export default function Edit_Employee_Details() {
                   Go Back
                 </button>
               </form>
-              <Footer FooterStyle="static"/>
+              <Footer FooterStyle="static" />
             </>
           ) : (
             <>
