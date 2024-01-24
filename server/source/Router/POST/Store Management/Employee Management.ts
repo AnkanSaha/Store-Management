@@ -12,14 +12,12 @@ passing it on to the `AddnewEmployee` controller function. */
 // Importing Employee Middleware
 import { AccountExistMiddleware } from '../../../Middleware/Store Management/AccountExistMiddileware'; // Path: Middleware/Store Management/Employee Management.ts
 
-
 /* These lines of code are creating an instance of the `Router` module from the `express` package and
 assigning it to a variable named `EmployeeRouterManagement`. This instance of `Router` is used to
 create modular, mountable route handlers for the employee management functionality of the
 application. */
 // Creating an instance of Router
 const EmployeeRouterManagement = Router(); // Creating an instance of Router
-
 
 /* This line of code is importing the `AddnewEmployee` function from the `Employee Management.ts` file
 located in the `Controller/Store Management/Employee Management` directory. This function is a
@@ -28,7 +26,6 @@ It is used in the `EmployeeRouterManagement.post('/create', json(), CheckEmploye
 AddnewEmployee)` route handler to handle the POST request for creating a new employee. */
 // import controller function
 import { AddnewEmployee } from '../../../Service/Store Management/Employee Management'; // Path: Function/Account Management/Employee Management.ts
-
 
 /* This line of code is creating a route handler for the `POST` request method at the endpoint
 `/create` on the `EmployeeRouterManagement` instance of the `Router` module. The `json()` middleware

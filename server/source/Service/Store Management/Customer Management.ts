@@ -1,13 +1,13 @@
-import { Response } from "../../helper/API Response" // Response Path: src/helper/API Response.ts
-import { StatusCodes } from "outers" // Import Response Code
+import { Response } from '../../helper/API Response'; // Response Path: src/helper/API Response.ts
+import { StatusCodes } from 'outers'; // Import Response Code
 
 // import Data Models
-import { StoreManagementModel } from "../../Models" // Path: Database/Model/Store Management Model.ts
+import { StoreManagementModel } from '../../Models'; // Path: Database/Model/Store Management Model.ts
 
 // global types
-type str = string
-type int = number
-type globe = any
+type str = string;
+type int = number;
+type globe = any;
 
 // interfaces
 type Request = {
@@ -15,9 +15,8 @@ type Request = {
         User_idForParams: int;
         OwnerEmailForParams: str;
         CustomerID: int;
-    }
-}
-
+    };
+};
 
 /**
  * This function retrieves a list of customers from a database based on user ID and owner email.
@@ -27,67 +26,75 @@ type Request = {
  * after the function is executed. It contains information such as the status code, status message, and
  * data that will be returned to the client.
  */
-export async function getCustomerList(req:Request, res: globe) {
-    try{
-        const {User_idForParams, OwnerEmailForParams} = req.params; // Destructure the request body
+export async function getCustomerList(req: Request, res: globe) {
+    try {
+        const { User_idForParams, OwnerEmailForParams } = req.params; // Destructure the request body
 
         // Shorted the email and user id
-        const ShortedOwnerEmail:str = OwnerEmailForParams.toLowerCase(); // Lowercase the email
+        const ShortedOwnerEmail: str = OwnerEmailForParams.toLowerCase(); // Lowercase the email
 
         // gather the customer list
-        const CustomerList:globe[] = await StoreManagementModel.find({$and: [{User_id:User_idForParams}, {Email: ShortedOwnerEmail}]}); // Finding the employee in the database
-        if(CustomerList[0].Customers.length === 0){
+        const CustomerList: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id: User_idForParams }, { Email: ShortedOwnerEmail }],
+        }); // Finding the employee in the database
+        if (CustomerList[0].Customers.length === 0) {
             Response({
                 res,
                 StatusCode: StatusCodes.NOT_FOUND,
                 Status: 'Not Found',
                 Message: 'No customer found',
                 Data: undefined,
-            })
-        }
-        else{
+            });
+        } else {
             Response({
                 res,
                 StatusCode: StatusCodes.OK,
                 Status: 'OK',
                 Message: 'Customer list found',
                 Data: CustomerList[0].Customers,
-            })
+            });
         }
-    }
-    catch(err) {
+    } catch (err) {
         Response({
             res,
             StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Internal Server Error',
             Message: 'Something went wrong while getting the customer list',
             Data: undefined,
-        })
+        });
     }
-}; // End of getCustomerList Function
+} // End of getCustomerList Function
 
-export async function DeleteCustomer(req:Request, res: globe){
-    try{
-        const {User_idForParams, OwnerEmailForParams, CustomerID} = req.params; // Destructure the request body
+export async function DeleteCustomer(req: Request, res: globe) {
+    try {
+        const { User_idForParams, OwnerEmailForParams, CustomerID } = req.params; // Destructure the request body
 
         // shorted the email and user id
-        const ShortedOwnerEmail:str = OwnerEmailForParams.toLowerCase(); // Lowercase the email
+        const ShortedOwnerEmail: str = OwnerEmailForParams.toLowerCase(); // Lowercase the email
 
         // find the customer
-        const StoreDetails : globe[] = await StoreManagementModel.find({$and: [{User_id:User_idForParams}, {Email: ShortedOwnerEmail}]}); // Finding the customer in the database
-        if(StoreDetails.length !== 0){
-            const FilteredCustomerList = StoreDetails[0].Customers.filter((customer:globe) => Number(customer.CustomerID) !== Number(CustomerID));
-            await StoreManagementModel.updateOne({$and: [{User_id:User_idForParams}, {Email: ShortedOwnerEmail}]}, {Customers: FilteredCustomerList}); // Updating the customer in the database
-            const ReFindData : globe[] = await StoreManagementModel.find({$and: [{User_id:User_idForParams}, {Email: ShortedOwnerEmail}]});
+        const StoreDetails: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id: User_idForParams }, { Email: ShortedOwnerEmail }],
+        }); // Finding the customer in the database
+        if (StoreDetails.length !== 0) {
+            const FilteredCustomerList = StoreDetails[0].Customers.filter(
+                (customer: globe) => Number(customer.CustomerID) !== Number(CustomerID),
+            );
+            await StoreManagementModel.updateOne(
+                { $and: [{ User_id: User_idForParams }, { Email: ShortedOwnerEmail }] },
+                { Customers: FilteredCustomerList },
+            ); // Updating the customer in the database
+            const ReFindData: globe[] = await StoreManagementModel.find({
+                $and: [{ User_id: User_idForParams }, { Email: ShortedOwnerEmail }],
+            });
             Response({
                 res,
                 StatusCode: StatusCodes.OK,
                 Status: 'OK',
                 Message: 'Customer deleted successfully',
-                Data: ReFindData[0].Customers
+                Data: ReFindData[0].Customers,
             }); // End of Response
-        }
-        else if(StoreDetails.length === 0){
+        } else if (StoreDetails.length === 0) {
             Response({
                 res,
                 StatusCode: StatusCodes.NOT_FOUND,
@@ -96,14 +103,13 @@ export async function DeleteCustomer(req:Request, res: globe){
                 Data: undefined,
             }); // End of Response
         }
-    }
-    catch{
+    } catch {
         Response({
             res,
             StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Internal Server Error',
             Message: 'Something went wrong while deleting the customer',
             Data: undefined,
-        })
+        });
     }
-}; // End of DeleteCustomer Function
+} // End of DeleteCustomer Function

@@ -2,7 +2,6 @@
 make the types available for defining the structure of the MongoDB documents in the schema. */
 import { Schema } from 'mongoose'; // This is required to make the types available
 
-
 /* This code is defining a Mongoose schema for a user object with various properties such as User_id,
 Name, Email, Password, Phone, Address, City, State, Zip, Country, SecurityQuestion, SecurityAnswer,
 CreatedAt, Status, isTermsAccepted, ShopName, ShopAddress, isGSTIN, GSTIN, and PAN. The schema is

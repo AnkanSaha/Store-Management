@@ -6,7 +6,7 @@ import {
   FormLabel,
   Input,
   Button,
-  Select
+  Select,
 } from "@chakra-ui/react"; // Chakra UI
 
 // import react hooks
@@ -28,7 +28,7 @@ type props = {
   StoreName: string;
 };
 
-export default function Add_New_Employee({StoreName}:props) {
+export default function Add_New_Employee({ StoreName }: props) {
   // Context API
   const {
     UpdateLoading,
@@ -37,17 +37,17 @@ export default function Add_New_Employee({StoreName}:props) {
     UpdateAlert,
     UpdateSidebarOption,
   }: any = useContext(GlobalContext); // Set Document Title
-  
+
   // Decode Token
-  const Decoded : any = Decode_Token(AuthDetails.Data.AccountDetails); // decode token
-  
+  const Decoded: any = Decode_Token(AuthDetails.Data.AccountDetails); // decode token
+
   // Update Document Title with logic
   Update_Document_Title({ TitleName: `Add New Employee - ${StoreName}` }); // Update Document Title
 
   // State for Employee Details
   const [EmployeeDetails, setEmployeeDetails] = useState({
     User_idForBody: Decoded.User_id,
-    OwnerEmailForBody:Decoded.Email,
+    OwnerEmailForBody: Decoded.Email,
     EmployeeName: "",
     EmployeeEmail: "",
     EmployeePhoneNumber: "",
@@ -161,15 +161,16 @@ export default function Add_New_Employee({StoreName}:props) {
           id="EmployeeRole"
           onChange={UpdateState}
           value={EmployeeDetails.EmployeeRole}
-          isRequired>
+          isRequired
+        >
           <option value="">Select Employee Role</option>
           <option value="Manager">Manager</option>
           <option value="Cashier">Cashier</option>
           <option value="Salesman">Salesman</option>
           <option value="Store Keeper">Store Keeper</option>
-          <option value= "Owner">Owner</option>
+          <option value="Owner">Owner</option>
           <option value="other">Other</option>
-          </Select>
+        </Select>
         <FormLabel className="mt-[2.25rem]">
           Enter Employee Date of Joining
         </FormLabel>

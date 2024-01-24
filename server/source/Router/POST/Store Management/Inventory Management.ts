@@ -1,5 +1,5 @@
 /* These lines of code are importing necessary modules from the 'express' and 'cors' packages. */
-import {Router, json} from 'express'; // Importing express types & Router class
+import { Router, json } from 'express'; // Importing express types & Router class
 // import all Controllers
 import { AddInventory } from '../../../Service/Store Management/Inventory Management'; // Importing AddInventory controller
 

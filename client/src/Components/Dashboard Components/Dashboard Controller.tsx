@@ -11,7 +11,7 @@ import Sidebar from "./Dashboard Sub Components/Basic Components/Sidebar"; // im
 
 // import Variables & Context
 import { useContext } from "react"; // context API
-import JWT_Decode from '../../Functions/JWT/Decode'; // import JWT_Decode function
+import JWT_Decode from "../../Functions/JWT/Decode"; // import JWT_Decode function
 //Context API
 import { GlobalContext } from "../../Context/Context API"; // import Global Context
 /* These lines of code are importing three components: `Dashboad_Homepage`, `Manage_Employees`, and
@@ -22,7 +22,6 @@ value of `SidebarOption`, one of these components will be rendered to the DOM. *
 import Dashboad_Homepage from "./Dashboard Sub Components/Basic Components/Dashboad Homepage"; // import Dashboad_Homepage component
 import Manage_Employees from "./Dashboard Sub Components/Employee Management/Manage Employees"; // import Manage_Employees component
 import Add_New_Employee from "./Dashboard Sub Components/Employee Management/Add New Employee";
-
 
 // inventory Management Components
 import Add_New_Inventory_Item from "./Dashboard Sub Components/Inventory Management/Add New Inventory"; // import Add_New_Inventory_Item component
@@ -59,11 +58,11 @@ export default function Dashboard_Overview() {
   const { AuthDetails, SidebarOption }: any = useContext(GlobalContext); // const {InternetStatus, UpdateInternetStatus} = useContext(GlobalContext);
 
   // Decode JWT
-  const Decoded : any = JWT_Decode(AuthDetails.Data.AccountDetails); // decode token
+  const Decoded: any = JWT_Decode(AuthDetails.Data.AccountDetails); // decode token
 
   return (
     <>
-      <Sidebar AdminName={Decoded.Name.split(' ')[0]} />
+      <Sidebar AdminName={Decoded.Name.split(" ")[0]} />
       {SidebarOption === "dashboard" ? (
         <Dashboad_Homepage ShopName={Decoded.ShopName} />
       ) : SidebarOption === "manage-employees" ? (
@@ -71,24 +70,24 @@ export default function Dashboard_Overview() {
       ) : SidebarOption === "add-employee" ? (
         <Add_New_Employee StoreName={Decoded.ShopName} />
       ) : SidebarOption === "manage-profile" ? (
-        <ViewProfile ShopName={Decoded.ShopName}/>
+        <ViewProfile ShopName={Decoded.ShopName} />
       ) : SidebarOption === "logout" ? (
-        <LogoutComponent UserName={Decoded.Name.split(' ')[0]} />
+        <LogoutComponent UserName={Decoded.Name.split(" ")[0]} />
       ) : SidebarOption === "add-new-inventory-item" ? (
-        <Add_New_Inventory_Item StoreName={Decoded.ShopName}/>
+        <Add_New_Inventory_Item StoreName={Decoded.ShopName} />
       ) : SidebarOption === "manage-inventory" ? (
-        <Manage_Inventory  ShopName={Decoded.ShopName}/>
-        ) : SidebarOption === "manage-customers" ? (
-          <ViewAllCustomers ShopName={Decoded.ShopName} />
-        ): SidebarOption === "add-category" ? (
-          <Add_New_Category StoreName={Decoded.ShopName} />
-        ) : SidebarOption === "manage-categories" ? (
-          <ViewAllCategory ShopName={Decoded.ShopName} />
-        ) : SidebarOption === "create-new-order" ? (
-          <Create_New_Order StoreName={Decoded.ShopName} />
-        ) : SidebarOption === "manage-orders" ? (
-          <Manage_Orders ShopName={Decoded.ShopName} />
-        ) : null}
+        <Manage_Inventory ShopName={Decoded.ShopName} />
+      ) : SidebarOption === "manage-customers" ? (
+        <ViewAllCustomers ShopName={Decoded.ShopName} />
+      ) : SidebarOption === "add-category" ? (
+        <Add_New_Category StoreName={Decoded.ShopName} />
+      ) : SidebarOption === "manage-categories" ? (
+        <ViewAllCategory ShopName={Decoded.ShopName} />
+      ) : SidebarOption === "create-new-order" ? (
+        <Create_New_Order StoreName={Decoded.ShopName} />
+      ) : SidebarOption === "manage-orders" ? (
+        <Manage_Orders ShopName={Decoded.ShopName} />
+      ) : null}
     </>
   );
 }

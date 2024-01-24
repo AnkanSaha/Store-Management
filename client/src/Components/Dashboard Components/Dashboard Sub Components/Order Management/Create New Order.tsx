@@ -11,7 +11,7 @@ import {
   FormLabel,
   Input,
   Button,
-  Select
+  Select,
 } from "@chakra-ui/react"; // Chakra UI
 
 //import Components
@@ -34,21 +34,21 @@ interface props {
 
 // Add New Inventory Function
 interface OrderDetails {
-    OwnerEmailForBody: str;
-    User_idForBody: num;
-    ProductName: str;
-    ProductCatagory: str;
-    ProductSKU: str;
-    ProductQuantity: num;   
-    ProductPrice: num;  
-    DeliveryAddress: str;
-    DeliveryDate: str;
-    DeliveryStatus: str;
-    PaymentMethod: str;
-    PaymentStatus: str;
-    CustomerName: str;
-    CustomerEmail: str;
-    CustomerPhone: str;
+  OwnerEmailForBody: str;
+  User_idForBody: num;
+  ProductName: str;
+  ProductCatagory: str;
+  ProductSKU: str;
+  ProductQuantity: num;
+  ProductPrice: num;
+  DeliveryAddress: str;
+  DeliveryDate: str;
+  DeliveryStatus: str;
+  PaymentMethod: str;
+  PaymentStatus: str;
+  CustomerName: str;
+  CustomerEmail: str;
+  CustomerPhone: str;
 }
 
 export default function Create_New_Order({ StoreName }: props) {
@@ -57,7 +57,7 @@ export default function Create_New_Order({ StoreName }: props) {
     TitleName: `Place a new order - ${StoreName}`,
   }); // Update Document Title
   // using Context API
-  
+
   const {
     AlertMessage,
     UpdateAlert,
@@ -65,8 +65,10 @@ export default function Create_New_Order({ StoreName }: props) {
     AuthDetails,
     UpdateLoading,
   }: any = React.useContext(GlobalContext); // const {InternetStatus, UpdateInternetStatus} = useContext(GlobalContext);
-  
-  const Decoded_AuthDetails:any = Decode_Token(AuthDetails.Data.AccountDetails); // Decode Token
+
+  const Decoded_AuthDetails: any = Decode_Token(
+    AuthDetails.Data.AccountDetails,
+  ); // Decode Token
 
   // States
   const [orderDetails, setorderDetails] = useState<OrderDetails>({
@@ -84,48 +86,59 @@ export default function Create_New_Order({ StoreName }: props) {
     CustomerPhone: "",
     DeliveryStatus: "",
     PaymentMethod: "",
-    PaymentStatus: ""
+    PaymentStatus: "",
   }); // Inventory Details
 
-// Import States
-  const [InventoryDetails, setInventoryDetails] = useState<globe>([])
+  // Import States
+  const [InventoryDetails, setInventoryDetails] = useState<globe>([]);
 
   // using useEffect
   React.useEffect(() => {
-    HTTP_GET({PostPath:`/get/inventory/getProducts/${Decoded_AuthDetails.User_id}/${Decoded_AuthDetails.Email}`}).then((res:globe) => {
-        if (res.Status === "Success") {
-            setInventoryDetails(res.Data);
-        }
+    HTTP_GET({
+      PostPath: `/get/inventory/getProducts/${Decoded_AuthDetails.User_id}/${Decoded_AuthDetails.Email}`,
+    }).then((res: globe) => {
+      if (res.Status === "Success") {
+        setInventoryDetails(res.Data);
+      }
     });
-        
   }, []);
 
   // State Updater for Employee Details
   const UpdateState = (element: globe): void => {
-      if(element.target.name === "ProductName"){
-        const ProductDetails = InventoryDetails.find((item:globe) => item.ProductName === element.target.value);
-        setorderDetails({ // Update Inventory Details
-            ...orderDetails,
-            ProductName: ProductDetails !== undefined ? ProductDetails.ProductName : "",
-            ProductCatagory: ProductDetails !== undefined ? ProductDetails.ProductCategory : "",
-            ProductSKU: ProductDetails !== undefined ? ProductDetails.ProductSKU : "",
-            ProductPrice: ProductDetails !== undefined ? ProductDetails.ProductPrice : 0
-            
-        });
-    }
-    else if(element.target.name === "ProductQuantity"){
-        const ProductDetails = InventoryDetails.find((item:globe) => item.ProductSKU === orderDetails.ProductSKU );
-        setorderDetails({ // Update Inventory Details
-            ...orderDetails,
-            ProductQuantity: element.target.value,
-            ProductPrice: ProductDetails !== undefined ? ProductDetails.ProductPrice * Number(element.target.value) : 0,
-        });
-    }
-    else{
-        setorderDetails({
-            ...orderDetails,
-            [element.target.name]: element.target.value,
-          }); // set Inventory Details to empty
+    if (element.target.name === "ProductName") {
+      const ProductDetails = InventoryDetails.find(
+        (item: globe) => item.ProductName === element.target.value,
+      );
+      setorderDetails({
+        // Update Inventory Details
+        ...orderDetails,
+        ProductName:
+          ProductDetails !== undefined ? ProductDetails.ProductName : "",
+        ProductCatagory:
+          ProductDetails !== undefined ? ProductDetails.ProductCategory : "",
+        ProductSKU:
+          ProductDetails !== undefined ? ProductDetails.ProductSKU : "",
+        ProductPrice:
+          ProductDetails !== undefined ? ProductDetails.ProductPrice : 0,
+      });
+    } else if (element.target.name === "ProductQuantity") {
+      const ProductDetails = InventoryDetails.find(
+        (item: globe) => item.ProductSKU === orderDetails.ProductSKU,
+      );
+      setorderDetails({
+        // Update Inventory Details
+        ...orderDetails,
+        ProductQuantity: element.target.value,
+        ProductPrice:
+          ProductDetails !== undefined
+            ? ProductDetails.ProductPrice * Number(element.target.value)
+            : 0,
+      });
+    } else {
+      setorderDetails({
+        ...orderDetails,
+        [element.target.name]: element.target.value,
+      }); // set Inventory Details to empty
     }
   };
 
@@ -137,8 +150,7 @@ export default function Create_New_Order({ StoreName }: props) {
     // Condition for Add Inventory
     if (Result === false) {
       UpdateLoading(false); // Update Loading State to false
-    }
-    else if(Result.Status === "Ok"){
+    } else if (Result.Status === "Ok") {
       UpdateLoading(false); // Update Loading State to false
       UpdateAlert(Result); // Update Alert
     }
@@ -192,9 +204,12 @@ export default function Create_New_Order({ StoreName }: props) {
           name="ProductName"
           onChange={UpdateState}
           id="ProductName"
-          isRequired>
-            <option value="">Select Product Name</option>
-            {InventoryDetails.map((item:globe) => {return(<option value={item.ProductName}>{item.ProductName}</option>)})}
+          isRequired
+        >
+          <option value="">Select Product Name</option>
+          {InventoryDetails.map((item: globe) => {
+            return <option value={item.ProductName}>{item.ProductName}</option>;
+          })}
         </Select>
         <FormLabel className="mt-[2.25rem]">Enter Product Category</FormLabel>
         <Select
@@ -202,8 +217,9 @@ export default function Create_New_Order({ StoreName }: props) {
           value={orderDetails.ProductCatagory}
           onChange={UpdateState}
           id="ProductCatagory"
-          isRequired>
-            <option>{orderDetails.ProductCatagory}</option>
+          isRequired
+        >
+          <option>{orderDetails.ProductCatagory}</option>
         </Select>
         <FormLabel className="mt-[2.25rem]">Enter Product SKU ID</FormLabel>
         <Input
@@ -226,9 +242,7 @@ export default function Create_New_Order({ StoreName }: props) {
           id="ProductQuantity"
           isRequired
         />
-        <FormLabel className="mt-[2.25rem]">
-          Customer Name
-        </FormLabel>
+        <FormLabel className="mt-[2.25rem]">Customer Name</FormLabel>
         <Input
           type="text"
           name="CustomerName"
@@ -237,9 +251,7 @@ export default function Create_New_Order({ StoreName }: props) {
           id="CustomerName"
           isRequired
         />
-        <FormLabel className="mt-[2.25rem]">
-          Customer Email Address
-        </FormLabel>
+        <FormLabel className="mt-[2.25rem]">Customer Email Address</FormLabel>
         <Input
           type="text"
           name="CustomerEmail"
@@ -270,9 +282,7 @@ export default function Create_New_Order({ StoreName }: props) {
           id="DeliveryAddress"
           isRequired
         />
-        <FormLabel className="mt-[2.25rem]">
-          Delivery Date
-        </FormLabel>
+        <FormLabel className="mt-[2.25rem]">Delivery Date</FormLabel>
         <Input
           type="date"
           name="DeliveryDate"
@@ -281,37 +291,46 @@ export default function Create_New_Order({ StoreName }: props) {
           id="DeliveryDate"
           isRequired
         />
-         <FormLabel className="mt-[2.25rem]">
-          Delivery Status
-        </FormLabel>
-        <Select  onChange={UpdateState} value={orderDetails.DeliveryStatus} name="DeliveryStatus" id="DeliveryStatus">
-            <option value="">Select Delivery Status</option>
-            <option value="Pending">Pending</option>
-            <option value="Delivered">Delivered</option>
-            <option value="Cancelled">Cancelled</option>
+        <FormLabel className="mt-[2.25rem]">Delivery Status</FormLabel>
+        <Select
+          onChange={UpdateState}
+          value={orderDetails.DeliveryStatus}
+          name="DeliveryStatus"
+          id="DeliveryStatus"
+        >
+          <option value="">Select Delivery Status</option>
+          <option value="Pending">Pending</option>
+          <option value="Delivered">Delivered</option>
+          <option value="Cancelled">Cancelled</option>
         </Select>
 
-         <FormLabel className="mt-[2.25rem]">
-          Payment Status
-        </FormLabel>
-        <Select  onChange={UpdateState} value={orderDetails.PaymentStatus} name="PaymentStatus" id="PaymentStatus">
-            <option value="">Select Payment Status</option>
-            <option value="Pending">Pending</option>
-            <option value="Paid">Paid</option>
-            <option value="No Done">Payment No Done</option>
+        <FormLabel className="mt-[2.25rem]">Payment Status</FormLabel>
+        <Select
+          onChange={UpdateState}
+          value={orderDetails.PaymentStatus}
+          name="PaymentStatus"
+          id="PaymentStatus"
+        >
+          <option value="">Select Payment Status</option>
+          <option value="Pending">Pending</option>
+          <option value="Paid">Paid</option>
+          <option value="No Done">Payment No Done</option>
         </Select>
 
-         <FormLabel className="mt-[2.25rem]">
-          Payment Method
-        </FormLabel>
-        <Select  onChange={UpdateState} value={orderDetails.PaymentMethod} name="PaymentMethod" id="PaymentMethod">
-            <option value="">Select Payment Method</option>
-            <option value="Cash">Cash</option>
-            <option value="Card">Card</option>
-            <option value="UPI">UPI</option>
-            <option value="Net Banking">Net Banking</option>
+        <FormLabel className="mt-[2.25rem]">Payment Method</FormLabel>
+        <Select
+          onChange={UpdateState}
+          value={orderDetails.PaymentMethod}
+          name="PaymentMethod"
+          id="PaymentMethod"
+        >
+          <option value="">Select Payment Method</option>
+          <option value="Cash">Cash</option>
+          <option value="Card">Card</option>
+          <option value="UPI">UPI</option>
+          <option value="Net Banking">Net Banking</option>
         </Select>
-        
+
         <FormLabel className="mt-[2.25rem]">
           Total Price for the Product
         </FormLabel>

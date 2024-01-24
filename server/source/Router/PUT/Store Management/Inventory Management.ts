@@ -17,6 +17,5 @@ import { UpdateInventory } from '../../../Service/Store Management/Inventory Man
 // exporting router
 export default InventoryRouterManagement; // Exporting InventoryRouterManagement
 
-
 // all routes that can handle requests
 InventoryRouterManagement.put('/update', json(), AccountExistMiddleware, UpdateInventory); // Update Inventory Route

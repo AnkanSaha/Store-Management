@@ -80,7 +80,7 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
    variable for further use in the function. */
     try {
         // Finding the employee in the database
-        const EmployeeFindStatus: globe | obj = await StoreManagementModel.find({User_id:User_idForBody});
+        const EmployeeFindStatus: globe | obj = await StoreManagementModel.find({ User_id: User_idForBody });
 
         /* This code block is checking if an employee already exists in the `Employees` array of the
        retrieved data from the database. It does this by filtering the array based on whether the
@@ -131,7 +131,7 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
            and updates it with the new employee data stored in the `EmployeeFindStatus[0]` object.
            Once the update is complete, it sends a success response to the client with a status code
            of 200, a status message of 'Employee Added', and an empty data object. */
-            await StoreManagementModel.findOneAndUpdate({ User_id:User_idForBody }, EmployeeFindStatus[0]);
+            await StoreManagementModel.findOneAndUpdate({ User_id: User_idForBody }, EmployeeFindStatus[0]);
             Response({
                 res,
                 Status: 'Employee Added',
@@ -185,7 +185,7 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
      "StoreDataFind" variable. The code is using the "await" keyword to wait for the query to
      complete before continuing execution. */
         const StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id:User_idForQuery }, { Email: ShortedOwnerEmail }],
+            $and: [{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }],
         }); // Finding the employee in the database
 
         /* The above code is checking if an array called `StoreDataFind` has any elements. If it has no
@@ -237,18 +237,16 @@ export async function DeleteEmployee(req: GlobalRequestInterface, res: obj | glo
     const ShortedOwnerEmail: str = OwnerEmailForQuery.toLowerCase(); // Lowercase the email
     const ShortedEmployeeEmail: str = EmployeeEmail.toLowerCase(); // Lowercase the email
 
-
     /* The above code is using the Mongoose library to find data in a MongoDB database. It is searching
    for a document in the "StoreManagementModel" collection that matches the specified conditions:
    the "User_id" field must match the value of the "User_id" variable, and the "Email" field must
    match the value of the "ShortedOwnerEmail" variable. The result of the query is stored in the
    "StoreDataFind" variable. */
     const StoreDataFind: any = await StoreManagementModel.find({
-        $and: [{ User_id:User_idForQuery }, { Email: ShortedOwnerEmail }],
+        $and: [{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database
 
-
-/* The above code is filtering an array of employee data stored in `StoreDataFind[0].Employees` based
+    /* The above code is filtering an array of employee data stored in `StoreDataFind[0].Employees` based
 on two conditions:
 1. The `EmployeeEmail` property of each employee object should not be equal to the
 `ShortedEmployeeEmail` variable.
@@ -256,39 +254,44 @@ on two conditions:
 not be equal to the `EmployeeMobileNumber` variable, also converted to a string. */
 
     const DeletedArrayOfEmployeeData: globe[] = StoreDataFind[0].Employees.filter((Employee: any) => {
-        return Employee.EmployeeEmail !== ShortedEmployeeEmail && String(Employee.EmployeePhoneNumber) !== String(EmployeeMobileNumber);
+        return (
+            Employee.EmployeeEmail !== ShortedEmployeeEmail &&
+            String(Employee.EmployeePhoneNumber) !== String(EmployeeMobileNumber)
+        );
     }); // Getting Array of Employee Data after deleting the employee
 
-    if(StoreDataFind[0].Employees.length === 0){
+    if (StoreDataFind[0].Employees.length === 0) {
         Response({
             res,
             Status: 'Employee Not Found',
             StatusCode: StatusCodes.NOT_FOUND,
             Message: 'Employee Not Found in the database',
-            Data: undefined
-        })
-    }
-    else{
-        StoreDataFind[0].Employees = DeletedArrayOfEmployeeData // Updating the array of employees
-         /* The above code is updating and re-saving data to a database for a store management system. It
+            Data: undefined,
+        });
+    } else {
+        StoreDataFind[0].Employees = DeletedArrayOfEmployeeData; // Updating the array of employees
+        /* The above code is updating and re-saving data to a database for a store management system. It
    first finds and updates the data for a specific user, then finds the updated data again and sends
    it as a response to the client. The response includes a success status code, message, and the
    updated employee data for the store. */
-    // Re-Saving the data to the database
-    await StoreManagementModel.findOneAndUpdate({ User_id:User_idForQuery }, {Employees:StoreDataFind[0].Employees});
+        // Re-Saving the data to the database
+        await StoreManagementModel.findOneAndUpdate(
+            { User_id: User_idForQuery },
+            { Employees: StoreDataFind[0].Employees },
+        );
 
-    // Re-Finding the employee in the database
-    const StoreDataFindAgain: obj | globe = await StoreManagementModel.find({
-        $and: [{ User_id:User_idForQuery }, { Email: ShortedOwnerEmail }],
-    }); // Finding the employee in the database again for sending the data to the client
+        // Re-Finding the employee in the database
+        const StoreDataFindAgain: obj | globe = await StoreManagementModel.find({
+            $and: [{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }],
+        }); // Finding the employee in the database again for sending the data to the client
 
-    Response({
-        res,
-        Status: 'Employee Deleted',
-        StatusCode: StatusCodes.ACCEPTED,
-        Message: 'Employee Deleted from the database',
-        Data: StoreDataFindAgain[0].Employees,
-    }); // If the employee is not in the array, push the employee to the array
+        Response({
+            res,
+            Status: 'Employee Deleted',
+            StatusCode: StatusCodes.ACCEPTED,
+            Message: 'Employee Deleted from the database',
+            Data: StoreDataFindAgain[0].Employees,
+        }); // If the employee is not in the array, push the employee to the array
     }
 } // Deleting the employee
 
@@ -334,20 +337,23 @@ of the "ShortedOwnerEmail" variable. The result of the query is stored in the "S
 variable. The "await" keyword is used to wait for the query to complete before continuing with the
 rest of the code. */
     const StoreDataFind: globe | obj = await StoreManagementModel.find({
-        $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }],
+        $and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database
 
-/* The above code is filtering an array of employee data stored in `StoreDataFind[0].Employees` based
+    /* The above code is filtering an array of employee data stored in `StoreDataFind[0].Employees` based
 on two conditions:
 1. The `EmployeeEmail` property of each employee object should not be equal to the
 `ShortedEmployeeEmail` variable.
 2. The `EmployeePhoneNumber` property of each employee object should not be equal to the
 `EmployeePhoneNumber` variable after converting both to strings. */
     const FilteredArrayOfRemovedEmployeeData: globe[] = StoreDataFind[0].Employees.filter((Employee: obj | globe) => {
-        return Employee.EmployeeEmail !== ShortedEmployeeEmail && String(Employee.EmployeePhoneNumber) !== String(EmployeePhoneNumber);
+        return (
+            Employee.EmployeeEmail !== ShortedEmployeeEmail &&
+            String(Employee.EmployeePhoneNumber) !== String(EmployeePhoneNumber)
+        );
     }); // Finding the index of the employee in the array
 
-/* The above code is pushing an object containing employee data (name, email, phone number, date of
+    /* The above code is pushing an object containing employee data (name, email, phone number, date of
 joining, role, and monthly salary) to an array called `FilteredArrayOfRemovedEmployeeData`. The
 email address is shortened before being added to the object. */
     FilteredArrayOfRemovedEmployeeData.push({
@@ -361,11 +367,11 @@ email address is shortened before being added to the object. */
 
     StoreDataFind[0].Employees = FilteredArrayOfRemovedEmployeeData; // Updating the array of employees in the database
 
-    await StoreManagementModel.findOneAndUpdate({ User_id:User_idForBody }, {Employees:StoreDataFind[0].Employees}); // Re-Saving the data to the database
+    await StoreManagementModel.findOneAndUpdate({ User_id: User_idForBody }, { Employees: StoreDataFind[0].Employees }); // Re-Saving the data to the database
 
     // Re-Finding the employee in the database
     const StoreDataFindAgain: any = await StoreManagementModel.find({
-        $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }],
+        $and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database again for sending the data to the client
     Response({
         res,

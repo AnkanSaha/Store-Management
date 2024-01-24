@@ -14,7 +14,7 @@ the file located at `'../../../Middleware/Auth/Account Validation'`. These middl
 used to validate the input data for creating and logging into an account in the authentication
 functionality of the Node.js application. */
 // import All Middlewares
-import {SignUpValidation, LoginValidation} from '../../../Middleware/Auth/Account Validation'; // Import SignUp Validation Middleware
+import { SignUpValidation, LoginValidation } from '../../../Middleware/Auth/Account Validation'; // Import SignUp Validation Middleware
 
 /* The code is importing two functions named `CreateAccount` and `LoginAccount` from the file located
 at `'../../../Controller/Auth/Auth Functions'`. These functions are used as controllers for handling

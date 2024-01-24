@@ -67,26 +67,25 @@ if (cluster.isPrimary) {
         cluster.fork(); // Create new cluster if one dies
     }); // Listen for exit event
 } else {
-  // Enable All Proxy Settings for Server Security
-  Service.set('trust proxy', ()=> true); // Enable All Proxy Settings
+    // Enable All Proxy Settings for Server Security
+    Service.set('trust proxy', () => true); // Enable All Proxy Settings
 
     /* `Service.use(express.static('public'));` is linking the `public` folder to the main `Service`
    app. This means that any static files (such as images, CSS, and JavaScript files) located in the
    `public` folder will be accessible through the `Service` app. When a client requests a static
    file, the server will look for it in the `public` folder and serve it to the client if it exists. */
     Service.use(express.static('public')); // Link public folder to the main app
-    
+
     // link all Middleware & Routes to the main app
     /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
    app. This means that any routes defined in the `Router_Manager` will be accessible through the
    `Service` app. */
-    Service.use('/api',RateLimiter, Router_Manager); // Link Router_Manager to the main app
+    Service.use('/api', RateLimiter, Router_Manager); // Link Router_Manager to the main app
 
-    
     // API Error Handling
     type ErrorRequest = {
         originalUrl: str;
-    }
+    };
 
     Service.all('*', (req: ErrorRequest, res: obj | globe): void => {
         Response({

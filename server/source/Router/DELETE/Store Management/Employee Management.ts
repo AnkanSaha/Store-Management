@@ -24,7 +24,7 @@ function that handles the HTTP DELETE request for deleting an employee in a stor
 The function is used in the `Employee_Manage_Router` to handle the HTTP DELETE request for deleting
 an employee. */
 // Importing Employee Management Controller
-import {DeleteEmployee}from '../../../Service/Store Management/Employee Management'; // Path: Controller/Store Management/Employee Management.ts
+import { DeleteEmployee } from '../../../Service/Store Management/Employee Management'; // Path: Controller/Store Management/Employee Management.ts
 
 /* These lines of code are exporting the `Employee_Manage_Router` object as the default export of this
 module. This allows other modules to import and use this router object in their own code by simply
@@ -43,4 +43,4 @@ check if the employee being deleted has any associated data or not, and if so, i
 deletion of the employee. `DeleteEmployee` is a controller function that handles the actual deletion
 of the employee. */
 // Creating Employee Management Router
-EmployeeManageRouter.delete('/delete', json(),AccountExistMiddleware, DeleteEmployee);
+EmployeeManageRouter.delete('/delete', json(), AccountExistMiddleware, DeleteEmployee);

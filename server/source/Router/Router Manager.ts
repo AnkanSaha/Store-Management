@@ -4,7 +4,7 @@ for a web application. By creating a new instance of `Router`, we can define rou
 specific to that instance, and then mount it as a middleware to the main Express application using
 `app.use()`. */
 import { Router } from 'express'; // Importing express types & Router class
-import CORS  from '../Middleware/Security/CORS'; // Importing CORS Middleware
+import CORS from '../Middleware/Security/CORS'; // Importing CORS Middleware
 
 // create a new Router instance
 const RouterManager = Router(); // Creating a new Router instance

@@ -11,7 +11,7 @@ Management` directories, respectively. These sub-routers will be used to handle 
 within the main router (`POST_REQUEST_Manager`). The `use()` method is then used to link these
 sub-routers to the main router, with a specified prefix for each sub-router's routes. */
 // import all Sub-Routers
-import  Authenticate from './Auth/Authentication'; // Importing Authentication Router
+import Authenticate from './Auth/Authentication'; // Importing Authentication Router
 import EmployeeRouterManagement from './Store Management/Employee Management'; // Importing Employee Management Router
 import InventoryRouterManagement from './Store Management/Inventory Management'; // Importing Inventory Management Router
 import CategoryRouterManagement from './Store Management/Catagory Management'; // Importing Catagory Management Router
