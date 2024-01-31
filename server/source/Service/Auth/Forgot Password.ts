@@ -1,9 +1,8 @@
 import { EncryptPassword } from "../../Middleware/Security/Bcrypt"; // Bcrypt
-import { methods } from "outers"; // Unique Generator
+import { methods, StatusCodes } from "outers"; // Unique Generator & Status Codes
 
 // Response and Response Code
 import { Response } from "../../helper/API Response"; // API Response
-import { StatusCodes } from "outers"; // Response Code
 
 // import Data Model
 import { ClientAccountModel } from "../../Models"; // Client Account Model

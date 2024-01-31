@@ -5,9 +5,9 @@ creates an instance of the Express app using `express()`. */
 
 import express from 'express'; // Import express module
 
-import { GeneralGlobalNumberData } from '../config/Keys/General Keys'; // PORT from General Config
+import { GeneralGlobalNumberData, GeneralGlobalStringData } from '../config/Keys/General Keys'; // PORT from General Config
 import { cpus } from 'os'; // Import os module
-import { StatusCodes } from 'outers'; // Import StatusCodes from outers
+import { StatusCodes, Middleware } from 'outers'; // Import StatusCodes from outers
 import cluster from 'cluster'; // Import cluster module
 import { Response } from '../helper/API Response'; // Import Failed_Response function
 const Service = express(); // Create express app
@@ -80,7 +80,7 @@ if (cluster.isPrimary) {
     /* `Service.use(Router_Manager)` is linking the `Router_Manager` middleware to the main `Service`
    app. This means that any routes defined in the `Router_Manager` will be accessible through the
    `Service` app. */
-    Service.use('/api',RateLimiter, Router_Manager); // Link Router_Manager to the main app
+    Service.use('/api',RateLimiter, Middleware.AccessController([new URL(GeneralGlobalStringData.API_Allowed_URL).hostname]), Router_Manager); // Link Router_Manager to the main app
 
     
     // API Error Handling
