@@ -1,6 +1,4 @@
 // Importing All Required Modules
-/* These lines of code are importing the necessary modules for creating an Express router and enabling
-CORS (Cross-Origin Resource Sharing) functionality. */
 import { Router, json } from 'express'; // Importing Express Router
 
 import {AccountExistMiddleware} from '../../../Middleware/Store Management/AccountExistMiddileware'; // Path: Middleware/Store Management/AccountExistMiddileware.ts

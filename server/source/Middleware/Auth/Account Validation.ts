@@ -1,11 +1,6 @@
 // this middleware is used to validate the account if account exists or not
 
 // import Models
-
-/* The code is importing two modules: `ClientAccountModel` and `StoreManagementModel` from the
-`../../Models/index` file, and `Failed_Response` function from the `../../helper/API Response` file.
-These modules are then used in the middleware functions `SignUpValidation` and `LoginValidation` to
-perform account validation and send API responses. */
 import { ClientAccountModel, StoreManagementModel } from '../../Models/index'; // Import Client Account Model
 import { Response } from '../../helper/API Response'; // Import API Response Function
 import { StatusCodes } from 'outers'; // Import Response Code
@@ -45,21 +40,11 @@ export async function SignUpValidation(
     res: obj | globe,
     next: globe,
 ): Promise<blank> {
-    /* This code is getting the data from the request body, specifically the `Email`, `Phone`, and `PAN`
-    fields. It then converts the `Email` to lowercase and assigns it to the `Shortedemail` variable.
-    This is done to ensure that the email is in a consistent format for validation purposes. */
     // Get Data from Request Body
     const { Email, Phone, PAN } = req.body; // Get Email from Request Body
     // Shorting email
     const ShortedEmail: str = Email.toLowerCase(); // Convert Email to Lower Case
 
-    /* This code is checking if an account or store already exists with the same email, phone, or PAN
-   number. It first retrieves the email, phone, and PAN from the request body and converts the email
-   to lowercase. It then uses the `ClientAccountModel` to find globe accounts that match the email,
-   phone, or PAN. If globe matches are found, it uses the `StoreManagementModel` to check if a store
-   exists with the same user ID or email. If either an account or store is found, it sends a
-   response indicating that the account already exists and returns. If no account or store is found,
-   it calls the next middleware function in the chain. */
     // Find Account if exist with same Email or Phone in typescript
     const TemporaryFindResult: obj | globe = await ClientAccountModel.find({
         $or: [{ Email: ShortedEmail }, { Phone }, { PAN }],
@@ -120,21 +105,12 @@ export async function LoginValidation(
     next: globe,
 ): Promise<blank> {
     // Get Data from Request Body
-    /* This code is getting the `Email` field from the request body using destructuring assignment and
-   assigning it to a constant variable `Email`. It then converts the `Email` to lowercase and
-   assigns it to the variable `Shortedemail`. This is done to ensure that the email is in a
-   consistent format for validation purposes. */
     const { Email } = req.body; // Get Email from Request Body
 
     // converting all data to lower case
     const ShortedEmail: str = Email.toLowerCase(); // Convert Email to Lower Case
 
-    /* This code is a TypeScript middleware function that validates a user's login credentials by checking
-if their email exists in the database. It first retrieves the `Email` field from the request body
-and converts it to lowercase. It then uses the `ClientAccountModel` to find globe accounts that match
-the email. If no account is found, it sends a response indicating that the account was not found and
-returns. If an account is found, it calls the next middleware function in the chain. */
-
+    // Find Account if exist with same Email or Phone in typescript
     const FindAccountResult: obj[] = await ClientAccountModel.find({
         Email: ShortedEmail,
     }); // Find Account

@@ -33,13 +33,6 @@ export default async function ResetPassword(req: Request, res: globe) {
         const RandomRounds = new methods.UniqueGenerator(1).RandomNumber(false, [1, 2, 3, 4, 5]);
         const EncryptedPassword = await EncryptPassword(NewPassword, RandomRounds);
 
-        /* This code block is updating the password of a client account in the database. It uses the
-       `findOneAndUpdate` method of the `ClientAccountModel` to find a client account with the
-       provided `User_id` and `Email` in the request body and update its `Password` field with the
-       encrypted password generated using the `EncryptPassword` function. The `{new: true}` option
-       is used to return the updated document instead of the original document. The updated client
-       account object is then stored in the `Client` variable. */
-
         // Update Password
         const Client: globe = await ClientAccountModel.findOneAndUpdate(
             { User_id: User_idForBody, Email: ShortEmail },
@@ -47,12 +40,6 @@ export default async function ResetPassword(req: Request, res: globe) {
             { new: true },
         );
 
-        /* This code block is checking if the password reset operation was successful or not. It checks if the
-`Client` object returned from the database has the same `User_id` and `Email` as provided in the
-request body. If it does, it returns a success response with status code `200` and a message
-"Password Reset Successfully". If the `Client` object does not match the provided credentials, it
-returns a failure response with status code `400` and a message "Password Reset Failed due to
-Invalid Credentials". */
         if (Client.User_id === User_idForBody && Client.Email === ShortEmail) {
             return Response({
                 res,

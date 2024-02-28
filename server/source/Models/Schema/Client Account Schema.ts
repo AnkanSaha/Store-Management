@@ -2,11 +2,7 @@
 make the types available for defining the structure of the MongoDB documents in the schema. */
 import { Schema } from 'mongoose'; // This is required to make the types available
 
-
-/* This code is defining a Mongoose schema for a user object with various properties such as User_id,
-Name, Email, Password, Phone, Address, City, State, Zip, Country, SecurityQuestion, SecurityAnswer,
-CreatedAt, Status, isTermsAccepted, ShopName, ShopAddress, isGSTIN, GSTIN, and PAN. The schema is
-exported as a default module so that it can be used in other parts of the application. */
+// Mongodb Schema for Client Account
 export default new Schema({
     User_id: { type: Number, required: true, unique: true, index: true },
     Name: { type: String, required: true },

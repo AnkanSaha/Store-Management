@@ -12,15 +12,6 @@ type obj = object; // type for object
 type globe = any; // type for any
 type blank = void; // type for void
 
-// interface for Request/* The `interface Request` is defining the structure of the request object that
-/*will be received by the `AddInventory` function. It specifies that the
-request object should have a `body` property which is an object with
-specific properties such as `OwnerEmail`, `User_id`, `ProductName`,
-`ProductCategory`, `ProductSKU`, `ProductQuantity`, `ProductPrice`,
-`ProductExpiryDate`, `ProductManufacturingDate`, and `ProductDescription`.
-This interface helps to ensure that the request object received by the
-function has the required properties and types. */
-
 interface Request {
     body: {
         OwnerEmailForBody: str;

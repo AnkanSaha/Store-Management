@@ -39,7 +39,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongoland": "^4.2.2",
     "mongoose": "^7.5.0",
-    "outers": "^6.3.1"
+    "outers": "^7.2.6"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",

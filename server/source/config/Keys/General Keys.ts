@@ -1,5 +1,5 @@
-import dotenv from 'dotenv'; // Import dotenv module
-dotenv.config(); // Load .env file
+import {config} from 'dotenv'; // Import dotenv module
+config(); // Load .env file
 // Load .env file
 
 // global types
