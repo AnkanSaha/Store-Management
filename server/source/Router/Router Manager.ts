@@ -1,44 +1,45 @@
-/* This code is importing the `Router` class from the `express` module and creating a new instance of
-it called `Router_Manager`. The `Router` class is used to create modular, mountable route handlers
-for a web application. By creating a new instance of `Router`, we can define routes and middleware
-specific to that instance, and then mount it as a middleware to the main Express application using
-`app.use()`. */
-import { Router } from 'express'; // Importing express types & Router class
-import CORS  from '../Middleware/Security/CORS'; // Importing CORS Middleware
+import { Router, Request, Response } from 'express'; // Importing express types & Router class
+import { Serve, StatusCodes } from 'outers'; // Import Failed_Response function
+import { GeneralGlobalStringData } from '../config/Keys/General Keys'; // PORT from General Config
+
+// Import Middlewares
+import CORS from '../Middleware/Security/CORS'; // Importing CORS Middleware
+import RateLimiter from '../Middleware/Security/RateLimiter'; // Importing RateLimiter Middleware
+import { Middleware } from 'outers'; // Import StatusCodes from outers
 
 // create a new Router instance
 const RouterManager = Router(); // Creating a new Router instance
 
-// CORS Middleware
-RouterManager.use(CORS); // Using CORS Middleware
+// Attach Security Middlewares
+RouterManager.use(CORS); // Using CORS Config
+RouterManager.use(RateLimiter); // Using RateLimiter Middleware
+RouterManager.use(Middleware.MethodsController(['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])); // Only Allow GET, POST, PUT, DELETE, OPTIONS
+RouterManager.use(Middleware.AccessController([new URL(GeneralGlobalStringData.API_Allowed_URL).hostname])); // Only Allow API_Allowed_URL
+RouterManager.use(Middleware.RequestInjectIP(['POST', 'PUT', 'DELETE'])); // Injecting IP Address to the Request
 
-/* These lines of code are importing four different sub-routers that handle specific types of HTTP
-requests (POST, GET, PUT, and DELETE). Each sub-router is defined in a separate file located in
-subdirectories named after the HTTP request type (e.g. `./POST/POST Request Manager`). The imported
-sub-routers will be linked to the main router instance (`Router_Manager`) using the `use()` method,
-which allows the main router to delegate requests to the appropriate sub-router based on the URL
-path. */
 // import all Sub-Routers
 import POST_REQUEST_Manager from './POST/POST Request Manager'; // Importing the Sub-POST-Router
 import GET_REQUEST_Manager from './GET/GET Request Manager'; // Importing the Sub-GET-Router
 import PUT_REQUEST_Manager from './PUT/PUT Request Manager'; // Importing the Sub-PUT-Router
 import DELETE_REQUEST_Manager from './DELETE/DELETE Request Manager'; // Importing the Sub-DELETE-Router
 
-/* These lines of code are linking the sub-routers for handling specific types of HTTP requests (POST,
-GET, PUT, and DELETE) to the main router instance (`Router_Manager`). This is done using the `use()`
-method, which allows the main router to delegate requests to the appropriate sub-router based on the
-URL path. For example, any requests with a URL path starting with `/post` will be handled by the
-`POST_REQUEST_Manager` sub-router. */
 // linking all Sub-Routers to the main Router
 RouterManager.use('/post', POST_REQUEST_Manager); // Linking the Sub-POST-Router to the main Router
 RouterManager.use('/get', GET_REQUEST_Manager); // Linking the Sub-GET-Router to the main Router
 RouterManager.use('/put', PUT_REQUEST_Manager); // Linking the Sub-PUT-Router to the main Router
 RouterManager.use('/delete', DELETE_REQUEST_Manager); // Linking the Sub-DELETE-Router to the main Router
 
-/* These lines of code are exporting the `Router_Manager` instance as the default export of this
-module. This means that when this module is imported into another module using `import`, the
-`Router_Manager` instance can be accessed as the default export of this module. This allows other
-modules to use the routes and middleware defined in this module by mounting the `Router_Manager`
-instance as middleware in their own Express applications using `app.use()`. */
+// If All Route are not found
+RouterManager.all('*', (Request: Request, Response: Response): void => {
+    Serve.JSON({
+        response: Response,
+        status: false,
+        statusCode: StatusCodes.NOT_FOUND,
+        message: `Can't find ${Request.originalUrl} on this server!`,
+        data: undefined,
+        Title: 'Route Not Found',
+    }); // Sending a Failed Response to the client
+}); // Catching all requests to undefined routes
+
 // export the Router instance
 export default RouterManager; // Exporting the Router instance
