@@ -1,4 +1,4 @@
-import {config} from 'dotenv'; // Import dotenv module
+import { config } from 'dotenv'; // Import dotenv module
 config(); // Load .env file
 // Load .env file
 

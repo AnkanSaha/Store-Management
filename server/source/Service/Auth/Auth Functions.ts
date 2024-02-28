@@ -101,7 +101,6 @@ is awaited. The `randomNumber` function is likely a custom function that generat
         const SecurityAnswerShorted: str = SecurityAnswer.toLowerCase(); // Convert Security Answer to Lower Case
         const Shortedemail: str = Email.toLowerCase(); // Convert Email to Lower Case
 
-     
         // prepare Data to be saved in Database
         const AccountData: RegisterAccountData = {
             User_id: ID,
@@ -138,7 +137,6 @@ is awaited. The `randomNumber` function is likely a custom function that generat
             Catagories: [],
         };
 
-      
         const FinalData = new ClientAccountModel(AccountData); // Create New Document
         const StoreManagement = new StoreManagementModel(StoreData); // Create New Document
 
@@ -208,7 +206,7 @@ export async function LoginAccount(req: RequestInterface, res: obj | globe): Pro
         // Sending Client Password to ComparePassword Function
         const PasswordVerificationResult: bool = await ComparePassword(ClientPassword, Password); // Compare PasswordAccountDetails:
         FindAccountResult[0].Password = 'Encrypted with Crypto'; // Remove Password from Response
-     
+
         // logic for sending response
         const JWTSignedDataForLogin = await GenerateJWTtoken(FindAccountResult[0]);
         if (PasswordVerificationResult === true) {

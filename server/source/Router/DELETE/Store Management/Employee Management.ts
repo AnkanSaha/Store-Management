@@ -8,10 +8,10 @@ const EmployeeManageRouter = Router(); // Creating Router Object
 import { AccountExistMiddleware } from '../../../Middleware/Store Management/AccountExistMiddileware'; // Path: Middleware/Store Management/Employee Management.ts
 
 // Importing Employee Management Controller
-import {DeleteEmployee}from '../../../Service/Store Management/Employee Management'; // Path: Controller/Store Management/Employee Management.ts
+import { DeleteEmployee } from '../../../Service/Store Management/Employee Management'; // Path: Controller/Store Management/Employee Management.ts
 
 // Exporting Employee Management Router
 export default EmployeeManageRouter;
 
 // Creating Employee Management Router
-EmployeeManageRouter.delete('/delete', json(),AccountExistMiddleware, DeleteEmployee);
+EmployeeManageRouter.delete('/delete', json(), AccountExistMiddleware, DeleteEmployee);

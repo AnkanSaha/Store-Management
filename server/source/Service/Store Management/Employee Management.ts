@@ -57,7 +57,7 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
 
     try {
         // Finding the employee in the database
-        const EmployeeFindStatus: globe | obj = await StoreManagementModel.find({User_id:User_idForBody});
+        const EmployeeFindStatus: globe | obj = await StoreManagementModel.find({ User_id: User_idForBody });
 
         // Checking if the employee is already in the array
         const EmployeeAlreadyExist: obj[] = EmployeeFindStatus[0].Employees.filter((Employee: any) => {
@@ -84,7 +84,7 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
             }); // Pushing the employee to the array
 
             // After pushing the employee to the array, saving the data to the database
-            await StoreManagementModel.findOneAndUpdate({ User_id:User_idForBody }, EmployeeFindStatus[0]);
+            await StoreManagementModel.findOneAndUpdate({ User_id: User_idForBody }, EmployeeFindStatus[0]);
             Response({
                 res,
                 Status: 'Employee Added',
@@ -93,7 +93,6 @@ export async function AddnewEmployee(req: GlobalRequestInterface, res: obj | glo
                 Data: undefined,
             }); // If the employee is not in the array, push the employee to the array
         } // If the employee is not in the array, push the employee to the array
-      
     } catch (err) {
         throw err;
     }
@@ -113,7 +112,7 @@ export async function GetEmployee(req: GlobalRequestInterface, res: obj | globe)
 
     try {
         const StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id:User_idForQuery }, { Email: ShortedOwnerEmail }],
+            $and: [{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }],
         }); // Finding the employee in the database
 
         if (StoreDataFind.length === 0) {
@@ -153,41 +152,45 @@ export async function DeleteEmployee(req: GlobalRequestInterface, res: obj | glo
     const ShortedEmployeeEmail: str = EmployeeEmail.toLowerCase(); // Lowercase the email
 
     const StoreDataFind: any = await StoreManagementModel.find({
-        $and: [{ User_id:User_idForQuery }, { Email: ShortedOwnerEmail }],
+        $and: [{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database
 
-
     const DeletedArrayOfEmployeeData: globe[] = StoreDataFind[0].Employees.filter((Employee: any) => {
-        return Employee.EmployeeEmail !== ShortedEmployeeEmail && String(Employee.EmployeePhoneNumber) !== String(EmployeeMobileNumber);
+        return (
+            Employee.EmployeeEmail !== ShortedEmployeeEmail &&
+            String(Employee.EmployeePhoneNumber) !== String(EmployeeMobileNumber)
+        );
     }); // Getting Array of Employee Data after deleting the employee
 
-    if(StoreDataFind[0].Employees.length === 0){
+    if (StoreDataFind[0].Employees.length === 0) {
         Response({
             res,
             Status: 'Employee Not Found',
             StatusCode: StatusCodes.NOT_FOUND,
             Message: 'Employee Not Found in the database',
-            Data: undefined
-        })
-    }
-    else{
-        StoreDataFind[0].Employees = DeletedArrayOfEmployeeData // Updating the array of employees
+            Data: undefined,
+        });
+    } else {
+        StoreDataFind[0].Employees = DeletedArrayOfEmployeeData; // Updating the array of employees
 
-    // Re-Saving the data to the database
-    await StoreManagementModel.findOneAndUpdate({ User_id:User_idForQuery }, {Employees:StoreDataFind[0].Employees});
+        // Re-Saving the data to the database
+        await StoreManagementModel.findOneAndUpdate(
+            { User_id: User_idForQuery },
+            { Employees: StoreDataFind[0].Employees },
+        );
 
-    // Re-Finding the employee in the database
-    const StoreDataFindAgain: obj | globe = await StoreManagementModel.find({
-        $and: [{ User_id:User_idForQuery }, { Email: ShortedOwnerEmail }],
-    }); // Finding the employee in the database again for sending the data to the client
+        // Re-Finding the employee in the database
+        const StoreDataFindAgain: obj | globe = await StoreManagementModel.find({
+            $and: [{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }],
+        }); // Finding the employee in the database again for sending the data to the client
 
-    Response({
-        res,
-        Status: 'Employee Deleted',
-        StatusCode: StatusCodes.ACCEPTED,
-        Message: 'Employee Deleted from the database',
-        Data: StoreDataFindAgain[0].Employees,
-    }); // If the employee is not in the array, push the employee to the array
+        Response({
+            res,
+            Status: 'Employee Deleted',
+            StatusCode: StatusCodes.ACCEPTED,
+            Message: 'Employee Deleted from the database',
+            Data: StoreDataFindAgain[0].Employees,
+        }); // If the employee is not in the array, push the employee to the array
     }
 } // Deleting the employee
 
@@ -215,18 +218,18 @@ export async function UpdateEmployee(req: GlobalRequestInterface, res: obj | glo
         User_idForBody,
     } = req.body; // Getting the data from the request body
 
-
     const ShortedOwnerEmail: str = OwnerEmailForBody.toLowerCase(); // Lowercase the email
     const ShortedEmployeeEmail: str = EmployeeEmail.toLowerCase(); // Lowercase the email
 
-
     const StoreDataFind: globe | obj = await StoreManagementModel.find({
-        $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }],
+        $and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database
 
-
     const FilteredArrayOfRemovedEmployeeData: globe[] = StoreDataFind[0].Employees.filter((Employee: obj | globe) => {
-        return Employee.EmployeeEmail !== ShortedEmployeeEmail && String(Employee.EmployeePhoneNumber) !== String(EmployeePhoneNumber);
+        return (
+            Employee.EmployeeEmail !== ShortedEmployeeEmail &&
+            String(Employee.EmployeePhoneNumber) !== String(EmployeePhoneNumber)
+        );
     }); // Finding the index of the employee in the array
 
     FilteredArrayOfRemovedEmployeeData.push({
@@ -240,11 +243,11 @@ export async function UpdateEmployee(req: GlobalRequestInterface, res: obj | glo
 
     StoreDataFind[0].Employees = FilteredArrayOfRemovedEmployeeData; // Updating the array of employees in the database
 
-    await StoreManagementModel.findOneAndUpdate({ User_id:User_idForBody }, {Employees:StoreDataFind[0].Employees}); // Re-Saving the data to the database
+    await StoreManagementModel.findOneAndUpdate({ User_id: User_idForBody }, { Employees: StoreDataFind[0].Employees }); // Re-Saving the data to the database
 
     // Re-Finding the employee in the database
     const StoreDataFindAgain: any = await StoreManagementModel.find({
-        $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }],
+        $and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }],
     }); // Finding the employee in the database again for sending the data to the client
     Response({
         res,

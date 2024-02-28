@@ -24,12 +24,12 @@ interface Request {
         ProductExpiryDate: str;
         ProductManufacturingDate: str;
         ProductDescription: str;
-    },
-    params : {
-        User_idForParams : int;
-        OwnerEmailForParams : str;
+    };
+    params: {
+        User_idForParams: int;
+        OwnerEmailForParams: str;
         ProductSKU: str;
-    }
+    };
 }
 
 // Function for Add Inventory
@@ -40,7 +40,7 @@ interface Request {
  * client.
  * @param {obj | globe} res - The response object that will be sent back to the client.
  */
-    export async function AddInventory(req: Request, res: obj | globe): Promise<blank> {
+export async function AddInventory(req: Request, res: obj | globe): Promise<blank> {
     try {
         // Get Data from Request Body
         const {
@@ -58,55 +58,60 @@ interface Request {
 
         // Lowercase the email
         const ShortedOwnerEmail: str = OwnerEmailForBody.toLowerCase();
-        const ShortedProductSKU : str = ProductSKU.toLowerCase();
+        const ShortedProductSKU: str = ProductSKU.toLowerCase();
 
         // Finding the employee in the database
         const StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }],
+            $and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }],
         }); // Finding the owner store in the database
 
-            // check if the product is already in the store
-            const ProductExist: globe[] = StoreDataFind[0].Products.filter(
-                (Product: globe) => Product.ProductSKU === ShortedProductSKU,
-            );
+        // check if the product is already in the store
+        const ProductExist: globe[] = StoreDataFind[0].Products.filter(
+            (Product: globe) => Product.ProductSKU === ShortedProductSKU,
+        );
 
-            if (ProductExist.length > 0) {
-                Response({
-                    res,
-                    Status: 'Product Already Exist',
-                    StatusCode: StatusCodes.CONFLICT,
-                    Message: 'The Product is already exist in the store',
-                    Data: undefined,
-                }); // If the employee is not in the array, send a response to the client
-            } else if (ProductExist.length === 0) {
-                StoreDataFind[0].Products.push({
-                    ProductName,
-                    ProductCategory,
-                    ProductSKU: ShortedProductSKU,
-                    ProductQuantity,
-                    ProductPrice,
-                    ProductExpiryDate,
-                    ProductManufacturingDate,
-                    ProductDescription,
-                }); // Pushing the new product to the array
+        if (ProductExist.length > 0) {
+            Response({
+                res,
+                Status: 'Product Already Exist',
+                StatusCode: StatusCodes.CONFLICT,
+                Message: 'The Product is already exist in the store',
+                Data: undefined,
+            }); // If the employee is not in the array, send a response to the client
+        } else if (ProductExist.length === 0) {
+            StoreDataFind[0].Products.push({
+                ProductName,
+                ProductCategory,
+                ProductSKU: ShortedProductSKU,
+                ProductQuantity,
+                ProductPrice,
+                ProductExpiryDate,
+                ProductManufacturingDate,
+                ProductDescription,
+            }); // Pushing the new product to the array
 
-                await StoreManagementModel.findOneAndUpdate(
-                    { User_id:User_idForBody },
-                    { Products: StoreDataFind[0].Products },
-                ); // Updating the database
-                Response({
-                    res,
-                    Status: 'Product Added',
-                    StatusCode: StatusCodes.ACCEPTED,
-                    Message: 'The Product is added to the store',
-                    Data: undefined,
-                }); // Sending a Success Response to the client
-            }
+            await StoreManagementModel.findOneAndUpdate(
+                { User_id: User_idForBody },
+                { Products: StoreDataFind[0].Products },
+            ); // Updating the database
+            Response({
+                res,
+                Status: 'Product Added',
+                StatusCode: StatusCodes.ACCEPTED,
+                Message: 'The Product is added to the store',
+                Data: undefined,
+            }); // Sending a Success Response to the client
+        }
     } catch {
-        Response({ res, Status: 'fail', StatusCode: StatusCodes.BAD_REQUEST, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
+        Response({
+            res,
+            Status: 'fail',
+            StatusCode: StatusCodes.BAD_REQUEST,
+            Message: 'Something went wrong!',
+            Data: undefined,
+        }); // Sending a Failed Response to the client
     }
-}; // Add Inventory Function
-
+} // Add Inventory Function
 
 // Get All Inventory Function
 
@@ -124,7 +129,7 @@ export async function GetAllInventory(req: Request, res: obj | globe): Promise<b
     try {
         // Finding the employee in the database
         const StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id:User_idForParams }, { Email: ShortedOwnerEmail }],
+            $and: [{ User_id: User_idForParams }, { Email: ShortedOwnerEmail }],
         }); // Finding the owner store in the database
 
         if (StoreDataFind.length > 0) {
@@ -144,12 +149,16 @@ export async function GetAllInventory(req: Request, res: obj | globe): Promise<b
                 Data: undefined,
             }); // Sending a Failed Response to the client
         }
+    } catch {
+        Response({
+            res,
+            Status: 'fail',
+            StatusCode: StatusCodes.BAD_REQUEST,
+            Message: 'Something went wrong!',
+            Data: undefined,
+        }); // Sending a Failed Response to the client
     }
-    catch {
-        Response({ res, Status: 'fail', StatusCode: StatusCodes.BAD_REQUEST, Message: 'Something went wrong!', Data: undefined }); // Sending a Failed Response to the client
-    }
-};
-
+}
 
 // Function for Update Inventory
 /**
@@ -161,9 +170,9 @@ export async function GetAllInventory(req: Request, res: obj | globe): Promise<b
  * response body.
  */
 export async function UpdateInventory(req: Request, res: obj | globe): Promise<blank> {
-    try{
-         // Get Data from Request Body
-         const {
+    try {
+        // Get Data from Request Body
+        const {
             OwnerEmailForBody,
             ProductCategory,
             ProductDescription,
@@ -178,56 +187,66 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
 
         // Lowercase the email and SKU
         const ShortedOwnerEmail: str = OwnerEmailForBody.toLowerCase(); // Convert Email to Lower Case
-        const ShortedProductSKU : str = ProductSKU.toLowerCase(); // Convert Email to Lower Case
+        const ShortedProductSKU: str = ProductSKU.toLowerCase(); // Convert Email to Lower Case
 
         // Finding the product in the database
         const StoreDataFind: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id:User_idForBody }, { Email: ShortedOwnerEmail }]
+            $and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }],
         }); // Finding the owner store in the database
 
-            // check if the product is already in the store
-            const ProductExist: globe[] = StoreDataFind[0].Products.filter(
-                (Product: globe) => Product.ProductSKU === ShortedProductSKU,
-            ); // Finding the product in the array
+        // check if the product is already in the store
+        const ProductExist: globe[] = StoreDataFind[0].Products.filter(
+            (Product: globe) => Product.ProductSKU === ShortedProductSKU,
+        ); // Finding the product in the array
 
-            if (ProductExist.length > 0) {
+        if (ProductExist.length > 0) {
             //  find Index of the product
-            const FilteredProductDetels: globe[] = StoreDataFind[0].Products.filter((element:globe) => element.ProductSKU !== ShortedProductSKU); // Finding the index of the product in the array
-                const NewData = {
-                    ProductName,
-                    ProductCategory,
-                    ProductSKU: ShortedProductSKU,
-                    ProductQuantity,
-                    ProductPrice,
-                    ProductExpiryDate,
-                    ProductManufacturingDate,
-                    ProductDescription
-                }  // Creating a new object for the product data
+            const FilteredProductDetels: globe[] = StoreDataFind[0].Products.filter(
+                (element: globe) => element.ProductSKU !== ShortedProductSKU,
+            ); // Finding the index of the product in the array
+            const NewData = {
+                ProductName,
+                ProductCategory,
+                ProductSKU: ShortedProductSKU,
+                ProductQuantity,
+                ProductPrice,
+                ProductExpiryDate,
+                ProductManufacturingDate,
+                ProductDescription,
+            }; // Creating a new object for the product data
 
-                FilteredProductDetels.push(NewData); // Pushing the new product to the array
-                StoreDataFind[0].Products = FilteredProductDetels; // Updating the array
-                 await StoreManagementModel.findOneAndUpdate({$and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
-                 Response({
-                    res,
-                    Status: 'Product Updated',
-                    StatusCode: StatusCodes.ACCEPTED,
-                    Message: 'The Product is updated in the store',
-                    Data: StoreDataFind[0].Products
-                 }); // Sending a Success Response to the client
-            }
-            else if (ProductExist.length === 0) {
-                Response({
-                    res,
-                    Status: 'Product Not Found',
-                    StatusCode: StatusCodes.NOT_FOUND,
-                    Message: 'The Product is not found in the store',
-                    Data: undefined
-                });
-            }
-    }catch(err:globe){
-        Response({ res, Status: 'fail', StatusCode: StatusCodes.BAD_REQUEST, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
+            FilteredProductDetels.push(NewData); // Pushing the new product to the array
+            StoreDataFind[0].Products = FilteredProductDetels; // Updating the array
+            await StoreManagementModel.findOneAndUpdate(
+                { $and: [{ User_id: User_idForBody }, { Email: ShortedOwnerEmail }] },
+                { Products: StoreDataFind[0].Products },
+            ); // Finding the owner store in the database
+            Response({
+                res,
+                Status: 'Product Updated',
+                StatusCode: StatusCodes.ACCEPTED,
+                Message: 'The Product is updated in the store',
+                Data: StoreDataFind[0].Products,
+            }); // Sending a Success Response to the client
+        } else if (ProductExist.length === 0) {
+            Response({
+                res,
+                Status: 'Product Not Found',
+                StatusCode: StatusCodes.NOT_FOUND,
+                Message: 'The Product is not found in the store',
+                Data: undefined,
+            });
+        }
+    } catch (err: globe) {
+        Response({
+            res,
+            Status: 'fail',
+            StatusCode: StatusCodes.BAD_REQUEST,
+            Message: 'Something went wrong!',
+            Data: err,
+        }); // Sending a Failed Response to the client
     }
-}; // Update Inventory Function
+} // Update Inventory Function
 
 /**
  * This function deletes a product from a store in the database based on the provided owner email,
@@ -239,61 +258,66 @@ export async function UpdateInventory(req: Request, res: obj | globe): Promise<b
  * processing the request.
  */
 export async function DeleteInventory(req: Request, res: obj | globe): Promise<blank> {
-    try{
-                 // Get Data from Request Body
-                 const {
-                    OwnerEmailForParams,
-                    ProductSKU,
-                    User_idForParams,
-                } = req.params;
+    try {
+        // Get Data from Request Body
+        const { OwnerEmailForParams, ProductSKU, User_idForParams } = req.params;
 
-                // Lowercase the email and SKU
-                const ShortedOwnerEmail: str = OwnerEmailForParams.toLowerCase(); // Convert Email to Lower Case
-                const ShortedProductSKU : str = ProductSKU.toLowerCase(); // Convert Email to Lower Case
+        // Lowercase the email and SKU
+        const ShortedOwnerEmail: str = OwnerEmailForParams.toLowerCase(); // Convert Email to Lower Case
+        const ShortedProductSKU: str = ProductSKU.toLowerCase(); // Convert Email to Lower Case
 
-                // Finding the product in the database
-                const StoreDataFind: globe[] = await StoreManagementModel.find({
-                    $and: [{ User_id:User_idForParams }, { Email: ShortedOwnerEmail }]
-                }); // Finding the owner store in the database
+        // Finding the product in the database
+        const StoreDataFind: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id: User_idForParams }, { Email: ShortedOwnerEmail }],
+        }); // Finding the owner store in the database
 
-                if(StoreDataFind.length > 0){
-                    // check if the product is already in the store
-                    const ProductExist: globe[] = StoreDataFind[0].Products.filter(
-                        (Product: globe) => Product.ProductSKU === ShortedProductSKU,
-                    ); // Finding the product in the array
+        if (StoreDataFind.length > 0) {
+            // check if the product is already in the store
+            const ProductExist: globe[] = StoreDataFind[0].Products.filter(
+                (Product: globe) => Product.ProductSKU === ShortedProductSKU,
+            ); // Finding the product in the array
 
-                    if (ProductExist.length > 0) {
-                        const DeletedProductDetails: obj | globe[] = StoreDataFind[0].Products.filter((element:globe)=> element.ProductSKU !== ShortedProductSKU); // Finding the index of the product in the array
-                            StoreDataFind[0].Products = DeletedProductDetails // Removing the product from the array
-                            await StoreManagementModel.findOneAndUpdate({$and: [{ User_id:User_idForParams }, { Email: ShortedOwnerEmail }] }, { Products: StoreDataFind[0].Products }); // Finding the owner store in the database
-                            Response({
-                               res,
-                               Status: 'Product Deleted',
-                               StatusCode: StatusCodes.ACCEPTED,
-                               Message: 'The Product is Deleted in the store',
-                               Data: StoreDataFind[0].Products
-                            }); // Sending a Success Response to the client
-                    }
-                    else if (ProductExist.length === 0) {
-                        Response({
-                            res,
-                            Status: 'Product Not Found',
-                            StatusCode: StatusCodes.NOT_FOUND,
-                            Message: 'The Product is not found in the store',
-                            Data: undefined
-                        });
-                    }
-                }
-                else {
-                    Response({
-                        res,
-                        Status: 'Store Not Found',
-                        StatusCode: StatusCodes.NOT_FOUND,
-                        Message: 'The Store is not found',
-                        Data: undefined
-                    });
-                }
-    }catch (err:globe){
-        Response({ res, Status: 'fail', StatusCode: StatusCodes.BAD_REQUEST, Message: 'Something went wrong!', Data: err }); // Sending a Failed Response to the client
+            if (ProductExist.length > 0) {
+                const DeletedProductDetails: obj | globe[] = StoreDataFind[0].Products.filter(
+                    (element: globe) => element.ProductSKU !== ShortedProductSKU,
+                ); // Finding the index of the product in the array
+                StoreDataFind[0].Products = DeletedProductDetails; // Removing the product from the array
+                await StoreManagementModel.findOneAndUpdate(
+                    { $and: [{ User_id: User_idForParams }, { Email: ShortedOwnerEmail }] },
+                    { Products: StoreDataFind[0].Products },
+                ); // Finding the owner store in the database
+                Response({
+                    res,
+                    Status: 'Product Deleted',
+                    StatusCode: StatusCodes.ACCEPTED,
+                    Message: 'The Product is Deleted in the store',
+                    Data: StoreDataFind[0].Products,
+                }); // Sending a Success Response to the client
+            } else if (ProductExist.length === 0) {
+                Response({
+                    res,
+                    Status: 'Product Not Found',
+                    StatusCode: StatusCodes.NOT_FOUND,
+                    Message: 'The Product is not found in the store',
+                    Data: undefined,
+                });
+            }
+        } else {
+            Response({
+                res,
+                Status: 'Store Not Found',
+                StatusCode: StatusCodes.NOT_FOUND,
+                Message: 'The Store is not found',
+                Data: undefined,
+            });
+        }
+    } catch (err: globe) {
+        Response({
+            res,
+            Status: 'fail',
+            StatusCode: StatusCodes.BAD_REQUEST,
+            Message: 'Something went wrong!',
+            Data: err,
+        }); // Sending a Failed Response to the client
     }
-}; // Delete Inventory Function
+} // Delete Inventory Function

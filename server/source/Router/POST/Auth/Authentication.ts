@@ -5,7 +5,7 @@ import { Router, json } from 'express'; // import Router Module
 const Authenticate = Router(); // Create Router Instance
 
 // import All Middlewares
-import {SignUpValidation, LoginValidation} from '../../../Middleware/Auth/Account Validation'; // Import SignUp Validation Middleware
+import { SignUpValidation, LoginValidation } from '../../../Middleware/Auth/Account Validation'; // Import SignUp Validation Middleware
 
 // Import Controllers
 import { CreateAccount, LoginAccount } from '../../../Service/Auth/Auth Functions'; // Import Create Account Function
