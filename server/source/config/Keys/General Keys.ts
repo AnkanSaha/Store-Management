@@ -14,11 +14,11 @@ type GeneralGlobalStringDataType = {
 // Global String Variables
 export const GeneralGlobalStringData: GeneralGlobalStringDataType = Object.freeze({
     MongoDB_URL: `${String(process.env.MONGODB_URL)}${String(process.env.DB_NAME)}`, // Get MongoDB URL from .env file
-    API_Allowed_URL: String(process.env.CORS_ORIGIN) || 'http://localhost:5173', // Main URL for this APP
+    API_Allowed_URL: String(process.env.CORS_ORIGIN) ?? 'http://localhost:5173', // Main URL for this APP
     JWT_Secret: String(process.env.JWT_SECRET), // Get JWT Secret from .env file
 });
 
 export enum GeneralGlobalNumberData {
-    PORT = Number(process.env.PORT) || 3201, // Get PORT from .env file
-    CPU = (Number(process.env.CPU_COUNT_MULTIPLIERENV) || 1) * 2, // Get CPU from.env file
+    PORT = Number(process.env.PORT) ?? 3201, // Get PORT from .env file
+    CPU = (Number(process.env.CPU_COUNT_MULTIPLIERENV) ?? 1) * 2, // Get CPU from.env file
 }
