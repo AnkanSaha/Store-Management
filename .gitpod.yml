@@ -94,3 +94,5 @@ additionalRepositories:
     checkoutLocation: "Code-Compiler"
   - url: https://github.com/AnkanSaha/Deploy-Node-App-Enviroment-Config
     checkoutLocation: "Deploy-Node-App-Enviroment-Config"
+  - url: https://github.com/AnkanSaha/outers
+    checkoutLocation: "outers"
