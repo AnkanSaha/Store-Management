@@ -7,29 +7,37 @@ type bool = boolean;
 
 // interface
 interface ValidateAddCategory {
-    CategoryName: str,
-    CategoryDescription: str,
-    isActivated: bool
+  CategoryName: str;
+  CategoryDescription: str;
+  isActivated: bool;
 }
 
 // interface ValidateUpdateEmployee extends ValidateAddEmployee {
 //     OwnerEmailForBody: str;
 // }
 
-
-export async function ValidateAddCategory(data:ValidateAddCategory): Promise<bool> {
-    // Validate Add Employee Form
-    if (data.CategoryName === "" || data.CategoryName === null || data.CategoryName === undefined) {
-        alert ("Please Enter Category Name");
-        return false
-    }
-    else if (data.CategoryDescription === "" || data.CategoryDescription === null || data.CategoryDescription === undefined || data.CategoryDescription.length > 20) {
-        alert ("Please Enter Category Description under (20 charecters )");
-        return false
-    }
-    else{
-        return true
-    }
+export async function ValidateAddCategory(
+  data: ValidateAddCategory,
+): Promise<bool> {
+  // Validate Add Employee Form
+  if (
+    data.CategoryName === "" ||
+    data.CategoryName === null ||
+    data.CategoryName === undefined
+  ) {
+    alert("Please Enter Category Name");
+    return false;
+  } else if (
+    data.CategoryDescription === "" ||
+    data.CategoryDescription === null ||
+    data.CategoryDescription === undefined ||
+    data.CategoryDescription.length > 20
+  ) {
+    alert("Please Enter Category Description under (20 charecters )");
+    return false;
+  } else {
+    return true;
+  }
 }
 
 // export async function ValidateUpdateEmployee (data:ValidateUpdateEmployee){

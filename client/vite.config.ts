@@ -8,14 +8,14 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       devOptions: {
-        enabled: false
+        enabled: false,
       },
     }),
   ],
   build: {
     chunkSizeWarningLimit: 100000,
     outDir: "Store-Management",
-    assetsDir:"static",
+    assetsDir: "static",
     cssMinify: true,
     cssCodeSplit: true,
     sourcemap: true,
@@ -28,6 +28,6 @@ export default defineConfig({
     copyPublicDir: true,
     cssTarget: "es2015",
     emptyOutDir: true,
-    manifest: true
+    manifest: true,
   },
 });

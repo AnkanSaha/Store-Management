@@ -1,11 +1,10 @@
-import { Router, json } from "express"; // import Router
-
+import { Router, json } from 'express'; // import Router
 
 // import Controller
-import { GetOrderDetails } from "../../../Service/Store Management/Order Management"; // import GetOrderDetails
+import { GetOrderDetails } from '../../../Service/Store Management/Order Management'; // import GetOrderDetails
 
 // import Middleware
-import {AccountExistMiddleware} from "../../../Middleware/Store Management/AccountExistMiddileware"; // import AccountExistMiddleware
+import { AccountExistMiddleware } from '../../../Middleware/Store Management/AccountExistMiddileware'; // import AccountExistMiddleware
 
 // Setting up the router
 const OrderManagementRouter: Router = Router(); // Setting up the Router
@@ -14,4 +13,9 @@ const OrderManagementRouter: Router = Router(); // Setting up the Router
 export default OrderManagementRouter;
 
 // All Routes
-OrderManagementRouter.get('/GetAllOrders/:OwnerEmailForParams/:User_idForParams', json(), AccountExistMiddleware, GetOrderDetails);
+OrderManagementRouter.get(
+    '/GetAllOrders/:OwnerEmailForParams/:User_idForParams',
+    json(),
+    AccountExistMiddleware,
+    GetOrderDetails,
+);

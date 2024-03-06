@@ -30,11 +30,11 @@ interface Request {
         CustomerEmail: str;
         CustomerPhone: str;
         OrderID: int;
-    },
-    params : {
+    };
+    params: {
         User_idForParams: int;
         OwnerEmailForParams: str;
-      }
+    };
 }
 export async function CreateNewOrder(req: Request, res: obj | globe) {
     try {
@@ -54,14 +54,13 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
             CustomerName,
             CustomerEmail,
             CustomerPhone,
-
         } = req.body; // get the request body
 
         // Short the Email
         const ShortEmail: str = OwnerEmailForBody.toLowerCase(); // convert the email to lowercase
         // Get the Store Details
         const StoreDetails: globe[] = await StoreManagementModel.find({
-            $and: [{ User_id: User_idForBody }, { Email: ShortEmail }]
+            $and: [{ User_id: User_idForBody }, { Email: ShortEmail }],
         });
         if (StoreDetails.length !== 0) {
             const OrderDetails: obj = Object.freeze({
@@ -78,7 +77,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
                 PaymentStatus,
                 CustomerName,
                 CustomerEmail,
-                CustomerPhone
+                CustomerPhone,
             }); // freeze the object to prevent from modification
 
             // Update the Product Details
@@ -88,36 +87,37 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
             if (FilteredProductDetailsForFind.length !== 0) {
                 if (FilteredProductDetailsForFind[0].ProductQuantity > 0) {
                     // Update the Product Details in db
-                    for(let index =0; StoreDetails[0].Products.length > index; index++) {
-                        if(StoreDetails[0].Products[index].ProductSKU === ProductSKU) {
-                           if(StoreDetails[0].Products[index].ProductQuantity > 0) {
-                             StoreDetails[0].Products[index].ProductQuantity -= ProductQuantity;
-                             break;
-                           }
-                           else {
-                            Response({
-                                res,
-                                StatusCode: StatusCodes.SERVICE_UNAVAILABLE,
-                                Status: 'Out of Stock',
-                                Message: 'Product Out of Stock Please Try Again Later',
-                                Data: undefined,
-                            }); // send the response
-                           }
+                    for (let index = 0; StoreDetails[0].Products.length > index; index++) {
+                        if (StoreDetails[0].Products[index].ProductSKU === ProductSKU) {
+                            if (StoreDetails[0].Products[index].ProductQuantity > 0) {
+                                StoreDetails[0].Products[index].ProductQuantity -= ProductQuantity;
+                                break;
+                            } else {
+                                Response({
+                                    res,
+                                    StatusCode: StatusCodes.SERVICE_UNAVAILABLE,
+                                    Status: 'Out of Stock',
+                                    Message: 'Product Out of Stock Please Try Again Later',
+                                    Data: undefined,
+                                }); // send the response
+                            }
                         }
                     }
                     // update Customer Details
-                    const Filtered = StoreDetails[0].Customers.filter((Customer: globe) => String(Customer.CustomerEmail) === String(CustomerEmail));
+                    const Filtered = StoreDetails[0].Customers.filter(
+                        (Customer: globe) => String(Customer.CustomerEmail) === String(CustomerEmail),
+                    );
                     if (Filtered.length === 0) {
                         StoreDetails[0].Customers.push({
-                            CustomerID : new methods.UniqueGenerator(16).RandomNumber(true),
+                            CustomerID: new methods.UniqueGenerator(16).RandomNumber(true),
                             CustomerName,
                             CustomerEmail,
                             CustomerPhone,
-                            TotalOrders: 1
+                            TotalOrders: 1,
                         });
                     } else {
-                        for(let index =0; StoreDetails[0].Customers.length > index; index++) {
-                            if(StoreDetails[0].Customers[index].CustomerEmail === CustomerEmail) {
+                        for (let index = 0; StoreDetails[0].Customers.length > index; index++) {
+                            if (StoreDetails[0].Customers[index].CustomerEmail === CustomerEmail) {
                                 StoreDetails[0].Customers[index].TotalOrders += 1;
                                 break;
                             }
@@ -125,19 +125,27 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
                     }
 
                     // Update the Product Details in db
-                     StoreDetails[0].Orders.push(OrderDetails); // update the order details
+                    StoreDetails[0].Orders.push(OrderDetails); // update the order details
 
-                     // Update the Order Details in db
-                     await StoreManagementModel.updateOne({$and:[{User_id: User_idForBody}, {Email: ShortEmail}]}, {$set: {Products: StoreDetails[0].Products, Orders: StoreDetails[0].Orders, Customers: StoreDetails[0].Customers}});
+                    // Update the Order Details in db
+                    await StoreManagementModel.updateOne(
+                        { $and: [{ User_id: User_idForBody }, { Email: ShortEmail }] },
+                        {
+                            $set: {
+                                Products: StoreDetails[0].Products,
+                                Orders: StoreDetails[0].Orders,
+                                Customers: StoreDetails[0].Customers,
+                            },
+                        },
+                    );
 
-                     Response({
-                         res,
-                         StatusCode: StatusCodes.CREATED,
-                         Status: 'Ok',
-                         Message: 'Order Created Successfully',
-                         Data: undefined,
-                     }); // send the response
-
+                    Response({
+                        res,
+                        StatusCode: StatusCodes.CREATED,
+                        Status: 'Ok',
+                        Message: 'Order Created Successfully',
+                        Data: undefined,
+                    }); // send the response
                 } else {
                     Response({
                         res,
@@ -185,16 +193,18 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
  * data that is being returned.
  */
 export async function GetOrderDetails(req: Request, res: obj | globe) {
-    try{
-        const {OwnerEmailForParams, User_idForParams} = req.params; // get the request params
+    try {
+        const { OwnerEmailForParams, User_idForParams } = req.params; // get the request params
 
         // short the email
         const ShortEmail: str = OwnerEmailForParams.toLowerCase(); // convert the email to lowercase
 
         // get the store details
-        const StoreDetails: globe[] = await StoreManagementModel.find({$and: [{User_id: User_idForParams}, {Email: ShortEmail}]}); // get the store details
+        const StoreDetails: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id: User_idForParams }, { Email: ShortEmail }],
+        }); // get the store details
 
-        if(StoreDetails.length !== 0) {
+        if (StoreDetails.length !== 0) {
             Response({
                 res,
                 StatusCode: StatusCodes.OK,
@@ -208,36 +218,37 @@ export async function GetOrderDetails(req: Request, res: obj | globe) {
                 StatusCode: StatusCodes.NOT_FOUND,
                 Status: 'Not Found',
                 Message: 'Store Not Found',
-                Data: undefined
+                Data: undefined,
             }); // send the response
         }
-    }
-    catch {
+    } catch {
         Response({
             res,
             StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Error',
             Message: 'Internal Server Error',
-            Data: undefined
-        })
+            Data: undefined,
+        });
     }
-};
+}
 
 export async function UpdateOrderDetails(req: Request, res: obj | globe) {
     try {
-        const {OwnerEmailForBody, User_idForBody, OrderID} = req.body; // get the request params
-        const {DeliveryAddress, DeliveryDate, DeliveryStatus, PaymentMethod, PaymentStatus} = req.body; // get the request body
+        const { OwnerEmailForBody, User_idForBody, OrderID } = req.body; // get the request params
+        const { DeliveryAddress, DeliveryDate, DeliveryStatus, PaymentMethod, PaymentStatus } = req.body; // get the request body
 
         // short the email
         const ShortEmail: str = OwnerEmailForBody.toLowerCase(); // convert the email to lowercase
 
         // get the store details
-        const StoreDetails: globe[] = await StoreManagementModel.find({$and: [{User_id: User_idForBody}, {Email: ShortEmail}]}); // get the store details
+        const StoreDetails: globe[] = await StoreManagementModel.find({
+            $and: [{ User_id: User_idForBody }, { Email: ShortEmail }],
+        }); // get the store details
 
-        if(StoreDetails.length !== 0) {
+        if (StoreDetails.length !== 0) {
             // update the order details
-            for(let index =0; StoreDetails[0].Orders.length > index; index++) {
-                if(StoreDetails[0].Orders[index].OrderID === OrderID) {
+            for (let index = 0; StoreDetails[0].Orders.length > index; index++) {
+                if (StoreDetails[0].Orders[index].OrderID === OrderID) {
                     StoreDetails[0].Orders[index].DeliveryAddress = DeliveryAddress;
                     StoreDetails[0].Orders[index].DeliveryDate = DeliveryDate;
                     StoreDetails[0].Orders[index].DeliveryStatus = DeliveryStatus;
@@ -248,14 +259,17 @@ export async function UpdateOrderDetails(req: Request, res: obj | globe) {
             }
 
             // update the order details in db
-            await StoreManagementModel.updateOne({$and: [{User_id: User_idForBody}, {Email: ShortEmail}]}, {$set: {Orders: StoreDetails[0].Orders}});
+            await StoreManagementModel.updateOne(
+                { $and: [{ User_id: User_idForBody }, { Email: ShortEmail }] },
+                { $set: { Orders: StoreDetails[0].Orders } },
+            );
 
             Response({
                 res,
                 StatusCode: StatusCodes.OK,
                 Status: 'Ok',
                 Message: 'Order Details Updated Successfully',
-                Data: undefined
+                Data: undefined,
             }); // send the response
         } else {
             Response({
@@ -263,17 +277,16 @@ export async function UpdateOrderDetails(req: Request, res: obj | globe) {
                 StatusCode: StatusCodes.NOT_FOUND,
                 Status: 'Not Found',
                 Message: 'Store Not Found',
-                Data: undefined
+                Data: undefined,
             }); // send the response
         }
-    }
-    catch {
+    } catch {
         Response({
             res,
             StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Status: 'Error',
             Message: 'Internal Server Error',
-            Data: undefined
-        })
+            Data: undefined,
+        });
     }
 }

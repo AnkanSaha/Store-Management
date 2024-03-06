@@ -106,7 +106,7 @@ export default function LogoutComponent({ UserName }: Props) {
       </div>
     </>
   );
-};
+}
 
 // Default Props
 LogoutComponent.defaultProps = {

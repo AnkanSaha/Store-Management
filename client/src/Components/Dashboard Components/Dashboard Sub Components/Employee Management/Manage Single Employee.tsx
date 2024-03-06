@@ -38,7 +38,7 @@ export default function Manage_Single_Employee() {
     useContext(GlobalContext); // Global Context
 
   // Decode AuthDetails Token
-  const Decoded_AuthDetails : any = JWT_Decode(AuthDetails.Data.AccountDetails) // decode JWT token
+  const Decoded_AuthDetails: any = JWT_Decode(AuthDetails.Data.AccountDetails); // decode JWT token
 
   let ParameterData: any = useParams(); // get the search params
 
@@ -63,8 +63,9 @@ export default function Manage_Single_Employee() {
       if (Response.Status === "Employee Found") {
         let Filtered_employee_Data = Response.Data.filter(
           (Employee: any) =>
-            Number(Employee.EmployeePhoneNumber) === Number(ParameterData.Phone) &&
-            Employee.EmployeeEmail === ParameterData.Email
+            Number(Employee.EmployeePhoneNumber) ===
+              Number(ParameterData.Phone) &&
+            Employee.EmployeeEmail === ParameterData.Email,
         );
         setEmployeeData(Filtered_employee_Data); // set Employee Data
       } else if (Response.Status === "No Employee Found") {
@@ -88,7 +89,7 @@ export default function Manage_Single_Employee() {
 
   const SendUIinEdit = () => {
     Navigate(
-      `/dashboard/employee/${ParameterData.Email}/${ParameterData.Phone}/edit`
+      `/dashboard/employee/${ParameterData.Email}/${ParameterData.Phone}/edit`,
     );
   };
 
@@ -108,7 +109,7 @@ export default function Manage_Single_Employee() {
         </>
       ) : (
         <>
-             {InternetStatus === "Offline" ? <Connection_Fail /> : null}
+          {InternetStatus === "Offline" ? <Connection_Fail /> : null}
           <Navbar />
           {EmployeeData.length !== 0 ? (
             <>
@@ -144,7 +145,9 @@ export default function Manage_Single_Employee() {
                 </h2>
                 <h2 className="text-lg font-medium">
                   <strong>Email</strong> :{" "}
-                  <span className="ml-10"><i>{EmployeeData[0].EmployeeEmail}</i></span>
+                  <span className="ml-10">
+                    <i>{EmployeeData[0].EmployeeEmail}</i>
+                  </span>
                 </h2>
                 <h2 className="text-lg font-medium">
                   <strong>Phone Number</strong> :{" "}

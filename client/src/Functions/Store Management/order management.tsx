@@ -6,16 +6,11 @@ directory, as well as the ValidateAddEmployee and ValidateUpdateEmployee functio
 located in the "../../Validator/Store Management/Manage Employee Validate" directory. */
 // Import Functions
 import { HTTP_POST, HTTP_PUT } from "../Most Used Functions"; // import HTTP POST Function
-import {
-    ValidateOrderDetails,
-} from "../../Validator/Store Management/order management"; // import Validate Add Employee Function
-
+import { ValidateOrderDetails } from "../../Validator/Store Management/order management"; // import Validate Add Employee Function
 
 // Typescript type
 type globe = any;
 type obj = object;
-
-
 
 /**
  * This function adds an employee by validating the data and sending a POST request to create the
@@ -57,10 +52,9 @@ export async function PlaceOrder_Function(OrderData: globe | obj) {
 //  * validation fails.
 //  */
 export async function UpdateOrder(UpdateOrderData: globe) {
-
-    let result = await HTTP_PUT({
-      PostPath: "/put/order/update-order-details",
-      SendData: UpdateOrderData,
-    });
-    return result;
+  let result = await HTTP_PUT({
+    PostPath: "/put/order/update-order-details",
+    SendData: UpdateOrderData,
+  });
+  return result;
 }

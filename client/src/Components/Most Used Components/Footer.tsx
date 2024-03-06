@@ -43,7 +43,7 @@ function Footer({ FooterStyle }: Properties) {
             </li>
             <li>
               <Link to="/FAQ" className="mr-4 hover:underline md:mr-6">
-              FAQ
+                FAQ
               </Link>
             </li>
             <li>

@@ -22,8 +22,8 @@ import Edit_Employee_Details from "../Components/Dashboard Components/Dashboard 
 import Single_Inventory from "../Components/Dashboard Components/Dashboard Sub Components/Inventory Management/Manage Single Product";
 import Edit_Inventory_Details from "../Components/Dashboard Components/Dashboard Sub Components/Inventory Management/Edit Inventory Details";
 import Single_Order from "../Components/Dashboard Components/Dashboard Sub Components/Order Management/View Single Order Details";
-import Edit_Order_Details from "../Components/Dashboard Components/Dashboard Sub Components/Order Management/Edit Single Order Details"; 
- 
+import Edit_Order_Details from "../Components/Dashboard Components/Dashboard Sub Components/Order Management/Edit Single Order Details";
+
 export default function AppRouter() {
   return (
     <Router>
@@ -32,7 +32,7 @@ export default function AppRouter() {
         <Route path="*" element={<NotFound />} />
         <Route path="/Privacy" element={<PrivacyPolicy />} />
         <Route path="/About" element={<AboutUs />} />
-        <Route path ="/Contact" element={<ContactPage />} />
+        <Route path="/Contact" element={<ContactPage />} />
 
         <Route path="/signup" element={<Signup_Page />} />
         <Route
@@ -40,18 +40,35 @@ export default function AppRouter() {
           element={<Signup_Terms_and_Conditions_Section />}
         />
         <Route path="/login" element={<Login_Page />} />
-        
+
         <Route path="/dashboard" element={<Dashboard />} />
 
-        <Route path="/dashboard/employee/:Email/:Phone" element={<Manage_Single_Employee />} />
-        <Route path="/dashboard/employee/:Email/:Phone/edit" element={<Edit_Employee_Details />} />
+        <Route
+          path="/dashboard/employee/:Email/:Phone"
+          element={<Manage_Single_Employee />}
+        />
+        <Route
+          path="/dashboard/employee/:Email/:Phone/edit"
+          element={<Edit_Employee_Details />}
+        />
 
-        <Route path="/dashboard/inventory/:Email/:ProductSKU" element={<Single_Inventory />} />
-        <Route path="/dashboard/inventory/:Email/:ProductSKU/edit" element={<Edit_Inventory_Details />} />
+        <Route
+          path="/dashboard/inventory/:Email/:ProductSKU"
+          element={<Single_Inventory />}
+        />
+        <Route
+          path="/dashboard/inventory/:Email/:ProductSKU/edit"
+          element={<Edit_Inventory_Details />}
+        />
 
-      <Route path="/dashboard/orders/:Email/:User_id/:OrderID" element={<Single_Order />}/>
-      <Route path="/dashboard/orders/:Email/:User_id/:OrderID/edit" element={<Edit_Order_Details />} />
-     
+        <Route
+          path="/dashboard/orders/:Email/:User_id/:OrderID"
+          element={<Single_Order />}
+        />
+        <Route
+          path="/dashboard/orders/:Email/:User_id/:OrderID/edit"
+          element={<Edit_Order_Details />}
+        />
       </Routes>
     </Router>
   );
