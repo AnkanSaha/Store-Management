@@ -1,4 +1,4 @@
-\// This file is a schema for the Store Management Database. It is used to create a schema for the Store Management Database.
+// This file is a schema for the Store Management Database. It is used to create a schema for the Store Management Database.
 import { Schema } from 'mongoose'; // This is required to make the types available
 
 // Mongodb Schema for Store Management

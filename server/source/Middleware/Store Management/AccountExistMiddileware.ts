@@ -1,8 +1,3 @@
-/* This code is importing two models, `ClientAccountModel` and `StoreManagementModel`, from the
-`../../Models/index` file path. It is also importing two custom response objects, `Failed_Response`
-and `NotAllowed_Response`, from the `../../helper/API Response` file path. These imports are used in
-the code to access and use the functionality defined in these models and response objects. */
-
 // global types
 type str = string; // type for string
 type int = number; // type for number

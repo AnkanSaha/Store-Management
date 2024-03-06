@@ -1,4 +1,5 @@
 import { config } from 'dotenv'; // Import dotenv module
+import { cpus } from 'os';
 config(); // Load .env file
 // Load .env file
 
@@ -20,5 +21,5 @@ export const GeneralGlobalStringData: GeneralGlobalStringDataType = Object.freez
 
 export enum GeneralGlobalNumberData {
     PORT = Number(process.env.PORT) ?? 3201, // Get PORT from .env file
-    CPU = (Number(process.env.CPU_COUNT_MULTIPLIERENV) ?? 1) * 2, // Get CPU from.env file
+    CPU = Number(process.env.CPU_COUNT_MULTIPLIERENV) ?? cpus().length, // Get CPU from.env file
 }
