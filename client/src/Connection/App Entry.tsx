@@ -7,5 +7,5 @@ import GlobalAPI from "../Global/Global API Linker"; // import Global API Linker
 ReactDOM.createRoot(document.getElementById("populate") as HTMLElement).render(
   <StrictMode>
     <GlobalAPI />
-  </StrictMode>
+  </StrictMode>,
 );

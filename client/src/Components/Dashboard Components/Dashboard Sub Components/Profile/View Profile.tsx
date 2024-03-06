@@ -21,7 +21,7 @@ export default function ViewProfile({ ShopName }: Props) {
   const [AccountDetails] = React.useState<any>(AuthDetails.Data.AccountDetails); // Account Details state
   console.log(AccountDetails);
 
-  const Decoded_AuthDetails : any = Decode_Token(AccountDetails); // Decode Token
+  const Decoded_AuthDetails: any = Decode_Token(AccountDetails); // Decode Token
   // Update document title
   Update_Document_Title({ TitleName: `Manage Profile - ${ShopName}` });
   return (

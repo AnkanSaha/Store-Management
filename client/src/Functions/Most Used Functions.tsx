@@ -37,18 +37,17 @@ export function Update_Document_Title({ TitleName }: Proptypes) {
 export function Internet_Connection_Status() {
   // using Context API
   const { UpdateInternetStatus }: any = useContext(GlobalContext); // const {InternetStatus, UpdateInternetStatus} = useContext(GlobalContext);
-  
+
   // // Event Listener for Internet Connection Status (Online)
   window.addEventListener("online", () => {
     UpdateInternetStatus("Online");
   });
-  
+
   // // Event Listener for Internet Connection Status (Offline)
   window.addEventListener("offline", () => {
     UpdateInternetStatus("Offline");
   });
 }
-
 
 // HTTP Request Function POST
 interface POSTFunctionProps {
@@ -79,7 +78,6 @@ export async function HTTP_POST({ PostPath, SendData }: POSTFunctionProps) {
   return Data;
 }
 
-
 /**
  * This is a TypeScript React function that performs a GET request to a specified endpoint and returns
  * the response data in JSON format.
@@ -91,12 +89,12 @@ export async function HTTP_POST({ PostPath, SendData }: POSTFunctionProps) {
 interface GETFunctionProps {
   PostPath: string;
 }
-export async function HTTP_GET({ PostPath}: GETFunctionProps) {
+export async function HTTP_GET({ PostPath }: GETFunctionProps) {
   let Wait = await fetch(`${Hostname}${PostPath}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-    }
+    },
   }); // end of fetch
   // convert the data into json
   let Data = await Wait.json();
@@ -118,12 +116,12 @@ export async function HTTP_GET({ PostPath}: GETFunctionProps) {
 interface DELETEFunctionProps {
   PostPath: string;
 }
-export async function HTTP_DELETE({ PostPath}: DELETEFunctionProps) {
+export async function HTTP_DELETE({ PostPath }: DELETEFunctionProps) {
   let Wait = await fetch(`${Hostname}${PostPath}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-    }
+    },
   }); // end of fetch
   // convert the data into json
   let Data = await Wait.json();

@@ -1,7 +1,7 @@
-import {Router, json} from 'express'; // Express
+import { Router, json } from 'express'; // Express
 
 // import Middlewares
-import {AccountExistMiddleware} from '../../../Middleware/Store Management/AccountExistMiddileware'; // Account Exist Middleware
+import { AccountExistMiddleware } from '../../../Middleware/Store Management/AccountExistMiddileware'; // Account Exist Middleware
 
 // import Functions
 import { UpdateCategory } from '../../../Service/Store Management/Catagory Management'; // Update Category Function

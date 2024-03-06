@@ -37,8 +37,7 @@ hook to access the global context and retrieve the values of `InternetStatus`, `
 `UpdateAlert`, and `LoadingStatus`. It also uses the `useEffect` hook to clear the alert message and
 update the document title based on the `AuthDetails` data. */
 export default function Dashboard() {
-  
-/* This code is using the `useContext` hook to access the `GlobalContext` and retrieve the values of
+  /* This code is using the `useContext` hook to access the `GlobalContext` and retrieve the values of
 `InternetStatus`, `AuthDetails`, `UpdateAlert`, and `LoadingStatus`. It is also using the
 `useEffect` hook to clear the alert message by calling the `UpdateAlert` function with an empty
 object as its argument. This ensures that any previous alert message is removed when the component
@@ -46,13 +45,13 @@ is mounted or updated. */
   // using Context API
   const { InternetStatus, AuthDetails, UpdateAlert, LoadingStatus }: any =
     useContext(GlobalContext); // const {InternetStatus, UpdateInternetStatus} = useContext(GlobalContext);
-    const AuthDetails_Decode: any = JWT_Decode(AuthDetails.Data.AccountDetails) // decode JWT token
+  const AuthDetails_Decode: any = JWT_Decode(AuthDetails.Data.AccountDetails); // decode JWT token
   // clear alert message
   useEffect(() => {
     UpdateAlert({}); // Update Alert
   }, []);
 
-/* This code is checking the internet connection status using the `Internet_Connection_Status` function
+  /* This code is checking the internet connection status using the `Internet_Connection_Status` function
 and updating the document title based on the `AuthDetails` data. If the `AuthDetails.Status` is
 equal to "Success", then the `Update_Document_Title` function is called with an object containing
 the `TitleName` property set to a string that includes the `ShopName` from the
@@ -73,7 +72,10 @@ application. */
       {AuthDetails.Status === "Success" ? (
         <>
           {LoadingStatus === true ? (
-            <Loading Title="Fetching from server" Description="Please wait a moment  while we fetch data from server for you." />
+            <Loading
+              Title="Fetching from server"
+              Description="Please wait a moment  while we fetch data from server for you."
+            />
           ) : (
             <>
               <Navbar AppName={AuthDetails_Decode.ShopName} />

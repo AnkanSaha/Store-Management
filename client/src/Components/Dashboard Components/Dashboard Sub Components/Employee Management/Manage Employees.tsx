@@ -28,8 +28,8 @@ export default function Manage_Employees({ ShopName }: props) {
   const { AuthDetails, UpdateAlert, AlertMessage }: any =
     useContext(GlobalContext); // Global Context
 
-    // Decode AuthDetails Token
-    const Decoded_AuthDetails : any = JWT_Decode(AuthDetails.Data.AccountDetails) // decode JWT token
+  // Decode AuthDetails Token
+  const Decoded_AuthDetails: any = JWT_Decode(AuthDetails.Data.AccountDetails); // decode JWT token
   // Update Document Title with logic
   Update_Document_Title({ TitleName: `Manage Employees - ${ShopName}` }); // Update Document Title
   // End of Update Document Title with logic
@@ -141,7 +141,7 @@ export default function Manage_Employees({ ShopName }: props) {
                                 type="button"
                                 onClick={() => {
                                   Navigate(
-                                    `/dashboard/employee/${Employee.EmployeeEmail}/${Employee.EmployeePhoneNumber}`
+                                    `/dashboard/employee/${Employee.EmployeeEmail}/${Employee.EmployeePhoneNumber}`,
                                   );
                                 }}
                                 className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"

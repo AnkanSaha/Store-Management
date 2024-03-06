@@ -7,10 +7,9 @@ located in the "../../Validator/Store Management/Manage Employee Validate" direc
 // Import Functions
 import { HTTP_POST } from "../Most Used Functions"; // import HTTP POST Function
 import {
-    ValidateAddCategory,
-//   ValidateUpdateEmployee,
+  ValidateAddCategory,
+  //   ValidateUpdateEmployee,
 } from "../../Validator/Store Management/Manage Category"; // import Validate Add Employee Function
-
 
 // Typescript type
 type globe = any;

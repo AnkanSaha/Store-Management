@@ -33,7 +33,7 @@ export default function Features() {
               ButtonLink,
               ButtonText,
             }: FeaturesS_interface,
-            index
+            index,
           ) => {
             return (
               <div
@@ -56,7 +56,7 @@ export default function Features() {
                 </div>
               </div>
             );
-          }
+          },
         )}
       </div>
     </>

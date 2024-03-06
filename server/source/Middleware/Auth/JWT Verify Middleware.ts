@@ -1,8 +1,8 @@
-import { VerifyJWTtoken } from "../Security/JWT/JWT Token Generator"; // Import Verify JWT Token function
+import { VerifyJWTtoken } from '../Security/JWT/JWT Token Generator'; // Import Verify JWT Token function
 
 // import Global Response Code
-import { StatusCodes } from "outers"; // Import Response Code
-import { Response } from "../../helper/API Response"; // Import Response function
+import { StatusCodes } from 'outers'; // Import Response Code
+import { Response } from '../../helper/API Response'; // Import Response function
 
 // global types
 type str = string; // Define a type for strings
@@ -11,8 +11,8 @@ type globe = any; // Define a type for global variables
 // global types for request
 type Request = {
     body: {
-        Token: str
-    }
+        Token: str;
+    };
 };
 
 /**
@@ -32,32 +32,29 @@ type Request = {
  * (Unauthorized), a status
  */
 export default async function JWTVerifyMiddleware(req: Request, res: globe, next: globe) {
-    try{
-        const {Token} = req.body; // Define a variable for token
+    try {
+        const { Token } = req.body; // Define a variable for token
 
         // Verify JWT Token
         const VerifyStatus = await VerifyJWTtoken(Token);
-        if(VerifyStatus.status === StatusCodes.OK){
+        if (VerifyStatus.status === StatusCodes.OK) {
             next(); // Move to next middleware
-        }
-        else if(VerifyStatus.status === StatusCodes.UNAUTHORIZED){
+        } else if (VerifyStatus.status === StatusCodes.UNAUTHORIZED) {
             return Response({
                 res,
                 StatusCode: StatusCodes.UNAUTHORIZED,
-                Status: "Invalid Token",
-                Message: "Invalid Token Provided",
-                Data: Object(null)
-            })
+                Status: 'Invalid Token',
+                Message: 'Invalid Token Provided',
+                Data: Object(null),
+            });
         }
-    }
-    catch (error) {
+    } catch (error) {
         return Response({
             res,
             StatusCode: StatusCodes.UNAUTHORIZED,
-            Status: "Invalid Token",
-            Message: "Invalid Token Provided",
-            Data: Object(null)
-        })
+            Status: 'Invalid Token',
+            Message: 'Invalid Token Provided',
+            Data: Object(null),
+        });
     }
-
 } // JWT Verify Middleware

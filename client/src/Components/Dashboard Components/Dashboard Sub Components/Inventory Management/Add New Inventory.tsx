@@ -11,7 +11,7 @@ import {
   FormLabel,
   Input,
   Button,
-  Select
+  Select,
 } from "@chakra-ui/react"; // Chakra UI
 
 //import Components
@@ -52,7 +52,7 @@ export default function Add_New_Inventory({ StoreName }: props) {
     TitleName: `Add New Item into Inventory - ${StoreName}`,
   }); // Update Document Title
   // using Context API
-  
+
   const {
     AlertMessage,
     UpdateAlert,
@@ -60,8 +60,10 @@ export default function Add_New_Inventory({ StoreName }: props) {
     AuthDetails,
     UpdateLoading,
   }: any = React.useContext(GlobalContext); // const {InternetStatus, UpdateInternetStatus} = useContext(GlobalContext);
-  
-  const Decoded_AuthDetails:any = Decode_Token(AuthDetails.Data.AccountDetails); // Decode Token
+
+  const Decoded_AuthDetails: any = Decode_Token(
+    AuthDetails.Data.AccountDetails,
+  ); // Decode Token
 
   // States
   const [InventoryDetails, setInventoryDetails] = useState<EmployeeDetails>({
@@ -80,10 +82,11 @@ export default function Add_New_Inventory({ StoreName }: props) {
   // State For Category name
   const [CategoryName, setCategoryName] = useState<globe[]>([]);
 
-
   // using useEffect
   React.useEffect(() => {
-    HTTP_GET({PostPath:`/get/category/getCategory/${Decoded_AuthDetails.User_id}/${Decoded_AuthDetails.Email}`}).then((res:globe) => {
+    HTTP_GET({
+      PostPath: `/get/category/getCategory/${Decoded_AuthDetails.User_id}/${Decoded_AuthDetails.Email}`,
+    }).then((res: globe) => {
       if (res.Status === "Success") {
         setCategoryName(res.Data);
       }
@@ -106,8 +109,7 @@ export default function Add_New_Inventory({ StoreName }: props) {
     // Condition for Add Inventory
     if (Result === false) {
       UpdateLoading(false); // Update Loading State to false
-    }
-    else if(Result.Status){
+    } else if (Result.Status) {
       UpdateLoading(false); // Update Loading State to false
       UpdateAlert(Result); // Update Alert
     }
@@ -171,11 +173,16 @@ export default function Add_New_Inventory({ StoreName }: props) {
           value={InventoryDetails.ProductCategory}
           onChange={UpdateState}
           id="ProductCategory"
-          isRequired>
-            <option value="">Select Category</option>
-            {CategoryName.map((element: globe) => {
-              return <option value={element.CategoryName}>{element.CategoryName}</option>
-            })}
+          isRequired
+        >
+          <option value="">Select Category</option>
+          {CategoryName.map((element: globe) => {
+            return (
+              <option value={element.CategoryName}>
+                {element.CategoryName}
+              </option>
+            );
+          })}
         </Select>
         <FormLabel className="mt-[2.25rem]">Enter Product SKU ID</FormLabel>
         <Input
