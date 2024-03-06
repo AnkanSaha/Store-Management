@@ -15,20 +15,18 @@ export async function GenerateJWTtoken(payload: globe): Promise<str> {
     return SignedToken; // Return JWT Token
 } // Generate JWT Token
 
-
 export async function VerifyJWTtoken(token: str): Promise<globe> {
-   try{
-    const VerifiedToken: globe = verify(token, GeneralGlobalStringData.JWT_Secret); // Verify JWT Token
-    return {
-        status: StatusCodes.OK,
-        message: "Valid Token",
-        data: VerifiedToken
+    try {
+        const VerifiedToken: globe = verify(token, GeneralGlobalStringData.JWT_Secret); // Verify JWT Token
+        return {
+            status: StatusCodes.OK,
+            message: 'Valid Token',
+            data: VerifiedToken,
+        };
+    } catch (error) {
+        return {
+            status: StatusCodes.UNAUTHORIZED,
+            message: 'Invalid Token',
+        };
     }
-   }
-   catch (error) {
-       return {
-        status: StatusCodes.UNAUTHORIZED,
-        message: "Invalid Token"
-       }
-   }
 } // Verify JWT Token

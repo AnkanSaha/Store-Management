@@ -10,7 +10,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-
 // TypeScript interface for the props
 interface Props {
   Title: string;

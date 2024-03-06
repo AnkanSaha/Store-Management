@@ -21,8 +21,8 @@ interface ResponseInterface {
     res: {
         status: (code: int) => {
             json: (code: obj) => blank;
-        }
-    }
+        };
+    };
     Status: str;
     StatusCode: int;
     Message: str;
@@ -38,7 +38,7 @@ interface ResponseInterface {
  * This is a TypeScript function that sends a success response with a status code, message, and data.
  * @param {ResponseInterface}  - - `res`: The response object from the Express.js framework.
  */
-export const Response = ({res, StatusCode, Status, Message, Data}:ResponseInterface) : blank => {
+export const Response = ({ res, StatusCode, Status, Message, Data }: ResponseInterface): blank => {
     res.status(StatusCode).json({
         Status,
         Message,

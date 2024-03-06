@@ -13,7 +13,10 @@ interface Store_Cache_Data {
   DataPath: string;
 }
 
-export async function Store_Cache_Data({ AuthData, DataPath }: Store_Cache_Data) {
+export async function Store_Cache_Data({
+  AuthData,
+  DataPath,
+}: Store_Cache_Data) {
   try {
     let CacheStatus = await caches.open("Store manager"); // open cache
     await CacheStatus.put(DataPath, new Response(JSON.stringify(AuthData))); // store data in cache
@@ -29,8 +32,8 @@ it will default to `"AuthData"`. This is useful for cases where the function is 
 times with the same `DataPath` value, as it saves the caller from having to provide the same value
 each time. */
 Store_Cache_Data.defaultProps = {
-  DataPath: "AuthData"
-} // default props for Store Cache Data Function
+  DataPath: "AuthData",
+}; // default props for Store Cache Data Function
 
 /**
  * This is a TypeScript React function that returns cached data based on a given data path.
@@ -44,28 +47,24 @@ Store_Cache_Data.defaultProps = {
 interface Return_Cache_Data {
   DataPath: string;
 }
-export async function Return_Cache_Data({
-  DataPath
-}: Return_Cache_Data) {
+export async function Return_Cache_Data({ DataPath }: Return_Cache_Data) {
   try {
     let CacheStatus = await caches.open("Store manager"); // open cache
     let CacheData = await CacheStatus.match(DataPath); // return data from cache
 
     // logic
-    if(CacheData === undefined){
+    if (CacheData === undefined) {
       return false;
-    }
-    else{
+    } else {
       return await CacheData.json();
     }
-
   } catch (error) {
     return false;
   } // catch error
 } // Return Cache Data Function
 
 Return_Cache_Data.defaultProps = {
-  DataPath: "AuthData"
+  DataPath: "AuthData",
 }; // default props for Return Cache Data Function
 
 /**
@@ -85,13 +84,11 @@ export async function Delete_Cache_Data({ DataPath }: Return_Cache_Data) {
     let CacheData = await CacheStatus.delete(DataPath); // return data from cache
 
     // logic
-    if(CacheData === undefined){
+    if (CacheData === undefined) {
       return false;
-    }
-    else{
+    } else {
       return true;
     }
-
   } catch (error) {
     return false;
   } // catch error

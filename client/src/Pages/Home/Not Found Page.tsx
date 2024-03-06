@@ -28,12 +28,12 @@ import {
 
 // interface
 interface props {
-  PageTitle:string;
-  MainMessage:string;
-  ComponentTitle:string;
+  PageTitle: string;
+  MainMessage: string;
+  ComponentTitle: string;
 }
 
-function NotFound({MainMessage, PageTitle, ComponentTitle}:props) {
+function NotFound({ MainMessage, PageTitle, ComponentTitle }: props) {
   // using Context API
   const { InternetStatus }: any = useContext(GlobalContext); // const {InternetStatus, UpdateInternetStatus} = useContext(GlobalContext);
 
@@ -47,9 +47,7 @@ function NotFound({MainMessage, PageTitle, ComponentTitle}:props) {
     <>
       {InternetStatus === "Offline" ? <Connection_Fail /> : null}
       <Navbar AppName={ComponentTitle} />
-      <Heading className="mt-[16.25rem] text-center">
-        {MainMessage}
-      </Heading>
+      <Heading className="mt-[16.25rem] text-center">{MainMessage}</Heading>
       <Button
         onClick={() => {
           navigate("/");
@@ -67,7 +65,7 @@ function NotFound({MainMessage, PageTitle, ComponentTitle}:props) {
 NotFound.defaultProps = {
   PageTitle: "404",
   MainMessage: "404 - Page Not Found",
-  ComponentTitle:"404"
-}
+  ComponentTitle: "404",
+};
 
 export default NotFound;

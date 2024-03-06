@@ -1,9 +1,12 @@
 # Security Policy for the Store Management project
+
 ## This file is used to define the security policy for the Store Management project.
+
 ## For more information, see the GitHub documentation on Security Policies.
+
 ### https://docs.github.com/en/github/managing-security-vulnerabilities/adding-a-security-policy-to-your-repository
 
-## Supported Versions 
+## Supported Versions
 
 Use this section to tell people about which versions of your project are
 currently being supported with security updates.

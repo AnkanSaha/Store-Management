@@ -11,7 +11,6 @@ import {
   ValidateUpdateEmployee,
 } from "../../Validator/Store Management/Manage Employee Validate"; // import Validate Add Employee Function
 
-
 // Typescript type
 type globe = any;
 type obj = object;

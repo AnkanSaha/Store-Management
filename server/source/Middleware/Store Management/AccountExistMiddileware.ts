@@ -10,20 +10,19 @@ type obj = object; // type for object
 type globe = any; // type for any
 type blank = void; // type for void
 
-
 interface Request {
     body: {
-        User_idForBody: int,
-        OwnerEmailForBody: str,
-    },
-    query : {
+        User_idForBody: int;
+        OwnerEmailForBody: str;
+    };
+    query: {
         User_idForQuery: int;
         OwnerEmailForQuery: str;
-      },
-      params : {
+    };
+    params: {
         User_idForParams: int;
         OwnerEmailForParams: str;
-      }
+    };
 }
 
 // import all models
@@ -47,19 +46,23 @@ export default AccountExistMiddleware; // Exporting Middleware
  * function in the stack. It is typically called at the end of the current middleware function to
  * indicate that it has completed its processing and the next middleware function can take over.
  */
-export async function AccountExistMiddleware(req:Request, res: obj | globe, next:globe) : Promise<blank>{
-    try{
-        const {User_idForQuery, OwnerEmailForQuery} = req.query; // Destructure the request body
-        const {User_idForBody, OwnerEmailForBody} = req.body; // Destructure the request body
-        const {User_idForParams, OwnerEmailForParams} = req.params; // Destructure the request body
+export async function AccountExistMiddleware(req: Request, res: obj | globe, next: globe): Promise<blank> {
+    try {
+        const { User_idForQuery, OwnerEmailForQuery } = req.query; // Destructure the request body
+        const { User_idForBody, OwnerEmailForBody } = req.body; // Destructure the request body
+        const { User_idForParams, OwnerEmailForParams } = req.params; // Destructure the request body
         // short the email and user id
-        const ShortedOwnerEmail:str = OwnerEmailForQuery ? OwnerEmailForQuery.toLowerCase() : OwnerEmailForBody ? OwnerEmailForBody.toLowerCase() : OwnerEmailForParams.toLowerCase(); // Lowercase the email
-        const UserId:int = User_idForQuery ? User_idForQuery: User_idForBody ? User_idForBody : User_idForParams; // Destructure the request body
+        const ShortedOwnerEmail: str = OwnerEmailForQuery
+            ? OwnerEmailForQuery.toLowerCase()
+            : OwnerEmailForBody
+              ? OwnerEmailForBody.toLowerCase()
+              : OwnerEmailForParams.toLowerCase(); // Lowercase the email
+        const UserId: int = User_idForQuery ? User_idForQuery : User_idForBody ? User_idForBody : User_idForParams; // Destructure the request body
         // Check if the account exists in the database
-        const AccountFindStatus : obj[] = await ClientAccountModel.find({
-            $and: [{User_id:UserId}, {Email: ShortedOwnerEmail}]
+        const AccountFindStatus: obj[] = await ClientAccountModel.find({
+            $and: [{ User_id: UserId }, { Email: ShortedOwnerEmail }],
         }); // Finding the employee in the database
-         if (AccountFindStatus.length === 0) {
+        if (AccountFindStatus.length === 0) {
             Response({
                 res,
                 Status: 'Account Not Found',
@@ -70,7 +73,7 @@ export async function AccountExistMiddleware(req:Request, res: obj | globe, next
         } else if (AccountFindStatus.length > 0) {
             // If the account is found, find the store of the account
             const StoreDataFind: obj[] = await StoreManagementModel.find({
-                $and: [{ User_id:UserId }, { Email: ShortedOwnerEmail }],
+                $and: [{ User_id: UserId }, { Email: ShortedOwnerEmail }],
             }); // Finding the owner store in the database
 
             // If the store is not found, send a response to the client
@@ -86,10 +89,15 @@ export async function AccountExistMiddleware(req:Request, res: obj | globe, next
             // If the store is found, call the next middleware
             else if (StoreDataFind.length > 0) {
                 next(); // Calling the next middleware
-            };
-        };
+            }
+        }
+    } catch (error: globe) {
+        Response({
+            res,
+            Status: 'Internal Server Error',
+            StatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            Message: error,
+            Data: undefined,
+        });
     }
-    catch(error: globe){
-        Response({res, Status:'Internal Server Error', StatusCode: StatusCodes.INTERNAL_SERVER_ERROR, Message: error, Data: undefined});
-    }
-}; // Middleware for Category Management
+} // Middleware for Category Management
