@@ -52,8 +52,7 @@ export default AddNewCategory;
  */
 export async function AddNewCategory(req: Request, res: obj | globe): Promise<blank> {
     try {
-        const { CategoryName, CategoryDescription, OwnerEmailForBody, User_idForBody } =
-            req.body; // get the request body
+        const { CategoryName, CategoryDescription, OwnerEmailForBody, User_idForBody } = req.body; // get the request body
 
         const ShortedOwnerEmail: str = OwnerEmailForBody.toLocaleLowerCase(); // Short the Owner Email
 
@@ -71,7 +70,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
             CategoryNameExist[0].Catagories.push({
                 CategoryID: new ClassBased.UniqueGenerator(10).RandomNumber(true),
                 CategoryName,
-                CategoryDescription
+                CategoryDescription,
             }); // Add the new Category to the Category List
 
             await StoreManagementModel.findOneAndUpdate(
@@ -105,7 +104,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
             Data: undefined,
         });
     }
-}; // Add New Category
+} // Add New Category
 
 /**
  * This function retrieves the categories of a store based on the owner's email and user ID.
@@ -153,7 +152,7 @@ export async function GetCategory(req: Request, res: obj | globe): Promise<blank
             Data: undefined,
         });
     }
-}; // Get Category
+} // Get Category
 
 /**
  * This is an async function in TypeScript that updates a category in a store management system based
@@ -166,13 +165,7 @@ export async function GetCategory(req: Request, res: obj | globe): Promise<blank
  */
 export async function UpdateCategory(req: Request, res: obj | globe): Promise<blank> {
     try {
-        const {
-            User_idForBody,
-            OwnerEmailForBody,
-            CategoryID,
-            CategoryName,
-            CategoryDescription
-        } = req.body; // get the request body
+        const { User_idForBody, OwnerEmailForBody, CategoryID, CategoryName, CategoryDescription } = req.body; // get the request body
 
         // Short the Owner Email
         const ShortedOwnerEmail: str = OwnerEmailForBody.toLocaleLowerCase();
@@ -202,7 +195,7 @@ export async function UpdateCategory(req: Request, res: obj | globe): Promise<bl
                 FilteredCategoryForUpdate.push({
                     CategoryID,
                     CategoryName,
-                    CategoryDescription
+                    CategoryDescription,
                 }); // Push the new Category
 
                 await StoreManagementModel.findOneAndUpdate(
@@ -236,7 +229,7 @@ export async function UpdateCategory(req: Request, res: obj | globe): Promise<bl
             Data: undefined,
         });
     }
-}; // Update Category
+} // Update Category
 
 /**
  * This is a TypeScript function that deletes a category from a store based on the provided query
@@ -269,7 +262,9 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
                 Data: undefined,
             });
         } else if (StoreDetails.length !== 0) {
-            const FilteredCategoryDetailsForExist: globe[] = StoreDetails[0].Catagories.filter((item: globe) => String(item.CategoryID) === String(CategoryID)); // Filter the Category
+            const FilteredCategoryDetailsForExist: globe[] = StoreDetails[0].Catagories.filter(
+                (item: globe) => String(item.CategoryID) === String(CategoryID),
+            ); // Filter the Category
             if (FilteredCategoryDetailsForExist.length === 0) {
                 Response({
                     res,
@@ -279,7 +274,9 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
                     Data: undefined,
                 }); // Send the Response
             } else if (FilteredCategoryDetailsForExist.length !== 0) {
-                const FilteredCategoryDetailsForDelete: globe[] = StoreDetails[0].Catagories.filter((item: globe) => String(item.CategoryID) !== String(CategoryID)); // Filter the Category
+                const FilteredCategoryDetailsForDelete: globe[] = StoreDetails[0].Catagories.filter(
+                    (item: globe) => String(item.CategoryID) !== String(CategoryID),
+                ); // Filter the Category
 
                 StoreDetails[0].Catagories = FilteredCategoryDetailsForDelete; // Update the Category
 
@@ -287,7 +284,9 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
                     { $and: [{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }] },
                     { Catagories: StoreDetails[0].Catagories },
                 ); // Update the Category
-                const FindCategoryAfterDelete: globe[] = await StoreManagementModel.find({$and:[{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }]}); // Find the Store Details
+                const FindCategoryAfterDelete: globe[] = await StoreManagementModel.find({
+                    $and: [{ User_id: User_idForQuery }, { Email: ShortedOwnerEmail }],
+                }); // Find the Store Details
                 Response({
                     res,
                     StatusCode: StatusCodes.ACCEPTED,
@@ -306,4 +305,4 @@ export async function DeleteCategory(req: Request, res: obj | globe): Promise<bl
             Data: undefined,
         });
     }
-}; // Delete Category
+} // Delete Category
