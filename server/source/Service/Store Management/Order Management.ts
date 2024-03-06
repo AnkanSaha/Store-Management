@@ -1,6 +1,6 @@
 // import modules
 import { Response } from '../../helper/API Response'; // import API Response
-import { methods, StatusCodes } from 'outers'; // import Unique Number Generator
+import { ClassBased, StatusCodes } from 'outers'; // import Unique Number Generator
 
 // import Data Model
 import { StoreManagementModel } from '../../Models'; // import Store Management Model
@@ -64,7 +64,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
         });
         if (StoreDetails.length !== 0) {
             const OrderDetails: obj = Object.freeze({
-                OrderID: new methods.UniqueGenerator(16).RandomNumber(true), // generate a random number for the order id
+                OrderID: new ClassBased.UniqueGenerator(16).RandomNumber(true), // generate a random number for the order id
                 ProductName,
                 ProductPrice,
                 ProductSKU,
@@ -109,7 +109,7 @@ export async function CreateNewOrder(req: Request, res: obj | globe) {
                     );
                     if (Filtered.length === 0) {
                         StoreDetails[0].Customers.push({
-                            CustomerID: new methods.UniqueGenerator(16).RandomNumber(true),
+                            CustomerID: new ClassBased.UniqueGenerator(16).RandomNumber(true),
                             CustomerName,
                             CustomerEmail,
                             CustomerPhone,

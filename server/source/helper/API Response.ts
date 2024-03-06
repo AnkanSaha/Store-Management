@@ -2,14 +2,6 @@
 
 // interface for Success Response/* The `interface Success_Response` is defining the structure of an
 
-/*object that will be used as an argument for the `Success_Response`
-function. It specifies that the object should have properties `res`
-of type `any`, `StatusCode` of type `int`, `Status` of type
-`string`, `Message` of type `string`, and `Data` of type `any`.
-This interface helps ensure that the correct properties are passed
-to the function and can help with type checking and code
-readability. */
-
 // global types
 type str = string; // type for string
 type int = number; // type for int

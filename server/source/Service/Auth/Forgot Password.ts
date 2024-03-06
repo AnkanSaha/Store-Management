@@ -1,5 +1,5 @@
 import { EncryptPassword } from '../../Middleware/Security/Bcrypt'; // Bcrypt
-import { methods, StatusCodes } from 'outers'; // Unique Generator & Status Codes
+import { ClassBased, StatusCodes } from 'outers'; // Unique Generator & Status Codes
 
 // Response and Response Code
 import { Response } from '../../helper/API Response'; // API Response
@@ -30,7 +30,7 @@ export default async function ResetPassword(req: Request, res: globe) {
         const ShortEmail = OwnerEmailForBody.toLowerCase(); // Short Email
 
         // Encrypt Password
-        const RandomRounds = new methods.UniqueGenerator(1).RandomNumber(false, [1, 2, 3, 4, 5]);
+        const RandomRounds = new ClassBased.UniqueGenerator(1).RandomNumber(false, [1, 2, 3, 4, 5]);
         const EncryptedPassword = await EncryptPassword(NewPassword, RandomRounds);
 
         // Update Password

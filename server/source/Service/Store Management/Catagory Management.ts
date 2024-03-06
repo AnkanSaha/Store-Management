@@ -1,7 +1,7 @@
 // import Modules
 import { Response } from '../../helper/API Response'; // Response Module
 import { StatusCodes } from 'outers'; // General App Config Module
-import { methods } from 'outers'; // Unique ID Generator Module
+import { ClassBased } from 'outers'; // Unique ID Generator Module
 
 // import Data models
 import { StoreManagementModel } from '../../Models'; //  Model
@@ -68,7 +68,7 @@ export async function AddNewCategory(req: Request, res: obj | globe): Promise<bl
         // Check if the Category Name is already exist
         if (FilteredCategoryName.length === 0) {
             CategoryNameExist[0].Catagories.push({
-                CategoryID: new methods.UniqueGenerator(10).RandomNumber(true),
+                CategoryID: new ClassBased.UniqueGenerator(10).RandomNumber(true),
                 CategoryName,
                 CategoryDescription,
             }); // Add the new Category to the Category List

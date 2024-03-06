@@ -1,7 +1,7 @@
 // This File used To Create Account, Login, and Update Account
 
 // Import Essential Modules
-import { methods } from 'outers'; // Import Unique ID Generator
+import { ClassBased } from 'outers'; // Import Unique ID Generator
 
 import { Response } from '../../helper/API Response'; // Import API Response Function
 import { StatusCodes } from 'outers'; // Import Response Code
@@ -88,8 +88,8 @@ export async function CreateAccount(req: RequestInterface, res: obj | globe): Pr
         /* The above code is generating a random number to determine the length of the ID and the encryption
         round number. It then generates a random ID with the determined length. */
 
-        const RoundNumber: int = new methods.UniqueGenerator(1).RandomNumber(false, [1, 2, 3, 4, 5]); // Generate Round Number for Encryption Password and ID
-        const ID: int = new methods.UniqueGenerator(RoundNumber).RandomNumber(true);
+        const RoundNumber: int = new ClassBased.UniqueGenerator(1).RandomNumber(false, [1, 2, 3, 4, 5]); // Generate Round Number for Encryption Password and ID
+        const ID: int = new ClassBased.UniqueGenerator(RoundNumber).RandomNumber(true);
 
         /* The above code is written in TypeScript and it is declaring two variables `RoundNumber` and
 `EncryptedPassword`.
@@ -125,7 +125,7 @@ is awaited. The `randomNumber` function is likely a custom function that generat
 
         // Create New Document for Store Management
         const StoreData: obj = {
-            StoreID: new methods.UniqueGenerator(15).RandomNumber(true),
+            StoreID: new ClassBased.UniqueGenerator(15).RandomNumber(true),
             User_id: ID,
             Email: Shortedemail,
             StoreName: ShopName,
