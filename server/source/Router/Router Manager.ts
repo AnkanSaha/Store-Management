@@ -30,12 +30,12 @@ RouterManager.use('/put', PUT_REQUEST_Manager); // Linking the Sub-PUT-Router to
 RouterManager.use('/delete', DELETE_REQUEST_Manager); // Linking the Sub-DELETE-Router to the main Router
 
 // If All Route are not found
-RouterManager.all('*', (Request: Request, Response: Response): void => {
+RouterManager.all('*', (Req: Request, Res: Response): void => {
     Serve.JSON({
-        response: Response,
+        response: Res,
         status: false,
         statusCode: StatusCodes.NOT_FOUND,
-        message: `Can't find ${Request.originalUrl} on this server!`,
+        message: `Can't find ${Req.originalUrl} on this server!`,
         data: undefined,
         Title: 'Route Not Found',
     }); // Sending a Failed Response to the client
