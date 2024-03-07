@@ -39,7 +39,8 @@
     "jsonwebtoken": "^9.0.1",
     "mongoland": "^4.2.2",
     "mongoose": "^7.5.0",
-    "outers": "^8.2.13"
+    "outers": "^8.2.13",
+    "tslint": "^6.1.3"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
