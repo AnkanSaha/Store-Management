@@ -14,7 +14,7 @@ const RouterManager = Router(); // Creating a new Router instance
 RouterManager.use(CORS); // Using CORS Config
 RouterManager.use(RateLimiter); // Using RateLimiter Middleware
 RouterManager.use(Middleware.MethodsController(['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])); // Only Allow GET, POST, PUT, DELETE, OPTIONS
-RouterManager.use(Middleware.AccessController([new URL(GeneralGlobalStringData.API_Allowed_URL).hostname])); // Only Allow API_Allowed_URL
+RouterManager.use(Middleware.URL_Controller([new URL(GeneralGlobalStringData.API_Allowed_URL).hostname])); // Only Allow API_Allowed_URL
 RouterManager.use(Middleware.RequestInjectIP(['POST', 'PUT', 'DELETE'])); // Injecting IP Address to the Request
 
 // import all Sub-Routers
