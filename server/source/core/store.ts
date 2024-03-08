@@ -13,9 +13,6 @@ import Router_Manager from '../Router/Router Manager'; // Import Router_Manager
 // Import MongoDB Connect Function
 import ConnectDB from '../config/Connection/MongoDB'; // Import MongoDB_Connect middleware
 
-// Enable All Proxy Settings for Server Security
-Service.set('trust proxy', () => true); // Enable All Proxy Settings
-
 Service.use(express.static('public')); // Link public folder to the main app
 
 // link all Middleware & Routes to the main app
