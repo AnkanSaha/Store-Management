@@ -22,4 +22,4 @@ Service.use(express.static('public')); // Link public folder to the main app
 Service.use('/api', Router_Manager); // Link Router_Manager to the main app
 
 // Start server with Cluster Creator
-FunctionBased.ClusterCreator(Service, GeneralGlobalNumberData.PORT, GeneralGlobalNumberData.CPU, [], [ConnectDB]); // Start Server with Cluster Creator
+FunctionBased.ClusterCreator(Service, GeneralGlobalNumberData.PORT, GeneralGlobalNumberData.CPU, true, [], [ConnectDB]); // Start Server with Cluster Creator
