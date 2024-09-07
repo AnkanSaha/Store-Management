@@ -107,11 +107,11 @@ jobs:
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "\
             cd /home/${SSH_USER}/${PROJECT_NAME} && \
-            echo 'PORT=${GeneralGlobalNumberData.PORT}' > .env && \
-            echo 'CPU_COUNT_MULTIPLIERENV=${GeneralGlobalNumberData.CPU}' >> .env && \
-            echo 'CORS_ORIGIN=${GeneralGlobalStringData.API_Allowed_URL}' >> .env && \
-            echo 'JWT_SECRET=${GeneralGlobalStringData.JWT_Secret}' >> .env && \
-            echo 'MONGODB_URL=${GeneralGlobalStringData.MongoDB_URL}' >> .env"
+            echo 'PORT=${PORT}' > .env && \
+            echo 'CPU_COUNT_MULTIPLIERENV=${CPU_LENGTH}' >> .env && \
+            echo 'CORS_ORIGIN=${API_Allowed_URL}' >> .env && \
+            echo 'JWT_SECRET=${JWT_Secret}' >> .env && \
+            echo 'MONGODB_URL=${MongoDB_URL}' >> .env"
       - run:
           name: Check if Pm2 Already Has the Process Running if Yes then delete it
           command: |
