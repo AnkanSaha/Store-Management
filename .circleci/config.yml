@@ -81,7 +81,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
+            - ${SSH_FINGERPRINT}
       - run:
           name: Install Server Dependencies
           command: |
@@ -109,8 +109,8 @@ jobs:
             cd /home/${SSH_USER}/${PROJECT_NAME} && \
             echo 'PORT=${PORT}' > .env && \
             echo 'CPU_COUNT_MULTIPLIERENV=${CPU_LENGTH}' >> .env && \
-            echo 'CORS_ORIGIN=${API_Allowed_URL}' >> .env && \
-            echo 'JWT_SECRET=${JWT_Secret}' >> .env && \
+            echo 'CORS_ORIGIN=${API_ALLOWED_URL}' >> .env && \
+            echo 'JWT_SECRET=${JWT_SECRET}' >> .env && \
             echo 'MONGODB_URL=${MongoDB_URL}' >> .env"
       - run:
           name: Check if Pm2 Already Has the Process Running if Yes then delete it
