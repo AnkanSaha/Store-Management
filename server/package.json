@@ -5,9 +5,9 @@
   "main": "./core/store.js",
   "scripts": {
     "test": "npm run lint && npm run test:Start && npm run stop",
-    "test:Start": "pm2 start ./Build/core/store.js --name store-management-backend --watch",
+    "test:Start": "pm2 start ./Store-Management/core/store.js --name store-management-backend --watch",
     "dev": "npm run lint && nodemon ./source/core/store.ts",
-    "build": "tsc && cp package.json Build/ && cp package-lock.json Build/ && npm install",
+    "build": "tsc && cp package.json Store-Management/ && cp package-lock.json Store-Management/ && npm install",
     "start": "pm2 start ./core/store.js --name store-management-backend --watch",
     "stop" : "pm2 stop store-management-backend",
     "lint": "tslint -c tslint.json './source/**/*.ts' --fix"
