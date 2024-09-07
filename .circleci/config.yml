@@ -1,47 +1,47 @@
 version: 2.1
 
 jobs:
-  Build_Client:
+  Build_client:
     docker:
       - image: node:latest
     steps:
       - checkout
       - run:
-          name: Build Client Project
+          name: Build client Project
           command: |
             cd client/ && npm install --force && npm run build
   
-  Test_Client:
+  Test_client:
     docker:
       - image: node:latest
     steps:
       - checkout
       - run:
-          name: Test Client Project
+          name: Test client Project
           command: |
             cd client/ && npm install --force && npm run test
 
-  Build_Server:
+  Build_server:
     docker:
       - image: node:latest
     steps:
       - checkout
       - run:
-          name: Build Server Project
+          name: Build server Project
           command: |
             cd server/ && npm install --force && npm run build
   
-  Test_Server:
+  Test_server:
     docker:
       - image: node:latest
     steps:
       - checkout
       - run:
-          name: Test Server Project
+          name: Test server Project
           command: |
             cd server/ && npm install --force && npm run build && npm i pm2 && npm run test
 
-  Send_Client_File:
+  Send_client_File:
     docker:
       - image: node:latest
     steps:
@@ -50,21 +50,21 @@ jobs:
           fingerprints:
             - ${SSH_FINGERPRINT}
       - run:
-          name: Install Client Dependencies
+          name: Install client Dependencies
           command: | 
-            cd Client/ && npm install --force  
+            cd client/ && npm install --force  
       - run:
-          name: Build Client Project
+          name: Build client Project
           command: |
-            cd Client/ && npm run build
+            cd client/ && npm run build
       - run:
-          name: Check if Client Build Folder Already Exists in Server
+          name: Check if client Build Folder Already Exists in server
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo rm -rf ${PROJECT_NAME}"
       - run:
-          name: Send Client Files to Server
+          name: Send client Files to server
           command: |
-            cd Client/ && scp -o StrictHostKeyChecking=no -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
+            cd client/ && scp -o StrictHostKeyChecking=no -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
       - run:
           name: Check if Already Exists in Nginx Static Folder
           command: |
@@ -74,7 +74,7 @@ jobs:
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo mv /home/${SSH_USER}/${PROJECT_NAME} /var/www/html/"
 
-  Send_Server_File:
+  Send_server_File:
     docker:
       - image: node:latest
     steps:
@@ -83,21 +83,21 @@ jobs:
           fingerprints:
             - ${SSH_FINGERPRINT}
       - run:
-          name: Install Server Dependencies
+          name: Install server Dependencies
           command: |
-            cd Server/ && npm install --force
+            cd server/ && npm install --force
       - run:
-          name: Build Server Project
+          name: Build server Project
           command: |
-            cd Server/ && npm run build
+            cd server/ && npm run build
       - run:
-          name: Check if Backend Build Folder Already Exists in Server
+          name: Check if Backend Build Folder Already Exists in server
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo rm -rf ${PROJECT_NAME}"
       - run:
-          name: Send Server Files to Server
+          name: Send server Files to server
           command: |
-            cd Server/ && scp -o StrictHostKeyChecking=no -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
+            cd server/ && scp -o StrictHostKeyChecking=no -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
       - run:
           name: Install Dependencies
           command: |
@@ -117,7 +117,7 @@ jobs:
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "if pm2 list | grep -q '${PROJECT_NAME}'; then pm2 delete ${PROJECT_NAME}; else echo 'Process not found'; fi"
       - run:
-          name: Start Server
+          name: Start server
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd ${PROJECT_NAME} && npm start"
       - run:
@@ -149,49 +149,49 @@ workflows:
   version: 2
   Build_Publish:
     jobs:
-      - Build_Client:
-          name: Build Client Side
+      - Build_client:
+          name: Build client Side
           filters:
             branches:
               only: main
-      - Build_Server:
-          name: Build Server Side
+      - Build_server:
+          name: Build server Side
           filters:
             branches:
               only: main
-      - Test_Client:
-          name: Test Client Side
+      - Test_client:
+          name: Test client Side
           requires:
-            - Build Client Side
+            - Build client Side
           filters:
             branches:
               only: main
-      - Test_Server:
-          name: Test Server Side
+      - Test_server:
+          name: Test server Side
           requires:
-            - Build Server Side
+            - Build server Side
           filters:
             branches:
               only: main
-      - Send_Client_File:
-          name: Setup Client Server
+      - Send_client_File:
+          name: Setup client server
           requires:
-            - Test Client Side
+            - Test client Side
           filters:
             branches:
               only: main
-      - Send_Server_File:
-          name: Setup NodeJS Server
+      - Send_server_File:
+          name: Setup NodeJS server
           requires:
-            - Setup Client Server
+            - Setup client server
           filters:
             branches:
               only: main
       - Push_To_Gitlab:
           name: Publish to Gitlab
           requires:
-            - Setup NodeJS Server
-            - Setup Client Server
+            - Setup NodeJS server
+            - Setup client server
           filters:
             branches:
               only: main
