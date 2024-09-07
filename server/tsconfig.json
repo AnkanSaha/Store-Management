@@ -6,7 +6,7 @@
       "moduleResolution": "node", // this is for set the module resolution strategy
       "allowJs": true, // this is set of allow javascript file to be compiled
       "inlineSourceMap": false, // this is for set the inline source map
-      "outDir": "./Build", // this is for set the output directory of compiled javascript code
+      "outDir": "./Store-Management", // this is for set the output directory of compiled javascript code
       "removeComments": true, // this is for set the remove comments from compiled javascript code
       "allowSyntheticDefaultImports": true, // this is for set the allow synthetic default imports
       "esModuleInterop": true, // this is for set the es module interop
