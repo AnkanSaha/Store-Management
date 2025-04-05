@@ -18,7 +18,7 @@ export default defineConfig({
     assetsDir: "static",
     cssMinify: true,
     cssCodeSplit: true,
-    sourcemap: true,
+    sourcemap: false,
     minify: true,
     ssrManifest: true,
     modulePreload: true,
